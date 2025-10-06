@@ -1,0 +1,41 @@
+.orders-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.order-card {
+  background: white;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.order-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.status-tag {
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.status-tag.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-tag.in-progress {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.status-tag.delivered {
+  background-color: #d4edda;
+  color: #155724;
+}

@@ -1,0 +1,51 @@
+.admin-orders-container {
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+.admin-orders-container h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+  background: #1e1e2f;
+  color: #fff;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover {
+  background: #f9f9f9;
+}
+
+td select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  background: #fff;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+td select:hover {
+  border-color: #1e1e2f;
+}

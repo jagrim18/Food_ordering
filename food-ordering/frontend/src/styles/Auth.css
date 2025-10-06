@@ -1,0 +1,162 @@
+/* ================================
+   Global Auth Layout
+================================ */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #1a1a1d; /* dark background */
+  font-family: "Poppins", sans-serif;
+}
+
+/* Card */
+.auth-card {
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 20px;
+  width: 350px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* Pink abstract background */
+.auth-card::before,
+.auth-card::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: #e84c88;
+  z-index: 0;
+  opacity: 0.9;
+}
+
+.auth-card::before {
+  width: 250px;
+  height: 250px;
+  bottom: -120px;
+  left: -80px;
+}
+
+.auth-card::after {
+  width: 200px;
+  height: 200px;
+  top: -90px;
+  right: -70px;
+}
+
+/* ================================
+   Heading
+================================ */
+.auth-card h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #222;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-card p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ================================
+   Inputs
+================================ */
+.auth-input {
+  width: 100%;
+  padding: 14px 16px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 25px;
+  background: #f3f3f3;
+  font-size: 14px;
+  outline: none;
+  position: relative;
+  z-index: 1;
+}
+
+/* ================================
+   Button
+================================ */
+.auth-btn {
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border: none;
+  border-radius: 25px;
+  background: #e84c88;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-btn:hover {
+  background: #c7386f;
+}
+
+/* ================================
+   Links
+================================ */
+.auth-links {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #666;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-links a {
+  color: #e84c88;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.auth-links a:hover {
+  text-decoration: underline;
+}
+
+/* ================================
+   Checkbox + small text
+================================ */
+.auth-checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #444;
+  margin: 10px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-checkbox input {
+  margin-right: 8px;
+}
+.auth-error {
+  color: #ff4d4d;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+/* ================================
+   User Auth Container
+================================ */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #cc2042, #d29fa8, #fbc2eb);
+  font-family: "Poppins", sans-serif;
+}

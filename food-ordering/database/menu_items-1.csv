@@ -1,0 +1,11 @@
+ItemName,Category,Ingredients,Price,ImageURL
+Margherita Pizza,Pizza,"Tomato Sauce, Mozzarella, Basil",8.99,https://example.com/images/margherita.jpg
+Pepperoni Pizza,Pizza,"Tomato Sauce, Mozzarella, Pepperoni",10.99,https://example.com/images/pepperoni.jpg
+Veggie Burger,Burger,"Veggie Patty, Lettuce, Tomato, Onion, Cheese",7.49,https://example.com/images/veggie_burger.jpg
+Cheeseburger,Burger,"Beef Patty, Lettuce, Tomato, Cheese, Onion",8.49,https://example.com/images/cheeseburger.jpg
+Caesar Salad,Salad,"Romaine Lettuce, Croutons, Caesar Dressing, Parmesan",6.99,https://example.com/images/caesar_salad.jpg
+Greek Salad,Salad,"Cucumber, Tomato, Feta, Olives, Onion",7.25,https://example.com/images/greek_salad.jpg
+French Fries,Sides,"Potatoes, Salt, Oil",3.5,https://example.com/images/fries.jpg
+Chicken Wings,Sides,"Chicken Wings, Spices, Sauce",9.5,https://example.com/images/chicken_wings.jpg
+Chocolate Cake,Dessert,"Flour, Cocoa, Sugar, Eggs, Butter",4.99,https://example.com/images/chocolate_cake.jpg
+Ice Cream Sundae,Dessert,"Ice Cream, Chocolate Syrup, Whipped Cream, Cherry",5.49,https://example.com/images/ice_cream_sundae.jpg

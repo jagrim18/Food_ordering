@@ -1,0 +1,5 @@
+name,email,password,role
+Test User,test@example.com,123456,student
+Admin User,admin@example.com,admin123,admin
+Teacher User,teacher@example.com,teach123,teacher
+Student User,student@example.com,stud123,student
