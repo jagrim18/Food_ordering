@@ -1,23 +1,77 @@
+/* ================================
+   🛒 Cart Page - Zomato Dark Mode
+   ================================ */
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background-color: #0d0d0d; /* Full page dark */
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+}
+
+/* Optional: Override light theme wrappers */
+#root,
+.App {
+  background-color: #0d0d0d !important;
+}
+
+/* 🌑 Main Cart Container */
 .cart-container {
   display: flex;
-  gap: 30px;
-  padding: 20px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 50px auto;
+  padding: 30px;
+  background: rgba(30, 30, 30, 0.9);
+  border-radius: 18px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 40px rgba(255, 50, 50, 0.2);
+  animation: fadeIn 0.6s ease-in-out;
 }
 
+/* 🧺 Cart Items Section */
 .cart-items {
-  flex: 2;
+  flex: 1 1 600px;
+  margin-right: 30px;
 }
 
+.cart-items h2 {
+  color: #ff3b30;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.cart-items p {
+  color: #ccc;
+}
+
+/* 🧾 Each Cart Item */
 .cart-item {
+  background: rgba(20, 20, 20, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
   display: flex;
   justify-content: space-between;
-  background: #fff;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
+.cart-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+/* 📸 Item Info */
 .cart-item-info {
   display: flex;
   align-items: center;
@@ -25,44 +79,169 @@
 }
 
 .cart-item-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 8px;
+  width: 70px;
+  height: 70px;
   object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.cart-item-info h4 {
+  margin: 0;
+  color: #fff;
+  font-weight: 600;
+}
+
+.cart-item-info p {
+  margin: 3px 0 0;
+  color: #ccc;
+}
+
+/* 🔢 Quantity Controls */
 .cart-quantity {
   display: flex;
   align-items: center;
   gap: 10px;
+  background: rgba(40, 40, 40, 0.9);
+  border-radius: 8px;
+  padding: 6px 10px;
 }
 
-.remove-btn {
-  background: red;
-  color: #fff;
+.cart-quantity button {
+  background: transparent;
   border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
+  color: #ff3b30;
+  font-size: 18px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
+.cart-quantity button:hover {
+  color: #ff6050;
+}
+
+.cart-quantity span {
+  color: #fff;
+  font-weight: 500;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* ❌ Remove Button */
+.remove-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #bbb;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.remove-btn:hover {
+  border-color: #ff3b30;
+  color: #ff3b30;
+}
+
+/* ================================
+   💰 Order Summary Section
+   ================================ */
 .cart-summary {
-  flex: 1;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 1 1 300px;
+  background: rgba(15, 15, 15, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 25px;
   height: fit-content;
+  align-self: flex-start;
+  box-shadow: 0 4px 20px rgba(255, 0, 0, 0.15);
 }
 
+.cart-summary h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ff3b30;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+}
+
+.cart-summary p {
+  margin: 10px 0;
+  color: #ccc;
+  font-size: 15px;
+}
+
+.cart-summary h2 {
+  margin: 15px 0 20px;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* ✅ Order Button */
 .order-btn {
   width: 100%;
-  background: green;
-  color: #fff;
-  padding: 12px;
+  background: linear-gradient(135deg, #ff3b30, #c31432);
   border: none;
-  border-radius: 8px;
-  margin-top: 10px;
+  border-radius: 10px;
+  padding: 12px;
+  color: white;
+  font-weight: 600;
   font-size: 16px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 50, 50, 0.4);
+}
+
+.order-btn:hover {
+  background: linear-gradient(135deg, #ff2e2e, #a30f23);
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(255, 70, 70, 0.6);
+}
+
+/* 💤 Empty Cart */
+.cart-items > p {
+  background: rgba(20, 20, 20, 0.8);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  font-size: 16px;
+  color: #aaa;
+}
+
+/* ✨ Fade Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .cart-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .cart-items {
+    margin-right: 0;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .cart-summary {
+    width: 100%;
+    margin-top: 25px;
+  }
 }

@@ -1,75 +1,173 @@
-// src/pages/RestaurantLogin.jsx
-import React, { useState } from "react";
+// import React, { useState, useContext, useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { AuthContext } from "../context/AuthContext";
+// import "../styles/RestaurantAuth.css";
+
+// function RestaurantLogin() {
+//   const { login, user } = useContext(AuthContext);
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [error, setError] = useState("");
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     if (user?.role === "restaurant") {
+//       navigate("/restaurant/dashboard", { replace: true });
+//     }
+//   }, [user, navigate]);
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setError("");
+
+//     try {
+//       const restaurantData = await login(email, password, "restaurant");
+//       if (restaurantData?.role === "restaurant") {
+//         navigate("/restaurant/dashboard");
+//       } else {
+//         setError("Invalid credentials or role mismatch.");
+//       }
+//     } catch (err) {
+//       console.error("Restaurant login error:", err);
+//       setError(err.message || "Login failed. Please try again.");
+//     }
+//   };
+
+//   return (
+//     <div className="restaurant-auth-container">
+//       <div className="restaurant-auth-overlay"></div>
+//       <div className="restaurant-auth-card">
+//         <h1 className="restaurant-auth-title">Welcome Back 🍔</h1>
+//         <p className="restaurant-auth-subtitle">
+//           Log in to manage your restaurant and serve deliciousness!
+//         </p>
+
+//         {error && <p className="restaurant-auth-error">{error}</p>}
+
+//         <form onSubmit={handleSubmit} className="restaurant-auth-form">
+//           <input
+//             type="email"
+//             placeholder="Restaurant Email"
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//             required
+//           />
+
+//           <input
+//             type="password"
+//             placeholder="Password"
+//             value={password}
+//             onChange={(e) => setPassword(e.target.value)}
+//             required
+//           />
+
+//           <button type="submit" className="restaurant-auth-btn">
+//             Sign In
+//           </button>
+//         </form>
+
+//         <p className="restaurant-auth-footer">
+//           Don’t have an account?{" "}
+//           <span
+//             className="restaurant-auth-link"
+//             onClick={() => navigate("/restaurant/register")}
+//           >
+//             Register here
+//           </span>
+//         </p>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default RestaurantLogin;
+
+
+
+
+
+
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../utils/api";
-import "../styles/RestaurantAuth.css"; // <- import the CSS
+import { AuthContext } from "../context/AuthContext";
+import "../styles/RestaurantAuth.css";
 
 function RestaurantLogin() {
+  const { login, user } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  // 🚫 Prevent logged-in users (especially normal users) from accessing restaurant login
+  useEffect(() => {
+    if (user) {
+      if (user.role === "restaurant") {
+        navigate("/restaurant/dashboard", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const res = await api.post("/restaurants/login", { email, password });
+      const restaurantData = await login(email, password, "restaurant");
 
-      if (res.data) {
-        // Save restaurant data to localStorage (keep entire object)
-        localStorage.setItem("restaurant", JSON.stringify(res.data));
-
-        // Redirect to dashboard
+      if (restaurantData?.role === "restaurant") {
         navigate("/restaurant/dashboard");
+      } else {
+        // If logged in user is not a restaurant
+        setError("Access denied. Please use the user login page.");
       }
     } catch (err) {
       console.error("Restaurant login error:", err);
-      setError(err.response?.data?.message || "Login failed. Try again.");
+      setError(err.message || "Login failed. Please try again.");
     }
   };
 
   return (
-    <div className="restaurant-auth-page">
-      <div className="auth-card">
-        <h2 className="auth-title">Restaurant Login</h2>
+    <div className="restaurant-auth-container">
+      <div className="restaurant-auth-overlay"></div>
+      <div className="restaurant-auth-card">
+        <h1 className="restaurant-auth-title">Welcome Back 🍔</h1>
+        <p className="restaurant-auth-subtitle">
+          Log in to manage your restaurant and serve deliciousness!
+        </p>
 
-        {error && <div className="auth-error">{error}</div>}
+        {error && <p className="restaurant-auth-error">{error}</p>}
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          <label className="auth-label">
-            Email
-            <input
-              type="email"
-              placeholder="email@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="auth-input"
-              required
-            />
-          </label>
+        <form onSubmit={handleSubmit} className="restaurant-auth-form">
+          <input
+            type="email"
+            placeholder="Restaurant Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-          <label className="auth-label">
-            Password
-            <input
-              type="password"
-              placeholder="Your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="auth-input"
-              required
-            />
-          </label>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-          <button type="submit" className="auth-btn">
+          <button type="submit" className="restaurant-auth-btn">
             Sign In
           </button>
         </form>
 
-        <p className="auth-footer">
+        <p className="restaurant-auth-footer">
           Don’t have an account?{" "}
-          <span className="auth-link" onClick={() => navigate("/restaurant/register")}>
+          <span
+            className="restaurant-auth-link"
+            onClick={() => navigate("/restaurant/register")}
+          >
             Register here
           </span>
         </p>

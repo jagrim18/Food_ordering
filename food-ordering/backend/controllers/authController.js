@@ -1,5 +1,6 @@
 // backend/controllers/authController.js
 const User = require("../models/User");
+const Restaurant = require("../models/Restaurant");
 const generateToken = require("../utils/generateToken");
 
 // @desc    Register a new user
@@ -8,22 +9,18 @@ const generateToken = require("../utils/generateToken");
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-
-    if (!name || !email || !password) {
+    if (!name || !email || !password)
       return res.status(400).json({ message: "Please provide all fields" });
-    }
 
     const normalizedEmail = email.toLowerCase();
     const userExists = await User.findOne({ email: normalizedEmail });
-
-    if (userExists) {
+    if (userExists)
       return res.status(400).json({ message: "User already exists" });
-    }
 
     const user = await User.create({
       name,
       email: normalizedEmail,
-      password, // hashing handled in model
+      password,
       role: "user",
     });
 
@@ -40,25 +37,21 @@ const registerUser = async (req, res) => {
   }
 };
 
-// @desc    Register a new restaurant (inside users collection)
+// @desc    Register a new restaurant
 // @route   POST /api/auth/restaurant/register
 // @access  Public
 const registerRestaurant = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-
-    if (!name || !email || !password) {
+    if (!name || !email || !password)
       return res.status(400).json({ message: "Please provide all fields" });
-    }
 
     const normalizedEmail = email.toLowerCase();
-    const restaurantExists = await User.findOne({ email: normalizedEmail });
-
-    if (restaurantExists) {
+    const restaurantExists = await Restaurant.findOne({ email: normalizedEmail });
+    if (restaurantExists)
       return res.status(400).json({ message: "Restaurant already exists" });
-    }
 
-    const restaurant = await User.create({
+    const restaurant = await Restaurant.create({
       name,
       email: normalizedEmail,
       password,
@@ -78,35 +71,41 @@ const registerRestaurant = async (req, res) => {
   }
 };
 
-// @desc    Login user/restaurant
+// @desc    Login user OR restaurant
 // @route   POST /api/auth/login
 // @access  Public
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    if (!email || !password) {
+    if (!email || !password)
       return res.status(400).json({ message: "Please provide email and password" });
-    }
 
     const normalizedEmail = email.toLowerCase();
-    const user = await User.findOne({ email: normalizedEmail });
 
-    if (!user) {
+    // 🔍 Try finding in both collections
+    let account = await User.findOne({ email: normalizedEmail });
+    let modelType = "user";
+
+    if (!account) {
+      account = await Restaurant.findOne({ email: normalizedEmail });
+      modelType = "restaurant";
+    }
+
+    if (!account) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const isMatch = await user.matchPassword(password);
+    const isMatch = await account.matchPassword(password);
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
     return res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      token: generateToken(user._id, user.role),
+      _id: account._id,
+      name: account.name,
+      email: account.email,
+      role: account.role || modelType,
+      token: generateToken(account._id, account.role || modelType),
     });
   } catch (err) {
     console.error("Login error:", err.message);
@@ -121,13 +120,11 @@ const promoteUser = async (req, res) => {
   const { email, role } = req.body;
 
   try {
-    if (!email || !role) {
+    if (!email || !role)
       return res.status(400).json({ message: "Email and role are required" });
-    }
 
-    if (!["admin", "user", "restaurant"].includes(role)) {
+    if (!["admin", "user", "restaurant"].includes(role))
       return res.status(400).json({ message: "Invalid role" });
-    }
 
     const normalizedEmail = email.toLowerCase();
     const user = await User.findOneAndUpdate(
@@ -136,9 +133,8 @@ const promoteUser = async (req, res) => {
       { new: true }
     );
 
-    if (!user) {
+    if (!user)
       return res.status(404).json({ message: "User not found" });
-    }
 
     return res.json({
       message: `${user.email} is now a ${role} ✅`,

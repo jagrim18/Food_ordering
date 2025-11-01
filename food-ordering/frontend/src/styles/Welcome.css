@@ -1,4 +1,4 @@
-.welcome-container {
+/* .welcome-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,4 +54,148 @@
 .welcome-buttons button:hover {
   transform: scale(1.05);
   opacity: 0.9;
+} */
+
+
+/* 🌅 General Page Setup */
+.welcome-page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920&q=80")
+    no-repeat center center/cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Dark overlay for contrast */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 20, 20, 0.6);
+  z-index: 1;
+}
+
+/* Main Content */
+.welcome-content {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 3rem 4rem;
+  text-align: center;
+  color: #fff;
+  animation: fadeIn 1.2s ease-in-out;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+}
+
+.highlight {
+  color: #ffb703;
+  text-shadow: 0 0 10px rgba(255, 183, 3, 0.6);
+}
+
+.welcome-tagline {
+  font-size: 1.3rem;
+  max-width: 550px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+  color: #f5f5f5;
+}
+
+/* Button Styling */
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  color: #fff;
+  border: none;
+}
+
+.btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(255, 183, 3, 0.7);
+}
+
+.btn.secondary {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Footer */
+.welcome-footer {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  text-align: center;
+  color: #ccc;
+  font-size: 0.9rem;
+  z-index: 2;
+}
+
+/* 🎬 Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+  .welcome-content {
+    padding: 2rem;
+  }
+
+  .welcome-title {
+    font-size: 2.5rem;
+  }
+
+  .welcome-tagline {
+    font-size: 1.1rem;
+  }
+
+  .btn {
+    font-size: 1rem;
+    padding: 0.7rem 1.5rem;
+  }
 }

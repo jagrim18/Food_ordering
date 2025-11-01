@@ -1,162 +1,156 @@
-/* ================================
-   Global Auth Layout
-================================ */
-.auth-container {
+/* ======= Common Layout ======= */
+.auth-page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: #1a1a1d; /* dark background */
-  font-family: "Poppins", sans-serif;
-}
-
-/* Card */
-.auth-card {
-  background: #fff;
-  padding: 40px 30px;
-  border-radius: 20px;
-  width: 350px;
-  text-align: center;
-  position: relative;
   overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
-/* Pink abstract background */
-.auth-card::before,
-.auth-card::after {
-  content: "";
+.overlay {
   position: absolute;
-  border-radius: 50%;
-  background: #e84c88;
-  z-index: 0;
-  opacity: 0.9;
-}
-
-.auth-card::before {
-  width: 250px;
-  height: 250px;
-  bottom: -120px;
-  left: -80px;
-}
-
-.auth-card::after {
-  width: 200px;
-  height: 200px;
-  top: -90px;
-  right: -70px;
-}
-
-/* ================================
-   Heading
-================================ */
-.auth-card h1 {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: #222;
-  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 20, 20, 0.55);
   z-index: 1;
 }
 
-.auth-card p {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 25px;
-  position: relative;
-  z-index: 1;
+/* ======= Different Backgrounds ======= */
+.login-bg {
+  background-image: url("https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=1920&q=80");
+  /* 🍕 warm restaurant atmosphere */
 }
 
-/* ================================
-   Inputs
-================================ */
+.register-bg {
+  background-image: url("https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=1920&q=80");
+  /* 🥗 fresh green ingredients look */
+}
+
+/* ======= Glass Card ======= */
+.auth-box {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border-radius: 25px;
+  padding: 3rem 4rem;
+  text-align: center;
+  color: #a11d1d;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.8s ease-in-out;
+  width: 380px;
+  max-width: 90%;
+}
+
+/* ======= Headings ======= */
+.auth-heading {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: #ffb703;
+}
+
+.auth-subtext {
+  font-size: 1rem;
+  color: #f74f4f;
+  margin-bottom: 2rem;
+}
+
+/* ======= Form ======= */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .auth-input {
-  width: 100%;
-  padding: 14px 16px;
-  margin: 8px 0;
+  padding: 0.9rem 1rem;
+  border-radius: 50px;
   border: none;
-  border-radius: 25px;
-  background: #f3f3f3;
-  font-size: 14px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #b81313;
+  font-size: 1rem;
   outline: none;
-  position: relative;
-  z-index: 1;
+  transition: 0.3s ease;
 }
 
-/* ================================
-   Button
-================================ */
+.auth-input::placeholder {
+  color: #32ce16;
+}
+
+.auth-input:focus {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ======= Button ======= */
 .auth-btn {
-  width: 100%;
-  padding: 14px;
-  margin: 12px 0;
-  border: none;
-  border-radius: 25px;
-  background: #e84c88;
-  color: #fff;
-  font-size: 15px;
+  padding: 0.9rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
   font-weight: 600;
+  border: none;
   cursor: pointer;
-  transition: background 0.3s ease;
-  position: relative;
-  z-index: 1;
+  color: #1539ee;
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  transition: all 0.3s ease;
+  margin-top: 1rem;
 }
 
 .auth-btn:hover {
-  background: #c7386f;
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(255, 183, 3, 0.6);
 }
 
-/* ================================
-   Links
-================================ */
-.auth-links {
-  margin-top: 12px;
-  font-size: 13px;
-  color: #666;
-  position: relative;
-  z-index: 1;
-}
-
-.auth-links a {
-  color: #e84c88;
+/* ======= Error ======= */
+.auth-error {
+  color: #ff6b6b;
   font-weight: 500;
-  text-decoration: none;
+  font-size: 0.95rem;
 }
 
-.auth-links a:hover {
+/* ======= Footer ======= */
+.auth-footer {
+  margin-top: 1.5rem;
+  color: #da13bf;
+}
+
+.auth-link {
+  color: #ffb703;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-link:hover {
   text-decoration: underline;
 }
 
-/* ================================
-   Checkbox + small text
-================================ */
-.auth-checkbox {
-  display: flex;
-  align-items: center;
-  font-size: 13px;
-  color: #444;
-  margin: 10px 0;
-  position: relative;
-  z-index: 1;
+/* ======= Animation ======= */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.auth-checkbox input {
-  margin-right: 8px;
-}
-.auth-error {
-  color: #ff4d4d;
-  margin-top: 10px;
-  font-size: 14px;
-  text-align: center;
-}
-/* ================================
-   User Auth Container
-================================ */
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #cc2042, #d29fa8, #fbc2eb);
-  font-family: "Poppins", sans-serif;
+/* ======= Responsive ======= */
+@media (max-width: 768px) {
+  .auth-box {
+    padding: 2rem;
+  }
+  .auth-heading {
+    font-size: 1.8rem;
+  }
+  .auth-btn {
+    font-size: 1rem;
+  }
 }

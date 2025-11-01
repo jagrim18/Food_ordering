@@ -1,8 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// 🔹 Layout
+// 🔹 Layout Components
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 // 🔹 User Pages
 import Welcome from "./pages/Welcome";
@@ -15,7 +16,7 @@ import Orders from "./pages/Orders";
 import Profile from "./pages/Profile";
 
 // 🔹 Admin Pages
-import Admin from "./pages/Admin";
+import AdminDashboard from "./pages/AdminDashboard";
 import AdminOrders from "./pages/AdminOrders";
 import AdminLogin from "./pages/AdminLogin";
 import AdminRegister from "./pages/AdminRegister";
@@ -28,7 +29,7 @@ import RestaurantRegister from "./pages/RestaurantRegister";
 import RestaurantRoute from "./routes/RestaurantRoute";
 import RestaurantDashboard from "./pages/RestaurantDashboard";
 
-// 🔹 Context
+// 🔹 Context Providers
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 
@@ -37,61 +38,70 @@ function App() {
     <AuthProvider>
       <CartProvider>
         <Router>
-          <Navbar />
-          <Routes>
-            {/* 👤 User Authentication */}
-            <Route path="/" element={<Welcome />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+          <div className="flex flex-col min-h-screen bg-gray-50">
+            {/* 🔸 Global Navbar */}
+            <Navbar />
 
-            {/* 🍔 User Pages */}
-            <Route path="/restaurants" element={<RestaurantList />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/menu/:restaurantId" element={<Menu />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/profile" element={<Profile />} />
+            {/* 🔸 Main Content Area */}
+            <main className="flex-grow">
+              <Routes>
+                {/* 👤 User Authentication */}
+                <Route path="/" element={<Welcome />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
 
-            {/* 🛠️ Admin Routes */}
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/register" element={<AdminRegister />} />
-            <Route
-              path="/admin/dashboard"
-              element={
-                <AdminRoute>
-                  <Admin />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/admin/orders"
-              element={
-                <AdminRoute>
-                  <AdminOrders />
-                </AdminRoute>
-              }
-            />
+                {/* 🍔 User Pages */}
+                <Route path="/restaurants" element={<RestaurantList />} />
+                <Route path="/menu/:restaurantId" element={<Menu />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/profile" element={<Profile />} />
 
-            {/* 🍴 Restaurant Routes */}
-            <Route path="/restaurant/login" element={<RestaurantLogin />} />
-            <Route path="/restaurant/register" element={<RestaurantRegister />} />
-            <Route
-              path="/restaurant/dashboard"
-              element={
-                <RestaurantRoute>
-                  <RestaurantDashboard />
-                </RestaurantRoute>
-              }
-            />
-            <Route
-              path="/restaurant/orders"
-              element={
-                <RestaurantRoute>
-                  <RestaurantOrders />
-                </RestaurantRoute>
-              }
-            />
-          </Routes>
+                {/* 🛠️ Admin Routes */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin/register" element={<AdminRegister />} />
+                <Route
+                  path="/admin/dashboard"
+                  element={
+                    <AdminRoute>
+                      <AdminDashboard />
+                    </AdminRoute>
+                  }
+                />
+                <Route
+                  path="/admin/orders"
+                  element={
+                    <AdminRoute>
+                      <AdminOrders />
+                    </AdminRoute>
+                  }
+                />
+
+                {/* 🍴 Restaurant Routes */}
+                <Route path="/restaurant/login" element={<RestaurantLogin />} />
+                <Route path="/restaurant/register" element={<RestaurantRegister />} />
+                <Route
+                  path="/restaurant/dashboard"
+                  element={
+                    <RestaurantRoute>
+                      <RestaurantDashboard />
+                    </RestaurantRoute>
+                  }
+                />
+                <Route
+                  path="/restaurant/orders"
+                  element={
+                    <RestaurantRoute>
+                      <RestaurantOrders />
+                    </RestaurantRoute>
+                  }
+                />
+              </Routes>
+            </main>
+
+            {/* 🔸 Global Footer */}
+            <Footer />
+          </div>
         </Router>
       </CartProvider>
     </AuthProvider>

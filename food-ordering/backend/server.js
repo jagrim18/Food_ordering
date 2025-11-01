@@ -1,166 +1,245 @@
-// // const express = require("express");
-// // const dotenv = require("dotenv");
-// // const cors = require("cors");
-// // const { connectMainDB } = require("./config/db");
-
-// // // Load environment variables
-// // dotenv.config();
-
-// // // ✅ Connect to main database (users, menus, orders, etc.)
-// // connectMainDB();
-
-// // const app = express();
-// // app.use(cors());
-// // app.use(express.json());
-
-// // // Import routes
-// // const authRoutes = require("./routes/authRoutes");          // user login/register
-// // const menuRoutes = require("./routes/menuRoutes");          // menus CRUD
-// // const userRoutes = require("./routes/userRoutes");          // user management
-// // const orderRoutes = require("./routes/orderRoutes");        // orders
-// // const restaurantRoutes = require("./routes/restaurantRoutes"); // restaurants
-
-// // // ✅ Routes
-// // app.use("/api/auth", authRoutes);        
-// // app.use("/api/menu", menuRoutes);        
-// // app.use("/api/users", userRoutes);       
-// // app.use("/api/orders", orderRoutes);     
-// // app.use("/api/restaurants", restaurantRoutes); 
-
-// // // ✅ Start server
-// // const PORT = process.env.PORT || 5000;
-// // app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-
-
-
-
-
-
-
+// // backend/server.js
 // const express = require("express");
 // const dotenv = require("dotenv");
 // const cors = require("cors");
 // const http = require("http");
+// const path = require("path");
 // const { Server } = require("socket.io");
-// const { connectMainDB } = require("./config/db");
+// const connectMainDB = require("./config/db");
 
-// // Load environment variables
+// // ============================================================
+// // 🌍 Load environment variables
+// // ============================================================
 // dotenv.config();
 
-// // ✅ Connect to main database
+// // ============================================================
+// // 🧠 Connect MongoDB
+// // ============================================================
 // connectMainDB();
 
 // const app = express();
-// app.use(cors());
-// app.use(express.json());
 
-// // Import routes
+// // ============================================================
+// // ⚙️ Middleware
+// // ============================================================
+
+// // Increase payload size for images & forms
+// app.use(express.json({ limit: "10mb" }));
+// app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+
+// // Allow frontend to connect (CORS setup)
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000",
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     credentials: true,
+//   })
+// );
+
+// // ============================================================
+// // 🖼️ Serve Uploaded Files (for images & other assets)
+// // ============================================================
+
+// // ✅ Serve everything inside "uploads" and its subfolders publicly
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// // ✅ Explicitly serve restaurant images (for clarity)
+// app.use(
+//   "/uploads/restaurants",
+//   express.static(path.join(__dirname, "uploads", "restaurants"))
+// );
+
+// console.log("📸 Static files served from:", path.join(__dirname, "uploads"));
+
+// // ============================================================
+// // 📦 Import All Routes
+// // ============================================================
 // const authRoutes = require("./routes/authRoutes");
-// const menuRoutes = require("./routes/menuRoutes");
 // const userRoutes = require("./routes/userRoutes");
 // const orderRoutes = require("./routes/orderRoutes");
 // const restaurantRoutes = require("./routes/restaurantRoutes");
+// const menuRoutes = require("./routes/menuRoutes");
+// const restaurantItemRoutes = require("./routes/restaurantItemRoutes");
 
-// // ✅ Routes
+// // ============================================================
+// // 🚏 Mount Routes
+// // ============================================================
 // app.use("/api/auth", authRoutes);
-// app.use("/api/menu", menuRoutes);
 // app.use("/api/users", userRoutes);
 // app.use("/api/orders", orderRoutes);
 // app.use("/api/restaurants", restaurantRoutes);
+// app.use("/api/menu", menuRoutes);
+// app.use("/api/restaurantitems", restaurantItemRoutes);
 
-// // ✅ Start server with Socket.IO
-// const PORT = process.env.PORT || 5000;
+// // ============================================================
+// // 🏠 Base Route
+// // ============================================================
+// app.get("/", (req, res) => {
+//   res.send("🍔 Foodify Backend API is running successfully!");
+// });
+
+// // ============================================================
+// // ⚡ Socket.IO Setup
+// // ============================================================
 // const server = http.createServer(app);
-
 // const io = new Server(server, {
 //   cors: {
-//     origin: "*", // You can restrict this to frontend URL in production
+//     origin: "http://localhost:3000",
 //     methods: ["GET", "POST", "PUT", "DELETE"],
 //   },
 // });
 
-// // Store io globally so controllers can access
 // app.set("io", io);
 
 // io.on("connection", (socket) => {
-//   console.log("✅ New client connected:", socket.id);
+//   console.log("✅ Client connected:", socket.id);
 
-//   socket.on("disconnect", () => {
-//     console.log("❌ Client disconnected:", socket.id);
+//   socket.on("joinRoom", (roomId) => {
+//     if (!roomId) return console.warn("⚠️ joinRoom called without roomId");
+//     socket.join(roomId);
+//     console.log(`📌 ${socket.id} joined room: ${roomId}`);
+//   });
+
+//   socket.on("leaveRoom", (roomId) => {
+//     if (!roomId) return;
+//     socket.leave(roomId);
+//     console.log(`📤 ${socket.id} left room: ${roomId}`);
+//   });
+
+//   socket.onAny((event, ...args) => {
+//     console.log(`📡 Event: ${event}`, args?.[0]?.user || "");
+//   });
+
+//   socket.on("disconnect", (reason) => {
+//     console.log(`❌ Client disconnected (${socket.id}) - reason: ${reason}`);
 //   });
 // });
 
-// server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// // ============================================================
+// // 🚀 Start Server
+// // ============================================================
+// const PORT = process.env.PORT || 5000;
+// server.listen(PORT, () => {
+//   console.log(`🚀 Server running on port ${PORT}`);
+//   console.log(`📸 Static files served from: /uploads`);
+// });
 
 
 
 
-
-
+// backend/server.js
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const http = require("http");
+const path = require("path");
 const { Server } = require("socket.io");
-const { connectMainDB } = require("./config/db");
+const connectMainDB = require("./config/db");
 
-// Load environment variables
+// ============================================================
+// 🌍 Load environment variables
+// ============================================================
 dotenv.config();
 
-// ✅ Connect to main database
+// ============================================================
+// 🧠 Connect MongoDB
+// ============================================================
 connectMainDB();
 
 const app = express();
-app.use(cors());
-app.use(express.json());
 
-// Import routes
+// ============================================================
+// ⚙️ Middleware
+// ============================================================
+
+// Increase payload size for images & forms
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+
+// Allow frontend to connect (CORS setup)
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
+// ============================================================
+// 🖼️ Serve Uploaded Files (Public Access)
+// ============================================================
+
+// ✅ Serve "uploads" folder statically
+const uploadsPath = path.join(__dirname, "uploads");
+app.use("/uploads", express.static(uploadsPath));
+
+console.log(`📸 Serving static files from: ${uploadsPath}`);
+
+// ============================================================
+// 📦 Import Routes
+// ============================================================
 const authRoutes = require("./routes/authRoutes");
-const menuRoutes = require("./routes/menuRoutes");
 const userRoutes = require("./routes/userRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const restaurantRoutes = require("./routes/restaurantRoutes");
+const menuRoutes = require("./routes/menuRoutes");
+const restaurantItemRoutes = require("./routes/restaurantItemRoutes");
 
-// ✅ Routes
+// ============================================================
+// 🚏 Mount Routes
+// ============================================================
 app.use("/api/auth", authRoutes);
-app.use("/api/menu", menuRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/restaurants", restaurantRoutes);
+app.use("/api/menu", menuRoutes);
+app.use("/api/restaurantitems", restaurantItemRoutes);
 
-// ✅ Start server with Socket.IO
-const PORT = process.env.PORT || 5000;
+// ============================================================
+// 🏠 Base Route
+// ============================================================
+app.get("/", (req, res) => {
+  res.send("🍔 Foodify Backend API is running successfully!");
+});
+
+// ============================================================
+// ⚡ Socket.IO Setup
+// ============================================================
 const server = http.createServer(app);
-
 const io = new Server(server, {
   cors: {
-    origin: "*", // ⚠️ In production, replace "*" with your frontend URL
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
 
-// Store io globally so controllers can access
 app.set("io", io);
 
 io.on("connection", (socket) => {
-  console.log("✅ New client connected:", socket.id);
+  console.log("✅ Client connected:", socket.id);
 
-  // ✅ Client joins a room (userId OR restaurantId)
   socket.on("joinRoom", (roomId) => {
+    if (!roomId) return;
     socket.join(roomId);
-    console.log(`📌 Client ${socket.id} joined room: ${roomId}`);
+    console.log(`📌 ${socket.id} joined room: ${roomId}`);
   });
 
   socket.on("leaveRoom", (roomId) => {
+    if (!roomId) return;
     socket.leave(roomId);
-    console.log(`📌 Client ${socket.id} left room: ${roomId}`);
+    console.log(`📤 ${socket.id} left room: ${roomId}`);
   });
 
-  socket.on("disconnect", () => {
-    console.log("❌ Client disconnected:", socket.id);
+  socket.on("disconnect", (reason) => {
+    console.log(`❌ Client disconnected (${socket.id}) - reason: ${reason}`);
   });
 });
 
-server.listen(PORT, () =>
-  console.log(`🚀 Server running on port ${PORT}`)
-);
+// ============================================================
+// 🚀 Start Server
+// ============================================================
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🌐 Visit: http://localhost:${PORT}/uploads/restaurants/<image-name>.png`);
+});

@@ -1,87 +1,125 @@
+// // backend/routes/restaurantRoutes.js
 // const express = require("express");
-// const jwt = require("jsonwebtoken");
+// const multer = require("multer");
+// const fs = require("fs");
+// const path = require("path");
+// const { protect, restaurantOnly } = require("../middlewares/authMiddleware");
+// const {
+//   getRestaurants,
+//   registerRestaurant,
+//   loginRestaurant,
+// } = require("../controllers/restaurantController");
 // const Restaurant = require("../models/Restaurant");
-// const { addRestaurant, getRestaurants } = require("../controllers/restaurantController");
 
 // const router = express.Router();
 
-// // ===============================
-// // JWT generator
-// // ===============================
-// const generateToken = (id) => {
-//   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+// /* ============================================================
+//    📸 Multer Setup for Gallery Image Upload
+//    ============================================================ */
+// const uploadDir = path.join(__dirname, "../uploads/restaurants");
+
+// // ✅ Ensure upload folder exists
+// if (!fs.existsSync(uploadDir)) {
+//   fs.mkdirSync(uploadDir, { recursive: true });
+//   console.log("📁 Created uploads directory:", uploadDir);
+// }
+
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => cb(null, uploadDir),
+//   filename: (req, file, cb) =>
+//     cb(null, `${Date.now()}-${file.originalname.replace(/\s+/g, "_")}`),
+// });
+
+// const fileFilter = (req, file, cb) => {
+//   const allowedTypes = /jpeg|jpg|png|webp/;
+//   const ext = path.extname(file.originalname).toLowerCase();
+//   if (allowedTypes.test(ext)) cb(null, true);
+//   else cb(new Error("Only image files (jpg, jpeg, png, webp) are allowed!"));
 // };
 
-// // ===============================
-// // @route   POST /api/restaurants/register
-// // @desc    Register a new restaurant
-// // ===============================
-// router.post("/register", async (req, res) => {
+// const upload = multer({ storage, fileFilter });
+
+// /* ============================================================
+//    🍽️ Public Routes
+//    ============================================================ */
+// router.get("/", getRestaurants);
+// router.post("/register", registerRestaurant);
+// router.post("/login", loginRestaurant);
+
+// /* ============================================================
+//    🔒 Protected Restaurant Routes
+//    ============================================================ */
+
+// // ✅ Get Restaurant Profile
+// router.get("/profile", protect, restaurantOnly, async (req, res) => {
 //   try {
-//     const { name, email, password } = req.body;
-
-//     if (!name || !email || !password) {
-//       return res.status(400).json({ message: "Please provide all fields" });
-//     }
-
-//     const exists = await Restaurant.findOne({ email });
-//     if (exists) {
-//       return res.status(400).json({ message: "Restaurant already exists" });
-//     }
-
-//     const restaurant = await Restaurant.create({ name, email, password });
-
-//     res.status(201).json({
-//       _id: restaurant._id,
-//       name: restaurant.name,
-//       email: restaurant.email,
-//       token: generateToken(restaurant._id),
-//     });
+//     const restaurant = await Restaurant.findById(req.user._id).select("-password");
+//     if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
+//     res.json(restaurant);
 //   } catch (err) {
-//     res.status(500).json({ error: err.message });
+//     console.error("❌ Error fetching restaurant profile:", err);
+//     res.status(500).json({ message: "Failed to load restaurant profile" });
 //   }
 // });
 
-// // ===============================
-// // @route   POST /api/restaurants/login
-// // @desc    Login restaurant
-// // ===============================
-// router.post("/login", async (req, res) => {
+// // ✅ Update Restaurant Profile
+// router.put("/profile", protect, restaurantOnly, async (req, res) => {
 //   try {
-//     const { email, password } = req.body;
+//     const restaurant = await Restaurant.findById(req.user._id);
+//     if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
 
-//     const restaurant = await Restaurant.findOne({ email });
-//     if (!restaurant) {
-//       return res.status(400).json({ message: "Invalid email or password" });
-//     }
-
-//     const isMatch = await restaurant.matchPassword(password);
-//     if (!isMatch) {
-//       return res.status(400).json({ message: "Invalid email or password" });
-//     }
+//     Object.assign(restaurant, req.body);
+//     await restaurant.save();
 
 //     res.json({
-//       _id: restaurant._id,
-//       name: restaurant.name,
-//       email: restaurant.email,
-//       token: generateToken(restaurant._id),
+//       ...restaurant.toObject(),
+//       token: req.token,
 //     });
 //   } catch (err) {
-//     res.status(500).json({ error: err.message });
+//     console.error("❌ Error updating restaurant profile:", err);
+//     res.status(500).json({ message: "Error updating restaurant profile" });
 //   }
 // });
 
-// // ===============================
-// // @route   POST /api/restaurants
-// // @desc    Add new restaurant (Admin/API)
-// // ===============================
-// router.post("/", addRestaurant);
+// /* ============================================================
+//    📸 Upload Restaurant Gallery Images
+//    ============================================================ */
+// router.post(
+//   "/upload_gallery", // ✅ changed to match frontend
+//   protect,
+//   restaurantOnly,
+//   upload.array("images", 10),
+//   async (req, res) => {
+//     try {
+//       const restaurant = await Restaurant.findById(req.user._id);
+//       if (!restaurant)
+//         return res.status(404).json({ message: "Restaurant not found" });
 
-// // ===============================
-// // @route   GET /api/restaurants
-// // @desc    Get all restaurants
-// // ===============================
-// router.get("/", getRestaurants);
+//       if (!req.files || req.files.length === 0)
+//         return res.status(400).json({ message: "No files uploaded" });
+
+//       const uploadedPaths = req.files.map(
+//         (file) => `/uploads/restaurants/${file.filename}`
+//       );
+
+//       // ✅ Keep only latest 10
+//       restaurant.galleryImages = [
+//         ...(restaurant.galleryImages || []),
+//         ...uploadedPaths,
+//       ].slice(-10);
+
+//       await restaurant.save();
+
+//       res.json({
+//         message: "Gallery images uploaded successfully",
+//         galleryImages: restaurant.galleryImages,
+//       });
+//     } catch (error) {
+//       console.error("❌ Error uploading gallery images:", error);
+//       res.status(500).json({ message: "Failed to upload images" });
+//     }
+//   }
+// );
 
 // module.exports = router;
 
@@ -89,102 +127,134 @@
 
 
 
-
-
-
-
-
-
-
-
 // backend/routes/restaurantRoutes.js
 const express = require("express");
-const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const fs = require("fs");
+const path = require("path");
+const { protect, restaurantOnly } = require("../middlewares/authMiddleware");
+const {
+  getRestaurants,
+  registerRestaurant,
+  loginRestaurant,
+} = require("../controllers/restaurantController");
 const Restaurant = require("../models/Restaurant");
-const { addRestaurant, getRestaurants } = require("../controllers/restaurantController");
 
 const router = express.Router();
 
-// ===============================
-// JWT generator
-// ===============================
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+/* ============================================================
+   📸 Multer Setup for Gallery Image Upload
+   ============================================================ */
+const uploadBaseDir = path.join(__dirname, "../uploads");
+const restaurantUploadDir = path.join(uploadBaseDir, "restaurants");
+
+// ✅ Ensure upload directories exist
+if (!fs.existsSync(uploadBaseDir)) fs.mkdirSync(uploadBaseDir);
+if (!fs.existsSync(restaurantUploadDir)) fs.mkdirSync(restaurantUploadDir);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, restaurantUploadDir),
+  filename: (req, file, cb) => {
+    const safeName = file.originalname.replace(/\s+/g, "_");
+    cb(null, `${Date.now()}-${safeName}`);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  const allowed = /jpeg|jpg|png|webp/;
+  const ext = path.extname(file.originalname).toLowerCase();
+  if (allowed.test(ext)) cb(null, true);
+  else cb(new Error("Only image files (jpg, jpeg, png, webp) are allowed!"));
 };
 
-// ===============================
-// @route   POST /api/restaurants/register
-// @desc    Register a new restaurant
-// ===============================
-router.post("/register", async (req, res) => {
+const upload = multer({ storage, fileFilter });
+
+/* ============================================================
+   🍽️ Public Routes
+   ============================================================ */
+router.get("/", getRestaurants);
+router.post("/register", registerRestaurant);
+router.post("/login", loginRestaurant);
+
+/* ============================================================
+   🔒 Protected Routes
+   ============================================================ */
+
+// ✅ Get Restaurant Profile
+router.get("/profile", protect, restaurantOnly, async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: "Please provide all fields" });
-    }
-
-    const exists = await Restaurant.findOne({ email });
-    if (exists) {
-      return res.status(400).json({ message: "Restaurant already exists" });
-    }
-
-    const restaurant = await Restaurant.create({ name, email, password });
-
-    res.status(201).json({
-      _id: restaurant._id,
-      name: restaurant.name,
-      email: restaurant.email,
-      token: generateToken(restaurant._id),
-    });
+    const restaurant = await Restaurant.findById(req.user._id).select("-password");
+    if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
+    res.json(restaurant);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("❌ Error fetching restaurant profile:", err);
+    res.status(500).json({ message: "Failed to load restaurant profile" });
   }
 });
 
-// ===============================
-// @route   POST /api/restaurants/login
-// @desc    Login restaurant
-// ===============================
-router.post("/login", async (req, res) => {
+// ✅ Update Restaurant Profile
+router.put("/profile", protect, restaurantOnly, async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const restaurant = await Restaurant.findById(req.user._id);
+    if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "Please provide email and password" });
-    }
-
-    const restaurant = await Restaurant.findOne({ email });
-    if (!restaurant) {
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
-
-    const isMatch = await restaurant.matchPassword(password);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
+    Object.assign(restaurant, req.body);
+    await restaurant.save();
 
     res.json({
-      _id: restaurant._id,
-      name: restaurant.name,
-      email: restaurant.email,
-      token: generateToken(restaurant._id),
+      ...restaurant.toObject(),
+      token: req.token,
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("❌ Error updating restaurant profile:", err);
+    res.status(500).json({ message: "Error updating restaurant profile" });
   }
 });
 
-// ===============================
-// @route   POST /api/restaurants
-// @desc    Add new restaurant (Admin/API)
-// ===============================
-router.post("/", addRestaurant);
+/* ============================================================
+   📸 Upload Restaurant Gallery Images
+   ============================================================ */
+router.post(
+  "/upload-gallery",
+  protect,
+  restaurantOnly,
+  upload.array("images", 10),
+  async (req, res) => {
+    try {
+      const restaurant = await Restaurant.findById(req.user._id);
+      if (!restaurant)
+        return res.status(404).json({ message: "Restaurant not found" });
 
-// ===============================
-// @route   GET /api/restaurants
-// @desc    Get all restaurants
-// ===============================
-router.get("/", getRestaurants);
+      if (!req.files || req.files.length === 0)
+        return res.status(400).json({ message: "No files uploaded" });
+
+      // ✅ Create accessible URLs for frontend
+      const uploadedPaths = req.files.map((file) => {
+        const relativePath = path
+          .join("/uploads/restaurants", path.basename(file.path))
+          .replace(/\\/g, "/"); // fix Windows slashes
+        return relativePath;
+      });
+
+      // ✅ Merge & keep only last 10
+      restaurant.galleryImages = [
+        ...(restaurant.galleryImages || []),
+        ...uploadedPaths,
+      ].slice(-10);
+
+      await restaurant.save();
+
+      console.log("✅ Uploaded gallery images:", uploadedPaths);
+
+      res.json({
+        message: "Gallery images uploaded successfully",
+        galleryImages: restaurant.galleryImages,
+      });
+    } catch (error) {
+      console.error("❌ Error uploading gallery images:", error);
+      res.status(500).json({ message: "Failed to upload images" });
+    }
+  }
+);
 
 module.exports = router;

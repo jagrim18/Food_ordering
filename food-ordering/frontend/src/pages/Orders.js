@@ -1,312 +1,4 @@
-// // // // // import { useEffect, useState, useContext } from "react";
-// // // // // import api from "../utils/api";
-// // // // // import { AuthContext } from "../context/AuthContext";
-// // // // // import "../styles/Orders.css";
-
-// // // // // function Orders() {
-// // // // //   const [orders, setOrders] = useState([]);
-// // // // //   const { user } = useContext(AuthContext);
-
-// // // // //   useEffect(() => {
-// // // // //     const fetchOrders = async () => {
-// // // // //       if (!user) return;
-
-// // // // //       try {
-// // // // //         // ✅ Fetch only this user’s orders from backend
-// // // // //         const res = await api.get("/orders/myorders");
-// // // // //         setOrders(res.data);
-// // // // //       } catch (err) {
-// // // // //         console.error("Backend error, falling back to localStorage:", err);
-
-// // // // //         // ✅ Fallback: fetch user-specific orders from localStorage
-// // // // //         const savedOrders =
-// // // // //           JSON.parse(localStorage.getItem(`orders_${user._id}`)) || [];
-// // // // //         setOrders(savedOrders);
-// // // // //       }
-// // // // //     };
-
-// // // // //     fetchOrders();
-// // // // //   }, [user]);
-
-// // // // //   return (
-// // // // //     <div className="orders-container">
-// // // // //       <h2>📦 My Orders</h2>
-// // // // //       {orders.length === 0 ? (
-// // // // //         <p>No orders placed yet.</p>
-// // // // //       ) : (
-// // // // //         orders.map((order) => (
-// // // // //           <div key={order._id || order.id} className="order-card">
-// // // // //             <h3>Order #{order._id || order.id}</h3>
-// // // // //             <p>
-// // // // //               <strong>Status:</strong> {order.status}
-// // // // //             </p>
-// // // // //             <p>
-// // // // //               <strong>Total:</strong> ₹{order.total}
-// // // // //             </p>
-// // // // //             <h4>Items:</h4>
-// // // // //             <ul>
-// // // // //               {order.items.map((item, i) => (
-// // // // //                 <li key={i}>
-// // // // //                   {item.name} × {item.quantity} = ₹
-// // // // //                   {item.price * item.quantity}
-// // // // //                 </li>
-// // // // //               ))}
-// // // // //             </ul>
-// // // // //           </div>
-// // // // //         ))
-// // // // //       )}
-// // // // //     </div>
-// // // // //   );
-// // // // // }
-
-// // // // // export default Orders;
-
-
-
-
-
-
-
-// // // // import { useEffect, useState, useContext } from "react";
-// // // // import api from "../utils/api";
-// // // // import { AuthContext } from "../context/AuthContext";
-// // // // import { io } from "socket.io-client";
-// // // // import "../styles/Orders.css";
-
-// // // // function Orders() {
-// // // //   const [orders, setOrders] = useState([]);
-// // // //   const { user } = useContext(AuthContext);
-
-// // // //   useEffect(() => {
-// // // //     const fetchOrders = async () => {
-// // // //       if (!user) return;
-// // // //       try {
-// // // //         const res = await api.get("/orders/myorders");
-// // // //         setOrders(res.data);
-// // // //       } catch (err) {
-// // // //         console.error("Backend error, fallback:", err);
-// // // //         const savedOrders =
-// // // //           JSON.parse(localStorage.getItem(`orders_${user._id}`)) || [];
-// // // //         setOrders(savedOrders);
-// // // //       }
-// // // //     };
-
-// // // //     fetchOrders();
-
-// // // //     // ✅ Setup socket listener
-// // // //     const socket = io("http://localhost:5000");
-
-// // // //     socket.on("orderUpdated", (updatedOrder) => {
-// // // //       if (updatedOrder.user === user._id) {
-// // // //         setOrders((prev) =>
-// // // //           prev.map((o) => (o._id === updatedOrder._id ? updatedOrder : o))
-// // // //         );
-// // // //       }
-// // // //     });
-
-// // // //     return () => {
-// // // //       socket.disconnect();
-// // // //     };
-// // // //   }, [user]);
-
-// // // //   return (
-// // // //     <div className="orders-container">
-// // // //       <h2>📦 My Orders</h2>
-// // // //       {orders.length === 0 ? (
-// // // //         <p>No orders placed yet.</p>
-// // // //       ) : (
-// // // //         orders.map((order) => (
-// // // //           <div key={order._id} className="order-card">
-// // // //             <h3>Order #{order._id}</h3>
-// // // //             <p>
-// // // //               <strong>Status:</strong> {order.status}
-// // // //             </p>
-// // // //             <p>
-// // // //               <strong>Total:</strong> ₹{order.total}
-// // // //             </p>
-// // // //             <h4>Items:</h4>
-// // // //             <ul>
-// // // //               {order.items.map((item, i) => (
-// // // //                 <li key={i}>
-// // // //                   {item.name} × {item.quantity} = ₹
-// // // //                   {item.price * item.quantity}
-// // // //                 </li>
-// // // //               ))}
-// // // //             </ul>
-// // // //           </div>
-// // // //         ))
-// // // //       )}
-// // // //     </div>
-// // // //   );
-// // // // }
-
-// // // // export default Orders;
-
-
-
-
-
-
-// // // import { useEffect, useState, useContext } from "react";
-// // // import api from "../utils/api";
-// // // import { AuthContext } from "../context/AuthContext";
-// // // import { io } from "socket.io-client";
-// // // import "../styles/Orders.css";
-
-// // // function Orders() {
-// // //   const [orders, setOrders] = useState([]);
-// // //   const { user } = useContext(AuthContext);
-
-// // //   useEffect(() => {
-// // //     const fetchOrders = async () => {
-// // //       if (!user) return;
-// // //       try {
-// // //         const res = await api.get("/orders/myorders");
-// // //         setOrders(res.data);
-// // //       } catch (err) {
-// // //         console.error("Backend error, fallback:", err);
-// // //         // ✅ fallback only if backend fails
-// // //         const savedOrders =
-// // //           JSON.parse(localStorage.getItem(`orders_${user._id}`)) || [];
-// // //         setOrders(savedOrders);
-// // //       }
-// // //     };
-
-// // //     fetchOrders();
-
-// // //     // ✅ Setup socket listener
-// // //     const socket = io("http://localhost:5000");
-
-// // //     socket.on("orderUpdated", (updatedOrder) => {
-// // //       if (updatedOrder.user === user._id) {
-// // //         setOrders((prev) =>
-// // //           prev.map((o) => (o._id === updatedOrder._id ? updatedOrder : o))
-// // //         );
-// // //       }
-// // //     });
-
-// // //     return () => {
-// // //       socket.disconnect();
-// // //     };
-// // //   }, [user]);
-
-// // //   return (
-// // //     <div className="orders-container">
-// // //       <h2>📦 My Orders</h2>
-// // //       {orders.length === 0 ? (
-// // //         <p>No orders placed yet.</p>
-// // //       ) : (
-// // //         orders.map((order) => (
-// // //           <div key={order._id || order.id} className="order-card">
-// // //             <h3>Order #{order._id || order.id}</h3>
-// // //             <p>
-// // //               <strong>Status:</strong> {order.status}
-// // //             </p>
-// // //             <p>
-// // //               <strong>Total:</strong> ₹{order.total}
-// // //             </p>
-// // //             <h4>Items:</h4>
-// // //             <ul>
-// // //               {order.items.map((item, i) => (
-// // //                 <li key={item._id || `${item.name}-${i}`}>
-// // //                   {item.name} × {item.quantity} = ₹
-// // //                   {item.price * item.quantity}
-// // //                 </li>
-// // //               ))}
-// // //             </ul>
-// // //           </div>
-// // //         ))
-// // //       )}
-// // //     </div>
-// // //   );
-// // // }
-
-// // // export default Orders;
-
-
-
-
-
-// // import { useEffect, useState, useContext } from "react";
-// // import api from "../utils/api";
-// // import { AuthContext } from "../context/AuthContext";
-// // import { io } from "socket.io-client";
-// // import "../styles/Orders.css";
-
-// // function Orders() {
-// //   const [orders, setOrders] = useState([]);
-// //   const { user } = useContext(AuthContext);
-
-// //   useEffect(() => {
-// //     const fetchOrders = async () => {
-// //       if (!user) return;
-// //       try {
-// //         // ✅ Fetch logged-in user’s orders
-// //         const res = await api.get("/orders/myorders");
-// //         setOrders(res.data);
-// //       } catch (err) {
-// //         console.error("Backend error, fallback:", err);
-// //         // ✅ fallback only if backend fails
-// //         const savedOrders =
-// //           JSON.parse(localStorage.getItem(`orders_${user._id}`)) || [];
-// //         setOrders(savedOrders);
-// //       }
-// //     };
-
-// //     fetchOrders();
-
-// //     // ✅ Setup socket listener
-// //     const socket = io("http://localhost:5000");
-
-// //     socket.on("orderUpdated", (updatedOrder) => {
-// //       if (updatedOrder.user === user._id) {
-// //         setOrders((prev) =>
-// //           prev.map((o) => (o._id === updatedOrder._id ? updatedOrder : o))
-// //         );
-// //       }
-// //     });
-
-// //     return () => {
-// //       socket.disconnect();
-// //     };
-// //   }, [user]);
-
-// //   return (
-// //     <div className="orders-container">
-// //       <h2>📦 My Orders</h2>
-// //       {orders.length === 0 ? (
-// //         <p>No orders placed yet.</p>
-// //       ) : (
-// //         orders.map((order) => (
-// //           <div key={order._id || order.id} className="order-card">
-// //             <h3>Order #{order._id || order.id}</h3>
-// //             <p>
-// //               <strong>Status:</strong> {order.status}
-// //             </p>
-// //             <p>
-// //               <strong>Total:</strong> ₹{order.total}
-// //             </p>
-// //             <h4>Items:</h4>
-// //             <ul>
-// //               {order.items?.map((item, i) => (
-// //                 <li key={item._id || `${item.name}-${i}`}>
-// //                   {item.name} × {item.quantity} = ₹
-// //                   {item.price * item.quantity}
-// //                 </li>
-// //               ))}
-// //             </ul>
-// //           </div>
-// //         ))
-// //       )}
-// //     </div>
-// //   );
-// // }
-
-// // export default Orders;
-
-
-
-
+// // frontend/src/pages/Orders.js
 // import { useEffect, useState, useContext } from "react";
 // import api from "../utils/api";
 // import { AuthContext } from "../context/AuthContext";
@@ -322,9 +14,9 @@
 
 //     const fetchOrders = async () => {
 //       try {
-//         // ✅ Fetch logged-in user’s orders
 //         const res = await api.get("/orders/myorders");
 //         setOrders(res.data);
+//         localStorage.setItem(`orders_${user._id}`, JSON.stringify(res.data));
 //       } catch (err) {
 //         console.error("Backend error, fallback:", err);
 //         const savedOrders =
@@ -335,13 +27,11 @@
 
 //     fetchOrders();
 
-//     // ✅ Setup socket connection
+//     // 🔌 Real-time updates
 //     const socket = io("http://localhost:5000");
+//     socket.emit("joinRoom", user._id);
+//     console.log("📡 Joined room:", user._id);
 
-//     // ✅ Join user’s private room
-//     socket.emit("join", user._id);
-
-//     // ✅ Listen for updates only for this user
 //     socket.on("orderUpdated", (updatedOrder) => {
 //       if (
 //         updatedOrder.user &&
@@ -354,6 +44,7 @@
 //     });
 
 //     return () => {
+//       socket.emit("leaveRoom", user._id);
 //       socket.disconnect();
 //     };
 //   }, [user]);
@@ -361,29 +52,63 @@
 //   return (
 //     <div className="orders-container">
 //       <h2>📦 My Orders</h2>
+
 //       {orders.length === 0 ? (
-//         <p>No orders placed yet.</p>
+//         <p className="no-orders">No orders placed yet.</p>
 //       ) : (
-//         orders.map((order) => (
-//           <div key={order._id || order.id} className="order-card">
-//             <h3>Order #{order._id || order.id}</h3>
-//             <p>
-//               <strong>Status:</strong> {order.status}
-//             </p>
-//             <p>
-//               <strong>Total:</strong> ₹{order.totalPrice || order.total}
-//             </p>
-//             <h4>Items:</h4>
-//             <ul>
-//               {order.items?.map((item, i) => (
-//                 <li key={item._id || `${item.name}-${i}`}>
-//                   {item.name} × {item.quantity} = ₹
-//                   {item.price * item.quantity}
-//                 </li>
-//               ))}
-//             </ul>
-//           </div>
-//         ))
+//         <div className="orders-grid">
+//           {orders.map((order) => (
+//             <div key={order._id} className="order-card">
+//               {/* 🧾 Order Header */}
+//               <div className="order-header">
+//                 <h3>Order #{order._id?.slice(-6)}</h3>
+//                 <p className="order-username">
+//                   👤 {user?.name || user?.email || "User"}
+//                 </p>
+//               </div>
+
+//               {/* 🏷️ Status + Date */}
+//               <div className="order-meta">
+//                 <span
+//                   className={`order-status ${
+//                     order.status?.toLowerCase() || "pending"
+//                   }`}
+//                 >
+//                   {order.status || "Pending"}
+//                 </span>
+//                 <p className="order-date">
+//                   📅 {new Date(order.createdAt).toLocaleString()}
+//                 </p>
+//               </div>
+
+//               {/* 🍱 Order Items */}
+//               <div className="order-body">
+//                 <h4>🛍️ Ordered Items</h4>
+//                 <ul>
+//                   {order.items?.map((item, i) => (
+//                     <li key={i}>
+//                       <span className="item-name">{item.name}</span>
+//                       <span className="item-qty">× {item.quantity}</span>
+//                       <span className="item-price">
+//                         ₹{item.price * item.quantity}
+//                       </span>
+//                     </li>
+//                   ))}
+//                 </ul>
+//               </div>
+
+//               {/* 💰 Total */}
+//               <div className="order-footer">
+//                 <h4>
+//                   Total Amount:{" "}
+//                   <span className="order-total">
+//                     ₹{order.totalPrice || order.total}
+//                   </span>
+//                 </h4>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
 //       )}
 //     </div>
 //   );
@@ -397,7 +122,14 @@
 
 
 
+
+
+
+
+
+// frontend/src/pages/Orders.js
 import { useEffect, useState, useContext } from "react";
+import { motion } from "framer-motion";
 import api from "../utils/api";
 import { AuthContext } from "../context/AuthContext";
 import { io } from "socket.io-client";
@@ -412,13 +144,11 @@ function Orders() {
 
     const fetchOrders = async () => {
       try {
-        // ✅ Fetch logged-in user’s orders
         const res = await api.get("/orders/myorders");
         setOrders(res.data);
+        localStorage.setItem(`orders_${user._id}`, JSON.stringify(res.data));
       } catch (err) {
         console.error("Backend error, fallback:", err);
-
-        // ✅ fallback to localStorage
         const savedOrders =
           JSON.parse(localStorage.getItem(`orders_${user._id}`)) || [];
         setOrders(savedOrders);
@@ -427,13 +157,11 @@ function Orders() {
 
     fetchOrders();
 
-    // ✅ Setup socket connection
+    // 🔌 Real-time updates
     const socket = io("http://localhost:5000");
+    socket.emit("joinRoom", user._id);
+    console.log("📡 Joined room:", user._id);
 
-    // ✅ Join user’s private room
-    socket.emit("join", user._id);
-
-    // ✅ Listen for updates only for this user
     socket.on("orderUpdated", (updatedOrder) => {
       if (
         updatedOrder.user &&
@@ -446,37 +174,81 @@ function Orders() {
     });
 
     return () => {
+      socket.emit("leaveRoom", user._id);
       socket.disconnect();
     };
   }, [user]);
 
   return (
     <div className="orders-container">
-      <h2>📦 My Orders</h2>
+      <div className="header-bar">
+        <h2>📦 My Orders</h2>
+        <div className="orders-summary">
+          <span>✅ Completed: {orders.filter(o => o.status === "Completed").length}</span>
+          <span>🕓 Pending: {orders.filter(o => o.status === "Pending").length}</span>
+          <span>❌ Cancelled: {orders.filter(o => o.status === "Cancelled").length}</span>
+        </div>
+      </div>
+
       {orders.length === 0 ? (
-        <p>No orders placed yet.</p>
+        <p className="no-orders">No orders placed yet.</p>
       ) : (
-        orders.map((order) => (
-          <div key={order._id || order.id} className="order-card">
-            <h3>Order #{order._id || order.id}</h3>
-            <p>
-              <strong>Status:</strong> {order.status}
-            </p>
-            <p>
-              <strong>Total:</strong> ₹{order.totalPrice || order.total}
-              {/* ✅ Prefer totalPrice, fallback to total for old localStorage */}
-            </p>
-            <h4>Items:</h4>
-            <ul>
-              {order.items?.map((item, i) => (
-                <li key={item._id || `${item.name}-${i}`}>
-                  {item.name} × {item.quantity} = ₹
-                  {item.price * item.quantity}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
+        <div className="orders-grid">
+          {orders.map((order) => (
+            <motion.div
+              key={order._id}
+              className={`order-card ${order.status?.toLowerCase() || "pending"}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <div className="order-status-tag">
+                {order.status || "Pending"}
+              </div>
+
+              {/* Order Header */}
+              <div className="order-header">
+                <h3>Order #{order._id?.slice(-6)}</h3>
+                <p className="order-username">
+                  👤 {user?.name || user?.email || "User"}
+                </p>
+              </div>
+
+              {/* Meta Info */}
+              <div className="order-meta">
+                <p className="order-date">
+                  📅 {new Date(order.createdAt).toLocaleString()}
+                </p>
+              </div>
+
+              {/* Order Items */}
+              <div className="order-body">
+                <h4>🛍️ Ordered Items</h4>
+                <ul>
+                  {order.items?.map((item, i) => (
+                    <li key={i}>
+                      <span className="item-name">{item.name}</span>
+                      <span className="item-qty">× {item.quantity}</span>
+                      <span className="item-price">
+                        ₹{item.price * item.quantity}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Total */}
+              <div className="order-footer">
+                <h4>
+                  Total Amount:{" "}
+                  <span className="order-total">
+                    ₹{order.totalPrice || order.total}
+                  </span>
+                </h4>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       )}
     </div>
   );

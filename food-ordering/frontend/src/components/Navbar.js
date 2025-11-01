@@ -1,134 +1,227 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+// import React, { useContext, useState, useEffect } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import { FaMoon, FaSun, FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
+// import "../styles/Navbar.css";
+// import { AuthContext } from "../context/AuthContext";
+
+// const Navbar = () => {
+//   const { user, logout } = useContext(AuthContext);
+//   const navigate = useNavigate();
+
+//   const [menuOpen, setMenuOpen] = useState(false);
+//   const [darkMode, setDarkMode] = useState(false);
+
+//   // ✅ Handle dark mode toggle
+//   useEffect(() => {
+//     if (darkMode) {
+//       document.body.classList.add("dark-mode");
+//     } else {
+//       document.body.classList.remove("dark-mode");
+//     }
+//   }, [darkMode]);
+
+//   const handleLogout = () => {
+//     logout();
+//     navigate("/login");
+//   };
+
+//   // ✅ Get role safely (from context or localStorage)
+//   const role = user?.role || localStorage.getItem("role") || "guest";
+
+//   const renderLinks = () => {
+//     switch (role) {
+//       case "user":
+//         return (
+//           <>
+//             <Link to="/restaurants" className="nav-link">Home</Link>
+//             <Link to="/orders" className="nav-link">My Orders</Link>
+//             <Link to="/cart" className="nav-link">Cart</Link>
+//             <Link to="/profile" className="nav-link">My Profile</Link>
+//           </>
+//         );
+//       case "restaurant":
+//         return (
+//           <>
+//             <Link to="/restaurant/dashboard" className="nav-link">Dashboard</Link>
+//             <Link to="/restaurant/orders" className="nav-link">Orders</Link>
+//             <Link to="/restaurant/menu" className="nav-link">Menu</Link>
+//             <Link to="/profile" className="nav-link">Profile</Link>
+//           </>
+//         );
+//       case "admin":
+//         return (
+//           <>
+//             <Link to="/admin/dashboard" className="nav-link">Admin Dashboard</Link>
+//             <Link to="/admin/users" className="nav-link">Users</Link>
+//             <Link to="/admin/restaurants" className="nav-link">Restaurants</Link>
+//           </>
+//         );
+//       default:
+//         // guest
+//         return (
+//           <>
+//             <Link to="/" className="nav-link">Home</Link>
+//             <Link to="/login" className="nav-link">User</Link>
+//             <Link to="/restaurant/login" className="nav-link">Restaurant</Link>
+//             <Link to="/admin/login" className="nav-link">Admin</Link>
+//           </>
+//         );
+//     }
+//   };
+
+//   return (
+//     <nav className="navbar">
+//       <div className="nav-container">
+//         <div className="nav-logo" onClick={() => navigate("/restaurants")}>
+//           🍽️ Foodify
+//         </div>
+
+//         <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+//           {renderLinks()}
+//           {role !== "guest" && (
+//             <button className="logout-btn" onClick={handleLogout}>
+//               Logout
+//             </button>
+//           )}
+//         </div>
+
+//         <div className="nav-actions">
+//           <button
+//             className="dark-toggle"
+//             onClick={() => setDarkMode(!darkMode)}
+//             title="Toggle Dark Mode"
+//           >
+//             {darkMode ? <FaSun /> : <FaMoon />}
+//           </button>
+//           <button
+//             className="menu-toggle"
+//             onClick={() => setMenuOpen(!menuOpen)}
+//             title="Menu"
+//           >
+//             {menuOpen ? <FaTimes /> : <FaBars />}
+//           </button>
+//         </div>
+//       </div>
+//     </nav>
+//   );
+// };
+
+// export default Navbar;
+
+
+
+
+
+
+
+
+
+
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
-import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { FaBars, FaTimes, FaMoon, FaSun } from "react-icons/fa";
 import "../styles/Navbar.css";
+import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const navigate = useNavigate();
-  const dropdownRef = useRef(null);
 
-  const handleLogout = () => {
-    logout();
-    setShowLogoutConfirm(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-    toast.success("You have been logged out successfully!", {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "colored",
-    });
-
-    setTimeout(() => {
-      navigate("/login");
-    }, 3000);
+  // 🌓 Toggle dark mode
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.body.classList.toggle("dark-mode", !darkMode);
   };
 
-  // ✅ Close dropdown when clicking outside
+  // 📜 Add scroll listener for glass fade effect
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setShowDropdown(false);
-      }
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 60);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // 🚪 Logout handler
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  // Get role from user or localStorage
+  const role = user?.role || localStorage.getItem("role") || "guest";
+
+  // Render role-based links
+  const renderLinks = () => {
+    switch (role) {
+      case "user":
+        return (
+          <>
+            <Link to="/restaurants" className="nav-link">Home</Link>
+            <Link to="/orders" className="nav-link">My Orders</Link>
+            <Link to="/cart" className="nav-link">Cart</Link>
+            <Link to="/profile" className="nav-link">My Profile</Link>
+          </>
+        );
+      case "restaurant":
+        return (
+          <>
+            <Link to="/restaurant/dashboard" className="nav-link">Dashboard</Link>
+            <Link to="/restaurant/orders" className="nav-link">Orders</Link>
+            <Link to="/restaurant/menu" className="nav-link">Menu</Link>
+            <Link to="/profile" className="nav-link">Profile</Link>
+          </>
+        );
+      case "admin":
+        return (
+          <>
+            <Link to="/admin/dashboard" className="nav-link">Admin Dashboard</Link>
+            <Link to="/admin/users" className="nav-link">Users</Link>
+            <Link to="/admin/restaurants" className="nav-link">Restaurants</Link>
+          </>
+        );
+      default:
+        return (
+          <>
+            <Link to="/" className="nav-link">Home</Link>
+            <Link to="/login" className="nav-link">User</Link>
+            <Link to="/restaurant/login" className="nav-link">Restaurant</Link>
+            <Link to="/admin/login" className="nav-link">Admin</Link>
+          </>
+        );
+    }
+  };
+
   return (
-    <>
-      <nav className="navbar">
-        <div className="navbar-container">
-          {/* Logo */}
-          <Link to="/" className="navbar-logo">
-            Foodify
-          </Link>
-
-          {/* Links */}
-          <div className="navbar-links">
-            {!user ? (
-              <>
-                <Link to="/admin/login" className="navbar-link">
-                  Admin
-                </Link>
-                {/* ✅ Fixed Restaurant link */}
-                <Link to="/restaurant/login" className="navbar-link">
-                  Restaurant
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link to="/menu" className="navbar-link">Menu</Link>
-                <Link to="/orders" className="navbar-link">My Orders</Link>
-                <Link to="/cart" className="navbar-link">
-                  <FaShoppingCart size={20} />
-                </Link>
-
-                {/* Profile Dropdown */}
-                <div className="navbar-profile" ref={dropdownRef}>
-                  <FaUserCircle
-                    size={22}
-                    className="profile-icon"
-                    onClick={() => setShowDropdown(!showDropdown)}
-                  />
-                  <div className={`dropdown-menu ${showDropdown ? "show" : ""}`}>
-                    <Link
-                      to="/profile"
-                      className="dropdown-item"
-                      onClick={() => setShowDropdown(false)}
-                    >
-                      Profile
-                    </Link>
-                    <button
-                      className="dropdown-item logout-btn"
-                      onClick={() => {
-                        setShowDropdown(false);
-                        setShowLogoutConfirm(true);
-                      }}
-                    >
-                      Logout
-                    </button>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
+    <nav className={`navbar ${scrolled ? "scrolled" : ""} ${darkMode ? "dark-mode" : ""}`}>
+      <div className="nav-container">
+        <div className="nav-logo" onClick={() => navigate("/")}>
+          🍴 Foodify
         </div>
-      </nav>
 
-      {/* Logout Confirmation Modal */}
-      {showLogoutConfirm && (
-        <div className="logout-overlay">
-          <div className="logout-modal">
-            <h3>Logout Confirmation</h3>
-            <p>Are you sure you want to logout?</p>
-            <div className="logout-buttons">
-              <button className="confirm-btn" onClick={handleLogout}>
-                Confirm
-              </button>
-              <button
-                className="cancel-btn"
-                onClick={() => setShowLogoutConfirm(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
+        <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+          {renderLinks()}
+          {role !== "guest" && (
+            <button className="logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
+          )}
         </div>
-      )}
 
-      {/* Toast Container */}
-      <ToastContainer />
-    </>
+        <div className="nav-actions">
+          <button className="dark-toggle" onClick={toggleDarkMode}>
+            {darkMode ? <FaSun /> : <FaMoon />}
+          </button>
+          <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <FaTimes /> : <FaBars />}
+          </button>
+        </div>
+      </div>
+    </nav>
   );
 };
 

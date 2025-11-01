@@ -1,49 +1,169 @@
-.restaurant-container {
+/* 🌌 Layout */
+.restaurant-page {
   padding: 2rem;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #111, #1a1a1a);
+  color: #fff;
+}
+
+.page-title {
   text-align: center;
-}
-
-.restaurant-title {
+  color: #ff6b4a;
   font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #333;
+  margin-bottom: 1rem;
 }
 
+/* 🔍 Filter Bar */
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.search-bar {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: none;
+  width: 250px;
+  background: #222;
+  color: #fff;
+}
+
+.filter-select {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background: #222;
+  color: #fff;
+  border: none;
+}
+
+/* 🏪 Restaurant Grid */
 .restaurant-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
 }
 
+/* 🍱 Card */
 .restaurant-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
-  padding: 1rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .restaurant-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: scale(1.03);
+  box-shadow: 0 8px 30px rgba(255, 107, 74, 0.3);
 }
 
-.restaurant-img {
+/* 🖼️ Image */
+.image-wrapper {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.image-wrapper img {
   width: 100%;
-  height: 160px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 0.8rem;
 }
 
-.restaurant-card h3 {
+/* ❤️ Favorite */
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  border-radius: 50%;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+.favorite-btn.active {
+  color: #ff4a6e;
+}
+
+/* 💰 Discount */
+.discount-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ff6b4a;
+  color: white;
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+
+/* 🧾 Info Section */
+.info {
+  padding: 1rem;
+}
+
+.restaurant-name {
   font-size: 1.2rem;
-  margin: 0.5rem 0;
-  color: #222;
+  font-weight: 600;
 }
 
-.restaurant-card p {
-  color: #666;
-  font-size: 0.95rem;
+.address {
+  font-size: 0.9rem;
+  color: #bbb;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.meta span {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+.extra-info {
+  margin-top: 0.6rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+/* 🌀 Empty state */
+.empty-state {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.empty-state img {
+  width: 120px;
+  opacity: 0.6;
+}
+
+/* ⚡ Animations */
+.fade-in {
+  animation: fadeIn 0.7s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

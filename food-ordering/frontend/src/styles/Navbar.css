@@ -1,136 +1,214 @@
-/* Navbar Container */
+/* ===================================
+   🌟 GLASSMORPHIC NAVBAR DESIGN
+   =================================== */
+
 .navbar {
-  background: #d32f2f;
-  padding: 10px 20px;
-}
-
-.navbar-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Logo */
-.navbar-logo {
-  color: white;
-  text-decoration: none;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-/* Links */
-.navbar-links {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-.navbar-link {
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-.navbar-link:hover {
-  text-decoration: underline;
-}
-
-/* Profile Dropdown */
-.navbar-profile {
-  position: relative;
-}
-
-.profile-icon {
-  color: white;
-  cursor: pointer;
-}
-
-/* Dropdown with animation */
-.dropdown-menu {
-  position: absolute;
-  top: 35px;
-  right: 0;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-  min-width: 140px;
-
-  opacity: 0;
-  transform: translateY(-10px);
-  visibility: hidden;
-  transition: all 0.25s ease-in-out;
-}
-
-.dropdown-menu.show {
-  opacity: 1;
-  transform: translateY(0);
-  visibility: visible;
-}
-
-.dropdown-item {
-  display: block;
-  padding: 10px;
-  text-decoration: none;
-  color: black;
-  width: 100%;
-  text-align: left;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.dropdown-item:hover {
-  background: #f5f5f5;
-}
-
-.logout-btn {
-  color: red;
-}
-
-/* Logout Modal */
-.logout-overlay {
   position: fixed;
   top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 1000;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.4s ease-in-out;
+  animation: slideDown 0.6s ease forwards;
 }
 
-.logout-modal {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 320px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+/* 🌑 Navbar when scrolled */
+.navbar.scrolled {
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.5s ease;
 }
 
-.logout-buttons {
+/* Smooth fade slide-down animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===============================
+   🔤 NAV CONTAINER
+   =============================== */
+
+.nav-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0.8rem 2rem;
   display: flex;
-  justify-content: space-around;
-  margin-top: 15px;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.confirm-btn {
-  padding: 8px 16px;
-  background: #d32f2f;
-  color: white;
-  border: none;
-  border-radius: 5px;
+/* ===============================
+   🍴 LOGO
+   =============================== */
+
+.nav-logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ff4d4d;
+  letter-spacing: 0.5px;
   cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
-.cancel-btn {
-  padding: 8px 16px;
-  background: #ccc;
+.nav-logo:hover {
+  transform: scale(1.05);
+}
+
+/* ===============================
+   🔗 NAV LINKS
+   =============================== */
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #ffb703;
+  transform: translateY(-2px);
+}
+
+/* ===============================
+   🚪 LOGOUT BUTTON
+   =============================== */
+
+.logout-btn {
+  background: linear-gradient(135deg, #ff4d4d, #ff9966);
+  color: #fff;
+  font-weight: 600;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
+  padding: 0.5rem 1rem;
   cursor: pointer;
+  margin-left: 1rem;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, #ff9966, #ff4d4d);
+  transform: translateY(-2px);
+}
+
+/* ===============================
+   ☀️ DARK / LIGHT TOGGLE & MENU
+   =============================== */
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dark-toggle,
+.menu-toggle {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: 50%;
+  padding: 0.5rem;
+  font-size: 1.1rem;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dark-toggle:hover,
+.menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+/* ===============================
+   📱 MOBILE RESPONSIVENESS
+   =============================== */
+
+.menu-toggle {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 75px;
+    right: -100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(20px);
+    width: 220px;
+    padding: 1.5rem;
+    border-radius: 15px 0 0 15px;
+    box-shadow: -4px 4px 25px rgba(0, 0, 0, 0.25);
+    transition: all 0.4s ease;
+  }
+
+  .nav-links.open {
+    right: 10px;
+  }
+
+  .nav-link {
+    color: #fff;
+    font-size: 1.05rem;
+  }
+
+  .logout-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ===============================
+   🌗 DARK MODE STYLING
+   =============================== */
+
+.dark-mode .navbar {
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(25px);
+}
+
+.dark-mode .nav-link {
+  color: #eaeaea;
+}
+
+.dark-mode .nav-link:hover {
+  color: #ffb703;
+}
+
+.dark-mode .nav-logo {
+  color: #ffb703;
+}
+
+.dark-mode .logout-btn {
+  background: linear-gradient(135deg, #fb8500, #ffb703);
+}
+
+.dark-mode .logout-btn:hover {
+  background: linear-gradient(135deg, #ffb703, #fb8500);
 }

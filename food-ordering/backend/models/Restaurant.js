@@ -1,15 +1,9 @@
 // const mongoose = require("mongoose");
 // const bcrypt = require("bcryptjs");
-// const { connectRestaurantDB } = require("../config/db"); // ✅ import restaurant DB connection
-
-// // ✅ Connect to restaurant DB
-// const restaurantDB = connectRestaurantDB();
 
 // const restaurantSchema = new mongoose.Schema(
 //   {
 //     name: { type: String, required: true, trim: true },
-//     address: { type: String },
-//     phone: { type: String },
 //     email: {
 //       type: String,
 //       unique: true,
@@ -21,10 +15,18 @@
 //       required: true,
 //       minlength: 6,
 //     },
-//     cuisine: { type: String },
+//     mobile: { type: String },
+//     address: { type: String },
+//     dob: { type: Date },
+//     restaurantName: { type: String },
+//     cuisineType: { type: String },
+//     profilePic: { type: String },
 //     rating: { type: Number, default: 0 },
-//     image: { type: String },
 //     role: { type: String, default: "restaurant" },
+//     image: {
+//       type: String,
+//       default: "/images/default-restaurant.png", // or any image in /public/images/
+//     },
 //   },
 //   { timestamps: true }
 // );
@@ -42,12 +44,8 @@
 //   return await bcrypt.compare(enteredPassword, this.password);
 // };
 
-// // ✅ Explicitly use "restaurantnames" collection
-// const Restaurant = restaurantDB.model(
-//   "Restaurant",
-//   restaurantSchema,
-//   "restaurantnames"
-// );
+// // ✅ Register model — using same main DB connection but unique collection
+// const Restaurant = mongoose.model("Restaurant", restaurantSchema, "restaurantnames");
 
 // module.exports = Restaurant;
 
@@ -57,15 +55,14 @@
 
 
 
-// backend/models/Restaurant.js
+
+
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 const restaurantSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
-    address: { type: String },
-    phone: { type: String },
     email: {
       type: String,
       unique: true,
@@ -77,10 +74,26 @@ const restaurantSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
-    cuisine: { type: String },
+    mobile: { type: String },
+    address: { type: String },
+    dob: { type: Date },
+    restaurantName: { type: String },
+    cuisineType: { type: String },
+    profilePic: { type: String },
     rating: { type: Number, default: 0 },
-    image: { type: String },
     role: { type: String, default: "restaurant" },
+
+    // ✅ Keep old single image for compatibility
+    image: {
+      type: String,
+      default: "/images/default-restaurant.png",
+    },
+
+    // ✅ New field: Array of food/gallery images
+    galleryImages: {
+      type: [String], // array of image URLs
+      default: [], // empty by default
+    },
   },
   { timestamps: true }
 );
@@ -98,7 +111,11 @@ restaurantSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// ✅ Register model on default mongoose connection
-const Restaurant = mongoose.model("Restaurant", restaurantSchema, "restaurantnames");
+// ✅ Register model — same collection: restaurantnames
+const Restaurant = mongoose.model(
+  "Restaurant",
+  restaurantSchema,
+  "restaurantnames"
+);
 
 module.exports = Restaurant;
