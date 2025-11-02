@@ -7,20 +7,31 @@
 //       ref: "User",
 //       required: true,
 //     },
+
 //     restaurant: {
 //       type: mongoose.Schema.Types.ObjectId,
 //       ref: "Restaurant",
 //       required: true,
 //     },
+
+//     // 🧾 Each item in the order
 //     items: [
 //       {
-//         name: String,
-//         price: Number,
-//         quantity: Number,
-//         image: String,
+//         name: { type: String, required: true },
+//         price: { type: Number, required: true },
+//         quantity: { type: Number, required: true },
+//         image: { type: String },
+
+//         // ✅ optional safety field to track origin restaurant
+//         restaurantId: {
+//           type: mongoose.Schema.Types.ObjectId,
+//           ref: "Restaurant",
+//         },
 //       },
 //     ],
-//     total: { type: Number, required: true },
+
+//     totalPrice: { type: Number, required: true },
+
 //     status: {
 //       type: String,
 //       enum: ["Pending", "Preparing", "Ready", "Delivered"],
@@ -36,7 +47,6 @@
 
 
 
-
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
@@ -46,24 +56,47 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+
     restaurant: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Restaurant",
       required: true,
     },
+
+    // 🧾 Each item in the order
     items: [
       {
-        name: String,
-        price: Number,
-        quantity: Number,
-        image: String,
+        name: { type: String, required: true },
+        price: { type: Number, required: true },
+        quantity: { type: Number, required: true },
+        image: { type: String },
+
+        // ✅ optional safety field to track origin restaurant
+        restaurantId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Restaurant",
+        },
       },
     ],
-    totalPrice: { type: Number, required: true }, // ✅ changed from total → totalPrice
+
+    totalPrice: { type: Number, required: true },
+
     status: {
       type: String,
-      enum: ["Pending", "Preparing", "Ready", "Delivered"],
+      enum: ["Pending", "Preparing", "Ready", "Delivered", "Cancelled"],
       default: "Pending",
+    },
+
+    // ⭐ Rating & Review (New Fields)
+    rating: {
+      type: Number,
+      min: 1,
+      max: 5,
+      default: null,
+    },
+    review: {
+      type: String,
+      default: "",
     },
   },
   { timestamps: true }

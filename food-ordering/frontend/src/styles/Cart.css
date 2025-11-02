@@ -1,247 +1,330 @@
 /* ================================
-   🛒 Cart Page - Zomato Dark Mode
-   ================================ */
-
-body,
-html {
-  margin: 0;
-  padding: 0;
-  background-color: #0d0d0d; /* Full page dark */
-  color: #fff;
-  font-family: "Poppins", sans-serif;
+   🛒 CART PAGE LAYOUT
+=================================== */
+.cart-page {
+  padding: 100px 30px 40px; /* ✅ top space so it clears navbar */
+  color: white;
+  background: radial-gradient(circle at top left, #0b0529 40%, #13083b);
   min-height: 100vh;
+  font-family: "Poppins", sans-serif;
 }
 
-/* Optional: Override light theme wrappers */
-#root,
-.App {
-  background-color: #0d0d0d !important;
-}
-
-/* 🌑 Main Cart Container */
-.cart-container {
+/* ================================
+   🏪 RESTAURANT HEADER SECTION
+=================================== */
+.restaurant-header {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  max-width: 1100px;
-  margin: 50px auto;
-  padding: 30px;
-  background: rgba(30, 30, 30, 0.9);
-  border-radius: 18px;
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 40px rgba(255, 50, 50, 0.2);
-  animation: fadeIn 0.6s ease-in-out;
-}
-
-/* 🧺 Cart Items Section */
-.cart-items {
-  flex: 1 1 600px;
-  margin-right: 30px;
-}
-
-.cart-items h2 {
-  color: #ff3b30;
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 10px;
-}
-
-.cart-items p {
-  color: #ccc;
-}
-
-/* 🧾 Each Cart Item */
-.cart-item {
-  background: rgba(20, 20, 20, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 15px 20px;
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  transition: background 0.3s ease, transform 0.2s ease;
+  margin-bottom: 40px;
+}
+
+.restaurant-box {
+  text-align: center;
+  background: rgba(11, 5, 41, 0.95);
+  padding: 45px 70px;
+  border-radius: 25px;
+  box-shadow: 0 0 25px rgba(138, 43, 226, 0.5);
+  width: 100%;
+  max-width: 850px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.restaurant-box:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 35px rgba(138, 43, 226, 0.7);
+}
+
+.restaurant-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 20px;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.restaurant-name {
+  font-size: 2rem;
+  color: #ffffff;
+  font-weight: 600;
+  margin-top: 8px;
+  letter-spacing: 0.5px;
+}
+
+.delivery-time {
+  color: #bdbdbd;
+  font-size: 1rem;
+}
+
+/* ================================
+   🧺 CART LAYOUT
+=================================== */
+.cart-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 25px;
+  align-items: flex-start;
+}
+
+.cart-items {
+  background: rgba(18, 11, 56, 0.9);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(111, 0, 255, 0.3);
+}
+
+.cart-items h3 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+/* ================================
+   🍽️ INDIVIDUAL CART ITEM
+=================================== */
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(28, 18, 72, 0.95);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 15px;
+  border: 1px solid rgba(147, 51, 234, 0.4);
+  box-shadow: 0 0 15px rgba(147, 51, 234, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .cart-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  transform: translateY(-2px);
-}
-
-/* 📸 Item Info */
-.cart-item-info {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+  transform: scale(1.02);
+  box-shadow: 0 0 25px rgba(147, 51, 234, 0.4);
 }
 
 .cart-item-image {
-  width: 70px;
-  height: 70px;
+  width: 90px;
+  height: 90px;
+  border-radius: 15px;
   object-fit: cover;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-right: 15px;
 }
 
-.cart-item-info h4 {
-  margin: 0;
+.cart-item-details {
+  flex: 1;
   color: #fff;
-  font-weight: 600;
 }
 
-.cart-item-info p {
-  margin: 3px 0 0;
-  color: #ccc;
+.cart-item-details h4 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
 }
 
-/* 🔢 Quantity Controls */
-.cart-quantity {
+.cart-item-details p {
+  color: #bdbdbd;
+  font-size: 0.95rem;
+}
+
+.category-tag {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.quantity-controls {
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(40, 40, 40, 0.9);
-  border-radius: 8px;
-  padding: 6px 10px;
+  gap: 8px;
+  margin-top: 10px;
 }
 
-.cart-quantity button {
-  background: transparent;
+.quantity-controls button {
+  background: linear-gradient(90deg, #3a0ca3, #7209b7);
+  color: white;
   border: none;
-  color: #ff3b30;
-  font-size: 18px;
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+
+.quantity-controls button:hover {
+  background: linear-gradient(90deg, #560bad, #b5179e);
+}
+
+.quantity-controls span {
+  color: white;
+  font-size: 1.1rem;
+}
+
+.cart-item-actions {
+  display: flex;
+  align-items: center;
+}
+
+.remove-btn {
+  background: rgba(255, 0, 0, 0.2);
+  color: #ff7b7b;
+  border: 1px solid rgba(255, 0, 0, 0.4);
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: 0.2s;
 }
 
-.cart-quantity button:hover {
-  color: #ff6050;
-}
-
-.cart-quantity span {
-  color: #fff;
-  font-weight: 500;
-  min-width: 24px;
-  text-align: center;
-}
-
-/* ❌ Remove Button */
-.remove-btn {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #bbb;
-  padding: 6px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
 .remove-btn:hover {
-  border-color: #ff3b30;
-  color: #ff3b30;
+  background: rgba(255, 0, 0, 0.3);
+  color: white;
 }
 
 /* ================================
-   💰 Order Summary Section
-   ================================ */
+   💰 CART SUMMARY SECTION
+=================================== */
 .cart-summary {
-  flex: 1 1 300px;
-  background: rgba(15, 15, 15, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  background: rgba(18, 11, 56, 0.95);
   padding: 25px;
-  height: fit-content;
-  align-self: flex-start;
-  box-shadow: 0 4px 20px rgba(255, 0, 0, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(111, 0, 255, 0.3);
+  position: sticky;
+  top: 110px; /* ✅ extra offset below navbar */
 }
 
 .cart-summary h3 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #ff3b30;
+  font-size: 1.4rem;
   margin-bottom: 15px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 8px;
-}
-
-.cart-summary p {
-  margin: 10px 0;
-  color: #ccc;
-  font-size: 15px;
-}
-
-.cart-summary h2 {
-  margin: 15px 0 20px;
   color: #fff;
-  font-size: 22px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.tip-row input {
+  width: 60px;
+  padding: 5px;
+  border: none;
+  border-radius: 8px;
+  text-align: right;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  margin-top: 15px;
+  font-size: 1.2rem;
   font-weight: 600;
 }
 
-/* ✅ Order Button */
-.order-btn {
-  width: 100%;
-  background: linear-gradient(135deg, #ff3b30, #c31432);
+.promo-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.promo-section input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.promo-section button {
+  padding: 8px 15px;
   border: none;
   border-radius: 10px;
-  padding: 12px;
+  background: linear-gradient(90deg, #7209b7, #b5179e);
   color: white;
-  font-weight: 600;
-  font-size: 16px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(255, 50, 50, 0.4);
+  transition: 0.3s;
 }
 
-.order-btn:hover {
-  background: linear-gradient(135deg, #ff2e2e, #a30f23);
-  transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(255, 70, 70, 0.6);
+.promo-section button:hover {
+  background: linear-gradient(90deg, #560bad, #f72585);
 }
 
-/* 💤 Empty Cart */
-.cart-items > p {
-  background: rgba(20, 20, 20, 0.8);
-  border: 1px dashed rgba(255, 255, 255, 0.15);
+.checkout-btn {
+  width: 100%;
+  background: linear-gradient(90deg, #3a0ca3, #7209b7);
+  border: none;
   border-radius: 12px;
-  padding: 25px;
+  padding: 12px;
+  font-size: 1.1rem;
+  color: white;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.checkout-btn:hover {
+  background: linear-gradient(90deg, #560bad, #b5179e);
+}
+
+/* ================================
+   🛒 EMPTY CART STATE
+=================================== */
+.empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  color: #fff;
   text-align: center;
-  font-size: 16px;
-  color: #aaa;
 }
 
-/* ✨ Fade Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.empty-cart img {
+  width: 200px;
+  margin-bottom: 20px;
 }
 
-/* 📱 Responsive */
-@media (max-width: 768px) {
-  .cart-container {
-    flex-direction: column;
-    padding: 20px;
+.empty-cart button {
+  background: linear-gradient(90deg, #3a0ca3, #7209b7);
+  color: white;
+  padding: 12px 25px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.empty-cart button:hover {
+  background: linear-gradient(90deg, #560bad, #b5179e);
+}
+
+/* ================================
+   📱 RESPONSIVE DESIGN
+=================================== */
+@media (max-width: 900px) {
+  .cart-layout {
+    grid-template-columns: 1fr;
   }
 
-  .cart-items {
-    margin-right: 0;
+  .restaurant-box {
+    max-width: 95%;
+    padding: 35px 20px;
   }
 
-  .cart-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-
-  .cart-summary {
-    width: 100%;
-    margin-top: 25px;
+  .restaurant-name {
+    font-size: 1.6rem;
   }
 }

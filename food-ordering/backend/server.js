@@ -37,22 +37,17 @@
 // );
 
 // // ============================================================
-// // 🖼️ Serve Uploaded Files (for images & other assets)
+// // 🖼️ Serve Uploaded Files (Public Access)
 // // ============================================================
 
-// // ✅ Serve everything inside "uploads" and its subfolders publicly
-// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// // ✅ Serve "uploads" folder statically
+// const uploadsPath = path.join(__dirname, "uploads");
+// app.use("/uploads", express.static(uploadsPath));
 
-// // ✅ Explicitly serve restaurant images (for clarity)
-// app.use(
-//   "/uploads/restaurants",
-//   express.static(path.join(__dirname, "uploads", "restaurants"))
-// );
-
-// console.log("📸 Static files served from:", path.join(__dirname, "uploads"));
+// console.log(`📸 Serving static files from: ${uploadsPath}`);
 
 // // ============================================================
-// // 📦 Import All Routes
+// // 📦 Import Routes
 // // ============================================================
 // const authRoutes = require("./routes/authRoutes");
 // const userRoutes = require("./routes/userRoutes");
@@ -95,7 +90,7 @@
 //   console.log("✅ Client connected:", socket.id);
 
 //   socket.on("joinRoom", (roomId) => {
-//     if (!roomId) return console.warn("⚠️ joinRoom called without roomId");
+//     if (!roomId) return;
 //     socket.join(roomId);
 //     console.log(`📌 ${socket.id} joined room: ${roomId}`);
 //   });
@@ -104,10 +99,6 @@
 //     if (!roomId) return;
 //     socket.leave(roomId);
 //     console.log(`📤 ${socket.id} left room: ${roomId}`);
-//   });
-
-//   socket.onAny((event, ...args) => {
-//     console.log(`📡 Event: ${event}`, args?.[0]?.user || "");
 //   });
 
 //   socket.on("disconnect", (reason) => {
@@ -121,9 +112,8 @@
 // const PORT = process.env.PORT || 5000;
 // server.listen(PORT, () => {
 //   console.log(`🚀 Server running on port ${PORT}`);
-//   console.log(`📸 Static files served from: /uploads`);
+//   console.log(`🌐 Visit: http://localhost:${PORT}/uploads/restaurants/<image-name>.png`);
 // });
-
 
 
 
@@ -152,28 +142,26 @@ const app = express();
 // ⚙️ Middleware
 // ============================================================
 
-// Increase payload size for images & forms
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+// ✅ Parse JSON and Form Data (support large uploads)
+app.use(express.json({ limit: "15mb" }));
+app.use(express.urlencoded({ extended: true, limit: "15mb" }));
 
-// Allow frontend to connect (CORS setup)
+// ✅ Allow frontend connection (CORS)
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
 
 // ============================================================
-// 🖼️ Serve Uploaded Files (Public Access)
+// 🖼️ Serve Uploaded Files (Profile + Gallery)
 // ============================================================
-
-// ✅ Serve "uploads" folder statically
 const uploadsPath = path.join(__dirname, "uploads");
 app.use("/uploads", express.static(uploadsPath));
-
-console.log(`📸 Serving static files from: ${uploadsPath}`);
+console.log(`📸 Static files served from: ${uploadsPath}`);
+console.log(`🌐 Accessible at: http://localhost:${process.env.PORT || 5000}/uploads/<file-name>`);
 
 // ============================================================
 // 📦 Import Routes
@@ -208,7 +196,7 @@ app.get("/", (req, res) => {
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
@@ -241,5 +229,5 @@ io.on("connection", (socket) => {
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`🌐 Visit: http://localhost:${PORT}/uploads/restaurants/<image-name>.png`);
+  console.log(`🌐 Static uploads: http://localhost:${PORT}/uploads/`);
 });
