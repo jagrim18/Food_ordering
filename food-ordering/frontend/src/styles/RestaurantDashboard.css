@@ -5,7 +5,7 @@
   background-color: #0f0f0f;
   color: #f5f5f5;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 7rem 2rem 2rem;
   font-family: "Poppins", sans-serif;
 }
 
@@ -64,61 +64,57 @@
 .dropzone.active {
   background-color: rgba(255, 89, 89, 0.1);
 }
+.uploading-text {
+  color: #ffaaaa;
+  margin-top: 0.5rem;
+  text-align: center;
+}
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 1rem;
 }
 .gallery-card {
   position: relative;
+  background: #1b1b1b;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: 0.3s ease;
+  box-shadow: 0 0 6px rgba(255, 89, 89, 0.2);
 }
 .gallery-card img {
   width: 100%;
-  border-radius: 10px;
+  height: 120px;
   object-fit: cover;
-  height: 100px;
-}
-
-/* Add Item Section */
-.add-item-section {
-  margin-top: 2.5rem;
-  background: #1b1b1b;
-  padding: 1.5rem;
   border-radius: 10px;
 }
-.add-item-section h2 {
-  color: #ff5959;
-  margin-bottom: 1rem;
+.gallery-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 10px rgba(255, 89, 89, 0.4);
 }
-.add-item-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.add-item-form input,
-.add-item-form button {
-  padding: 0.7rem;
-  border-radius: 6px;
-  border: none;
-}
-.add-item-form input {
-  background: #2a2a2a;
-  color: #f5f5f5;
-  flex: 1 1 180px;
-}
-.add-item-form button {
-  background: #ff5959;
+.remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(255, 89, 89, 0.9);
   color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: 0.2s;
+  line-height: 25px;
+  text-align: center;
+  transition: background 0.2s;
 }
-.add-item-form button:hover {
+.remove-btn:hover {
   background: #ff3030;
 }
 
 /* Menu Section */
 .menu-section {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
 }
 .menu-filters {
   display: flex;

@@ -1,128 +1,113 @@
-/* =========================================================
-   🌑 Restaurant Menu Management - Dark Glass Theme
-   ========================================================= */
-
+/* === DARK THEME MENU PAGE === */
 .menu-container {
   padding: 2rem;
-  color: #fff;
-  background: #0d0d0d;
+  padding-top: 90px;
+  background: #0f0f0f;
   min-height: 100vh;
+  color: #f1f1f1;
   font-family: "Poppins", sans-serif;
 }
 
 .menu-container h2 {
-  color: #ff4b4b;
+  color: #ffb84c;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
 }
 
-/* 🧾 Form */
+/* === FORM STYLING === */
 .menu-form {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
-  margin-bottom: 2rem;
+  background: #1b1b1b;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 12px rgba(255, 184, 76, 0.2);
 }
 
 .menu-form input {
-  background: rgba(255, 255, 255, 0.08);
-  border: none;
-  padding: 0.8rem;
+  background: #121212;
+  border: 1px solid #333;
+  color: #f1f1f1;
+  padding: 0.6rem 1rem;
   border-radius: 8px;
-  color: #fff;
-  width: 220px;
+  flex: 1;
+  min-width: 200px;
   outline: none;
-  transition: all 0.2s ease;
+  transition: border 0.2s;
 }
 
 .menu-form input:focus {
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 10px rgba(255, 75, 75, 0.3);
-}
-
-/* 🟢 Buttons */
-.add-btn,
-.cancel-btn {
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  border-color: #ffb84c;
 }
 
 .add-btn {
-  background: #ff4b4b;
-  color: #fff;
+  background: #ffb84c;
+  color: #121212;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .add-btn:hover {
-  background: #ff6b6b;
-  transform: scale(1.05);
+  background: #ff9800;
 }
 
-.cancel-btn {
-  background: #333;
-  color: #ddd;
-}
-
-.cancel-btn:hover {
-  background: #444;
-}
-
-/* 🍔 Menu Grid */
+/* === MENU GRID === */
 .menu-grid {
+  margin-top: 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 1.5rem;
 }
 
 .menu-card {
-  background: rgba(30, 30, 30, 0.8);
-  border-radius: 16px;
-  overflow: hidden;
+  background: #181818;
+  border-radius: 1rem;
   padding: 1rem;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s ease;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+  transition: 0.3s;
 }
 
 .menu-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 15px rgba(255, 75, 75, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(255, 184, 76, 0.2);
 }
 
 .menu-image {
   width: 100%;
-  height: 160px;
+  height: 150px;
   object-fit: cover;
-  border-radius: 12px;
-}
-
-.menu-info {
-  margin-top: 1rem;
+  border-radius: 0.75rem;
+  margin-bottom: 0.8rem;
 }
 
 .menu-info h3 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: #fff;
+  color: #ffb84c;
+  margin-bottom: 0.4rem;
 }
 
-.menu-info .category {
+.category {
   color: #aaa;
   font-size: 0.9rem;
-  margin-top: 0.3rem;
 }
 
-.menu-info .price {
-  color: #ffb347;
+.price {
+  color: #fff;
   font-weight: 600;
+}
+
+.desc {
+  color: #bbb;
+  font-size: 0.9rem;
   margin-top: 0.5rem;
 }
 
-/* 🧰 Actions */
 .menu-actions {
   display: flex;
   justify-content: space-between;
@@ -132,43 +117,143 @@
 .edit-btn,
 .delete-btn {
   flex: 1;
-  margin: 0 0.3rem;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
   border: none;
-  padding: 0.6rem;
   border-radius: 8px;
+  padding: 0.5rem;
   cursor: pointer;
-  transition: 0.3s;
+  font-weight: 600;
+  transition: 0.2s;
+  margin: 0 0.2rem;
+}
+
+.edit-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
 }
 
 .edit-btn:hover {
-  background: rgba(0, 150, 255, 0.3);
+  background: #2563eb;
 }
 
 .delete-btn:hover {
-  background: rgba(255, 75, 75, 0.3);
+  background: #dc2626;
 }
 
-.no-items {
+/* === MODAL STYLES === */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: #1b1b1b;
+  color: #f1f1f1;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 420px;
+  box-shadow: 0 0 25px rgba(255, 184, 76, 0.25);
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-content h3 {
   text-align: center;
-  color: #aaa;
-  margin-top: 3rem;
-  font-style: italic;
+  color: #ffb84c;
+  margin-bottom: 1rem;
 }
 
-/* 📱 Responsive */
-@media (max-width: 600px) {
-  .menu-form input {
-    width: 100%;
-  }
+.edit-form label {
+  display: block;
+  color: #ffb84c;
+  font-size: 0.9rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0.2rem;
+}
 
-  .menu-actions {
-    flex-direction: column;
-  }
+.edit-form input {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 0.3rem;
+  background: #121212;
+  color: #f1f1f1;
+  border: 1px solid #333;
+  border-radius: 8px;
+}
 
-  .edit-btn,
-  .delete-btn {
-    margin: 0.3rem 0;
-  }
+.edit-form input:focus {
+  border-color: #ffb84c;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.save-btn {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.save-btn:hover {
+  background: #059669;
+}
+
+.cancel-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.cancel-btn:hover {
+  background: #dc2626;
+}
+.menu-form select,
+.edit-form select {
+  background: #121212;
+  border: 1px solid #333;
+  color: #f1f1f1;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  flex: 1;
+  min-width: 200px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.menu-form select:focus,
+.edit-form select:focus {
+  border-color: #ffb84c;
 }
