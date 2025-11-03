@@ -1,60 +1,112 @@
+/* ==========================================
+   🔐 Admin Login — Unified Professional Theme
+   ========================================== */
 .admin-login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #1e1e2f;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  font-family: "Poppins", "Segoe UI", sans-serif;
 }
 
+/* ===============================
+   Login Card
+   =============================== */
 .admin-login-card {
-  background: #fff;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
-  width: 350px;
+  background: #ffffff;
+  padding: 45px 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  width: 360px;
   text-align: center;
+  animation: fadeInUp 0.8s ease;
 }
 
 .admin-login-card h2 {
-  margin-bottom: 20px;
-  color: #333;
+  margin-bottom: 22px;
+  color: #1e293b;
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
+/* ===============================
+   Form Elements
+   =============================== */
 .admin-login-card form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
 }
 
 .admin-login-card input {
-  padding: 12px;
-  border: 1px solid #ddd;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
   border-radius: 8px;
   outline: none;
-  font-size: 14px;
+  font-size: 15px;
+  background: #f8fafc;
+  transition: all 0.3s ease;
 }
 
 .admin-login-card input:focus {
-  border-color: #e53935;
+  border-color: #2563eb;
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.3);
 }
 
+/* ===============================
+   Button
+   =============================== */
 .admin-login-card button {
   padding: 12px;
-  background: #e53935;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: white;
   border: none;
   border-radius: 8px;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 15px;
   cursor: pointer;
-  transition: background 0.2s ease-in-out;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .admin-login-card button:hover {
-  background: #c62828;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
 }
 
+/* ===============================
+   Error Text
+   =============================== */
 .error-text {
-  color: red;
-  font-size: 14px;
-  margin: 0;
+  color: #ef4444;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* ===============================
+   Animation
+   =============================== */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===============================
+   Responsive Design
+   =============================== */
+@media (max-width: 480px) {
+  .admin-login-card {
+    width: 90%;
+    padding: 30px 25px;
+  }
+
+  .admin-login-card h2 {
+    font-size: 1.5rem;
+  }
 }

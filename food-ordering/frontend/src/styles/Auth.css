@@ -1,3 +1,7 @@
+/* ============================================
+   🔐 Auth Pages — Unified Professional Theme
+   ============================================ */
+
 /* ======= Common Layout ======= */
 .auth-page {
   position: relative;
@@ -9,56 +13,54 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  font-family: "Poppins", "Segoe UI", sans-serif;
 }
 
 .overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(20, 20, 20, 0.55);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
   z-index: 1;
 }
 
-/* ======= Different Backgrounds ======= */
+/* ======= Backgrounds ======= */
 .login-bg {
   background-image: url("https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=1920&q=80");
-  /* 🍕 warm restaurant atmosphere */
 }
 
 .register-bg {
   background-image: url("https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=1920&q=80");
-  /* 🥗 fresh green ingredients look */
 }
 
-/* ======= Glass Card ======= */
+/* ======= Auth Box (Glass Card) ======= */
 .auth-box {
   position: relative;
   z-index: 2;
   background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(15px);
-  border-radius: 25px;
-  padding: 3rem 4rem;
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  padding: 3rem 3.5rem;
   text-align: center;
-  color: #a11d1d;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+  color: #1e293b;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
   animation: fadeInUp 0.8s ease-in-out;
-  width: 380px;
+  width: 400px;
   max-width: 90%;
 }
 
 /* ======= Headings ======= */
 .auth-heading {
-  font-size: 2.2rem;
-  font-weight: 800;
+  font-size: 2rem;
+  font-weight: 700;
   margin-bottom: 0.5rem;
-  color: #ffb703;
+  color: #2563eb;
+  letter-spacing: 0.5px;
 }
 
 .auth-subtext {
   font-size: 1rem;
-  color: #f74f4f;
+  color: rgba(255, 255, 255, 0.85);
   margin-bottom: 2rem;
 }
 
@@ -72,61 +74,66 @@
 .auth-input {
   padding: 0.9rem 1rem;
   border-radius: 50px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.2);
-  color: #b81313;
+  color: #ffffff;
   font-size: 1rem;
   outline: none;
-  transition: 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .auth-input::placeholder {
-  color: #32ce16;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .auth-input:focus {
   background: rgba(255, 255, 255, 0.3);
+  border-color: #60a5fa;
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
 }
 
 /* ======= Button ======= */
 .auth-btn {
   padding: 0.9rem;
   border-radius: 50px;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   border: none;
   cursor: pointer;
-  color: #1539ee;
-  background: linear-gradient(135deg, #ffb703, #fb8500);
+  color: #ffffff;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   transition: all 0.3s ease;
   margin-top: 1rem;
 }
 
 .auth-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0 15px rgba(255, 183, 3, 0.6);
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.6);
 }
 
 /* ======= Error ======= */
 .auth-error {
-  color: #ff6b6b;
+  color: #ef4444;
   font-weight: 500;
   font-size: 0.95rem;
+  margin-top: 0.5rem;
 }
 
 /* ======= Footer ======= */
 .auth-footer {
   margin-top: 1.5rem;
-  color: #da13bf;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .auth-link {
-  color: #ffb703;
+  color: #3b82f6;
   text-decoration: none;
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 .auth-link:hover {
+  color: #60a5fa;
   text-decoration: underline;
 }
 
@@ -148,7 +155,7 @@
     padding: 2rem;
   }
   .auth-heading {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
   }
   .auth-btn {
     font-size: 1rem;
