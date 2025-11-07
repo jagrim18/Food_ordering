@@ -1,19 +1,40 @@
-// import React, { useState } from "react";
+// import React, { useState, useContext, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
+// import { AuthContext } from "../context/AuthContext";
 // import "../styles/Auth.css";
 
 // function Register() {
+//   const { user } = useContext(AuthContext);
 //   const [name, setName] = useState("");
 //   const [email, setEmail] = useState("");
 //   const [password, setPassword] = useState("");
 //   const [error, setError] = useState("");
 //   const navigate = useNavigate();
 
+//   // 🚫 Redirect logged-in users (especially restaurant/admin)
+//   useEffect(() => {
+//     if (user) {
+//       if (user.role === "restaurant") {
+//         navigate("/restaurant/dashboard", { replace: true });
+//       } else if (user.role === "admin") {
+//         navigate("/admin/dashboard", { replace: true });
+//       } else {
+//         navigate("/restaurants", { replace: true });
+//       }
+//     }
+//   }, [user, navigate]);
+
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
 //     setError("");
 
 //     try {
+//       // 🚫 Prevent restaurant-like email patterns from registering as normal users
+//       if (email.toLowerCase().includes("restaurant") || email.toLowerCase().includes("admin")) {
+//         setError("Please use the Restaurant or Admin portal to register.");
+//         return;
+//       }
+
 //       const res = await fetch("http://localhost:5000/api/auth/register", {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
@@ -21,9 +42,14 @@
 //       });
 
 //       const data = await res.json();
-//       if (res.ok) navigate("/login");
-//       else setError(data.message || "Registration failed.");
+//       if (res.ok) {
+//         alert("Registration successful ✅");
+//         navigate("/login");
+//       } else {
+//         setError(data.message || "Registration failed.");
+//       }
 //     } catch (err) {
+//       console.error("Registration error:", err);
 //       setError("Something went wrong. Try again later.");
 //     }
 //   };
@@ -33,7 +59,9 @@
 //       <div className="overlay"></div>
 //       <div className="auth-box">
 //         <h2 className="auth-heading">Create Account 🍔</h2>
-//         <p className="auth-subtext">Join Foodify and start exploring delicious meals</p>
+//         <p className="auth-subtext">
+//           Join Foodify and start exploring delicious meals
+//         </p>
 
 //         <form onSubmit={handleSubmit} className="auth-form">
 //           <input
@@ -68,7 +96,9 @@
 
 //         <p className="auth-footer">
 //           Already have an account?{" "}
-//           <Link to="/login" className="auth-link">Login</Link>
+//           <Link to="/login" className="auth-link">
+//             Login
+//           </Link>
 //         </p>
 //       </div>
 //     </div>
@@ -76,16 +106,6 @@
 // }
 
 // export default Register;
-
-
-
-
-
-
-
-
-
-
 
 import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -100,16 +120,11 @@ function Register() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // 🚫 Redirect logged-in users (especially restaurant/admin)
   useEffect(() => {
     if (user) {
-      if (user.role === "restaurant") {
-        navigate("/restaurant/dashboard", { replace: true });
-      } else if (user.role === "admin") {
-        navigate("/admin/dashboard", { replace: true });
-      } else {
-        navigate("/restaurants", { replace: true });
-      }
+      if (user.role === "restaurant") navigate("/restaurant/dashboard", { replace: true });
+      else if (user.role === "admin") navigate("/admin/dashboard", { replace: true });
+      else navigate("/restaurants", { replace: true });
     }
   }, [user, navigate]);
 
@@ -118,7 +133,6 @@ function Register() {
     setError("");
 
     try {
-      // 🚫 Prevent restaurant-like email patterns from registering as normal users
       if (email.toLowerCase().includes("restaurant") || email.toLowerCase().includes("admin")) {
         setError("Please use the Restaurant or Admin portal to register.");
         return;
@@ -144,40 +158,63 @@ function Register() {
   };
 
   return (
-    <div className="auth-page register-bg">
-      <div className="overlay"></div>
+    <div className="auth-page">
       <div className="auth-box">
-        <h2 className="auth-heading">Create Account 🍔</h2>
-        <p className="auth-subtext">
-          Join Foodify and start exploring delicious meals
-        </p>
+        <h2 className="auth-heading">Campus Food</h2>
+        <p className="auth-subtext">Order food from campus outlets</p>
 
+        {/* Toggle Tabs */}
+        <div className="toggle-container">
+          <button
+            className="toggle-btn"
+            type="button"
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </button>
+          <button
+            className={`toggle-btn active`}
+            type="button"
+            onClick={() => navigate("/register")}
+          >
+            Sign Up
+          </button>
+        </div>
+
+        {/* Form */}
         <form onSubmit={handleSubmit} className="auth-form">
+          <label className="auth-label">Full Name</label>
           <input
             type="text"
-            placeholder="Full Name"
+            placeholder="Your full name"
             className="auth-input"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
           />
+
+          <label className="auth-label">Email</label>
           <input
             type="email"
-            placeholder="Email"
+            placeholder="student@university.edu"
             className="auth-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+
+          <label className="auth-label">Password</label>
           <input
             type="password"
-            placeholder="Password"
+            placeholder="••••••••"
             className="auth-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+
           {error && <p className="auth-error">{error}</p>}
+
           <button type="submit" className="auth-btn">
             Register
           </button>
@@ -188,6 +225,12 @@ function Register() {
           <Link to="/login" className="auth-link">
             Login
           </Link>
+        </p>
+
+        <p className="terms-footer">
+          By continuing, you agree to our{" "}
+          <a href="#" className="auth-link">Terms of Service</a> and{" "}
+          <a href="#" className="auth-link">Privacy Policy</a>.
         </p>
       </div>
     </div>
