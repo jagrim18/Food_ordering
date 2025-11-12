@@ -329,3 +329,323 @@
     flex-wrap: wrap;
   }
 }
+/* ===========================================================
+   🍴 RESTAURANT DASHBOARD — LIGHT + DARK MODE FINAL VERSION
+   Fully responsive & consistent with Admin UI
+   =========================================================== */
+
+/* === THEME VARIABLES === */
+:root {
+  --bg-color: #f1f5f9;
+  --card-bg: #ffffff;
+  --text-color: #1f2937;
+  --accent-color: #2563eb;
+  --border-color: #e2e8f0;
+  --muted-text: #64748b;
+  --shadow-soft: rgba(0, 0, 0, 0.05);
+  --highlight-bg: #eff6ff;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-color: #f1f5f9;
+  --accent-color: #3b82f6;
+  --border-color: #334155;
+  --muted-text: #94a3b8;
+  --shadow-soft: rgba(0, 0, 0, 0.25);
+  --highlight-bg: #1e3a8a;
+}
+
+/* =============================== DASHBOARD =============================== */
+.restaurant-dashboard {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  padding: 6rem 2rem 2rem;
+  font-family: "Poppins", "Inter", sans-serif;
+}
+
+/* Header */
+.dashboard-title {
+  color: var(--text-color);
+}
+.dashboard-subtext {
+  color: var(--muted-text);
+}
+
+/* Stats */
+.stats-cards .stat-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  box-shadow: 0 4px 10px var(--shadow-soft);
+}
+.stat-card h3 {
+  color: var(--muted-text);
+}
+.stat-sub {
+  color: var(--muted-text);
+}
+
+/* Tabs */
+.tab-btn {
+  background: var(--card-bg);
+  color: var(--muted-text);
+  border: 1.5px solid var(--border-color);
+}
+.tab-btn.active {
+  color: var(--text-color);
+  border-color: var(--accent-color);
+  background: var(--highlight-bg);
+}
+.tab-btn:hover {
+  color: var(--accent-color);
+}
+
+/* Orders */
+.order-card {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 10px var(--shadow-soft);
+}
+.order-header h3 {
+  color: var(--text-color);
+}
+.order-items li {
+  background: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+/* Buttons */
+.accept-btn {
+  background: var(--accent-color);
+  color: #fff;
+}
+.decline-btn {
+  background: var(--card-bg);
+  border: 1.5px solid #fca5a5;
+  color: #ef4444;
+}
+.decline-btn:hover {
+  background: #fee2e2;
+}
+.no-orders {
+  color: var(--muted-text);
+}
+
+/* =============================== RESTAURANT LIST PAGE =============================== */
+.restaurant-page {
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: "Poppins", "Inter", sans-serif;
+  padding: 2rem 3rem;
+  min-height: 100vh;
+}
+
+.page-title {
+  color: var(--text-color);
+}
+.page-subtitle {
+  color: var(--muted-text);
+}
+
+/* Filters */
+.search-bar,
+.filter-select {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+.search-bar:focus,
+.filter-select:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 4px var(--accent-color);
+}
+
+/* Restaurant Cards */
+.restaurant-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  box-shadow: 0 2px 8px var(--shadow-soft);
+}
+.description,
+.timing {
+  color: var(--muted-text);
+}
+
+/* =============================== MENU PAGE =============================== */
+.menu-page {
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: "Poppins", sans-serif;
+  padding: 7rem 2rem 2rem;
+  min-height: 100vh;
+}
+
+/* Header */
+.menu-header h1 {
+  color: var(--text-color);
+}
+.menu-header p {
+  color: var(--muted-text);
+}
+
+/* Buttons */
+.add-menu-btn,
+.add-btn,
+.update-btn {
+  background: var(--accent-color);
+  color: #fff;
+}
+.add-menu-btn:hover,
+.add-btn:hover,
+.update-btn:hover {
+  background: #1d4ed8;
+}
+
+/* Stats + Forms */
+.stat-card,
+.menu-form {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  box-shadow: 0 1px 3px var(--shadow-soft);
+}
+
+/* Menu Cards */
+.menu-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  box-shadow: 0 2px 8px var(--shadow-soft);
+}
+.menu-desc {
+  color: var(--muted-text);
+}
+.menu-price {
+  color: var(--accent-color);
+}
+.power-btn {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+.power-btn.active {
+  background: var(--accent-color);
+  color: #fff;
+}
+
+/* Popup */
+.modal-popup {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+.modal-header p {
+  color: var(--muted-text);
+}
+.cancel-btn-outline {
+  background: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+/* Availability Toggle */
+.availability-toggle {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+.availability-toggle label {
+  color: var(--text-color);
+}
+.availability-toggle input[type="checkbox"] {
+  background-color: var(--border-color);
+}
+.availability-toggle input[type="checkbox"]:checked {
+  background-color: var(--accent-color);
+}
+
+/* =============================== RESTAURANT ORDERS (Dark Neon Base Adjusted for Theme) =============================== */
+.orders-container {
+  padding: 2rem;
+  padding-top: 90px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.summary-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  box-shadow: 0 2px 10px var(--shadow-soft);
+}
+.summary-card h4 {
+  color: var(--muted-text);
+}
+.summary-card p {
+  color: var(--accent-color);
+}
+
+/* Filters */
+.filters input,
+.filters select {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+/* Orders */
+.order-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  box-shadow: 0 2px 8px var(--shadow-soft);
+}
+.order-id {
+  color: var(--accent-color);
+}
+
+/* Status Badges */
+.status-badge {
+  color: #fff;
+}
+.status-pending { background: #f59e0b; }
+.status-accepted { background: #2563eb; }
+.status-preparing { background: #7c3aed; }
+.status-out-for-delivery { background: #16a34a; }
+.status-delivered { background: #22c55e; }
+
+/* Buttons */
+.next-btn {
+  background: linear-gradient(90deg, var(--accent-color), #60a5fa);
+  color: #fff;
+}
+.view-btn {
+  background: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+/* Modal */
+.modal-content {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+.close-btn {
+  background: #ef4444;
+  color: white;
+}
+
+/* No Orders */
+.no-orders {
+  background: var(--bg-color);
+  color: var(--muted-text);
+  border: 1px solid var(--border-color);
+}

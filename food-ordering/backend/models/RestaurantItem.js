@@ -212,7 +212,7 @@ const restaurantItemSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["Starters", "Main Course", "Beverages", "Desserts"],
+      enum: ["Starters", "Main Course", "Beverages", "Desserts", "Snacks", "Specials"],
       default: "Starters",
     },
     image: {

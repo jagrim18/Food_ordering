@@ -1,151 +1,189 @@
-/* === CAMPUS CAFÉ - Single Row Modern Grid === */
+/* === CAMPUS CAFÉ MENU PAGE (Smooth Deep Dark Mode) === */
 .menu-page {
-  background: #ffffff;
+  background: var(--bg-color);
   min-height: 100vh;
   padding: 2rem 3rem;
   font-family: "Inter", sans-serif;
-  color: #111827;
+  color: var(--text-color);
+  transition: background 0.4s ease, color 0.4s ease;
 }
 
-/* Header */
+/* === LIGHT THEME DEFAULT === */
+:root {
+  --bg-color: #f9fafb;
+  --card-bg: #ffffff;
+  --navbar-bg: #ffffff;
+  --text-color: #111827;
+  --accent-color: #7c3aed;
+  --shadow-soft: rgba(0, 0, 0, 0.05);
+}
+
+/* === DARK THEME COLORS === */
+[data-theme="dark"] {
+  --bg-color: #0f172a; /* Deep blue-gray for immersive background */
+  --card-bg: #1e293b; /* Slightly lighter for contrast */
+  --navbar-bg: #1e293b;
+  --text-color: #f1f5f9;
+  --accent-color: #a855f7;
+  --shadow-soft: rgba(0, 0, 0, 0.3);
+}
+
+/* === HEADER === */
 .restaurant-name {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #c084fc;
+  color: var(--accent-color);
 }
+
 .restaurant-sub {
-  color: #6b7280;
+  color: var(--text-color);
+  opacity: 0.8;
   font-size: 0.95rem;
 }
+
 .menu-title {
   font-size: 1.3rem;
   font-weight: 600;
   margin: 1.8rem 0 1rem;
+  color: var(--text-color);
 }
 
-/* Tabs */
+/* === TABS === */
 .menu-tabs {
   display: flex;
   gap: 0.6rem;
   margin-bottom: 2rem;
   flex-wrap: wrap;
 }
+
 .menu-tab {
-  background: #f3f4f6;
-  border: none;
+  background: var(--card-bg);
+  border: 1px solid rgba(229, 231, 235, 0.2);
   border-radius: 20px;
   padding: 0.4rem 1.1rem;
   font-weight: 500;
-  color: #374151;
+  color: var(--text-color);
   cursor: pointer;
-  transition: all 0.25s ease;
-}
-.menu-tab.active {
-  background: #111827;
-  color: #ffffff;
+  transition: all 0.35s ease;
 }
 
-/* === Grid (Single Row Style) === */
+.menu-tab:hover {
+  background: var(--accent-color);
+  color: #fff;
+  border-color: transparent;
+}
+
+.menu-tab.active {
+  background: var(--accent-color);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+/* === GRID === */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1.8rem;
   align-items: stretch;
+  transition: all 0.35s ease;
 }
 
-/* === Card === */
+/* === CARD === */
 .menu-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 16px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 25px var(--shadow-soft);
   overflow: hidden;
-  transition: all 0.25s ease;
+  transition: transform 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
-}
-.menu-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* === Image === */
+.menu-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+}
+
+/* === IMAGE === */
 .menu-img-wrapper {
   position: relative;
   width: 100%;
   height: 220px;
   overflow: hidden;
-  background: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--card-bg);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.1);
 }
+
 .menu-img-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.3s ease;
-}
-.menu-card:hover .menu-img-wrapper img {
-  transform: scale(1.03);
+  transition: transform 0.4s ease, filter 0.4s ease;
 }
 
-/* === Tags === */
+.menu-card:hover .menu-img-wrapper img {
+  transform: scale(1.05);
+  filter: brightness(1.08);
+}
+
+/* === TAGS === */
 .menu-tag {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.85);
   font-size: 0.75rem;
   font-weight: 600;
   padding: 3px 8px;
   border-radius: 8px;
   color: #111827;
-}
-.menu-in-cart {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #1d4ed8;
-  color: #ffffff;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
-/* === Info Section === */
+[data-theme="dark"] .menu-tag {
+  background: rgba(51, 65, 85, 0.9);
+  color: #f8fafc;
+}
+
+/* === INFO SECTION === */
 .menu-content {
   padding: 1.2rem 1.5rem 1.5rem;
 }
+
 .menu-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .menu-row h3 {
   font-size: 1rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--text-color);
   text-transform: capitalize;
 }
+
 .menu-row span {
   font-size: 1rem;
   font-weight: 600;
-  color: #1d4ed8;
+  color: var(--accent-color);
 }
+
 .menu-content p {
-  color: #6b7280;
+  color: var(--text-color);
+  opacity: 0.7;
   font-size: 0.9rem;
   margin-top: 0.4rem;
   margin-bottom: 1.2rem;
 }
 
-/* === Add to Cart Button === */
+/* === ADD TO CART BUTTON === */
 .add-btn {
   width: 100%;
-  background: #2563eb;
+  background: var(--accent-color);
   color: #ffffff;
   border: none;
   border-radius: 10px;
@@ -153,122 +191,107 @@
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.25s ease;
-}
-.add-btn:hover {
-  background: #1d4ed8;
+  transition: all 0.3s ease;
 }
 
-/* === Quantity Controller === */
+.add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+}
+
+/* === QUANTITY CONTROLLER === */
 .qty-controller {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.8rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(229, 231, 235, 0.2);
   border-radius: 10px;
   padding: 0.5rem 0.8rem;
   width: 100%;
-  background: #f9fafb;
+  background: var(--card-bg);
+  transition: all 0.3s ease;
 }
+
 .qty-controller button {
-  background: #f3f4f6;
+  background: var(--navbar-bg);
   border: none;
-  color: #111827;
+  color: var(--text-color);
   font-size: 1.1rem;
   font-weight: 600;
   border-radius: 8px;
   padding: 0.3rem 0.8rem;
   cursor: pointer;
-  transition: background 0.25s ease;
+  transition: background 0.25s ease, transform 0.25s ease;
 }
+
 .qty-controller button:hover {
-  background: #e5e7eb;
+  transform: scale(1.1);
+  background: var(--card-bg);
 }
+
 .qty-controller span {
   font-weight: 600;
-  color: #111827;
+  color: var(--text-color);
   font-size: 0.95rem;
 }
 
-/* === Floating Cart Summary === */
+/* === FLOATING CART SUMMARY === */
 .menu-cart-summary {
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 0.8rem 1.2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 20px var(--shadow-soft);
   display: flex;
   align-items: center;
   gap: 1rem;
   z-index: 999;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
 }
+
 .menu-cart-summary p {
   margin: 0;
-  color: #111827;
+  color: var(--text-color);
   font-weight: 500;
 }
+
 .menu-cart-summary button {
-  background: #2563eb;
+  background: var(--accent-color);
   border: none;
   color: #ffffff;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  transition: background 0.25s ease;
-}
-.menu-cart-summary button:hover {
-  background: #1d4ed8;
+  transition: all 0.3s ease;
 }
 
-/* === Responsive === */
+.menu-cart-summary button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+}
+
+/* === TRANSITIONS === */
+* {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* === RESPONSIVE === */
 @media (max-width: 768px) {
   .menu-page {
     padding: 1.5rem;
   }
+
   .menu-grid {
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.2rem;
   }
+
   .menu-img-wrapper {
     height: 180px;
   }
-}
-.menu-cart-summary {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #ffffff;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.8rem 1.2rem;
-  z-index: 999;
-}
-
-.menu-cart-summary p {
-  margin: 0;
-  font-weight: 500;
-  color: #111827;
-}
-
-.menu-cart-summary button {
-  background: #2563eb;
-  color: white;
-  font-weight: 600;
-  border: none;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.menu-cart-summary button:hover {
-  background: #1e4ed8;
 }

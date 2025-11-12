@@ -1,16 +1,16 @@
-/* === CAMPUS FOOD LIGHT NAVBAR === */
+/* === CAMPUS FOOD NAVBAR (Light + Dark Theme) === */
 .navbar-light {
   position: sticky;
   top: 0;
   width: 100%;
-  background: #ffffff;
+  background: var(--navbar-bg);
   border-bottom: 1px solid #e5e7eb;
   z-index: 1000;
   transition: all 0.3s ease;
 }
 
 .navbar-light.scrolled {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px var(--navbar-shadow);
 }
 
 /* === NAV CONTAINER === */
@@ -28,7 +28,7 @@
 .nav-logo {
   font-size: 1.4rem;
   font-weight: bold;
-  color: #111827;
+  color: var(--text-color);
   cursor: pointer;
 }
 
@@ -45,14 +45,14 @@
   gap: 6px;
   text-decoration: none;
   font-weight: 500;
-  color: #111827;
+  color: var(--text-color);
   padding: 0.4rem 0.8rem;
   border-radius: 8px;
   transition: all 0.2s ease;
 }
 
 .nav-link:hover {
-  background: #f3f4f6;
+  background: var(--card-bg);
 }
 
 .nav-icon {
@@ -67,10 +67,10 @@
 }
 
 .icon-btn {
-  background: #ffffff;
+  background: var(--navbar-bg);
   border: 1px solid #e5e7eb;
   border-radius: 50%;
-  color: #111827;
+  color: var(--text-color);
   padding: 0.5rem 0.6rem;
   cursor: pointer;
   font-size: 1rem;
@@ -78,7 +78,7 @@
 }
 
 .icon-btn:hover {
-  background: #f3f4f6;
+  background: var(--card-bg);
 }
 
 /* === MOBILE MENU === */
@@ -86,7 +86,7 @@
   display: none;
   background: none;
   border: none;
-  color: #111827;
+  color: var(--text-color);
   font-size: 1.4rem;
   cursor: pointer;
 }
@@ -101,7 +101,7 @@
     top: 60px;
     right: -100%;
     flex-direction: column;
-    background: #ffffff;
+    background: var(--navbar-bg);
     border: 1px solid #e5e7eb;
     border-radius: 10px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
@@ -118,26 +118,6 @@
     width: 100%;
     justify-content: flex-start;
   }
-}
-
-/* === DARK MODE === */
-.dark-mode .navbar-light {
-  background: #111827;
-  border-color: #1f2937;
-}
-
-.dark-mode .nav-link {
-  color: #f9fafb;
-}
-
-.dark-mode .nav-logo {
-  color: #f9fafb;
-}
-
-.dark-mode .icon-btn {
-  background: #1f2937;
-  color: #f9fafb;
-  border-color: #374151;
 }
 
 /* === CART BADGE === */
@@ -160,14 +140,17 @@
 /* ============================================
    RESTAURANT DASHBOARD NAVBAR
    ============================================ */
+/* ============================================
+   RESTAURANT DASHBOARD NAVBAR
+   ============================================ */
 .restaurant-navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  background: #ffffff;
+  background: var(--navbar-bg);
   border-bottom: 1px solid #e5e7eb;
   z-index: 1200;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 4px var(--navbar-shadow);
   font-family: "Poppins", sans-serif;
 }
 
@@ -180,15 +163,13 @@
   justify-content: space-between;
 }
 
-/* === Left: Logo === */
 .restaurant-logo {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--text-color);
   cursor: pointer;
 }
 
-/* === Center: Links === */
 .restaurant-nav-links {
   display: flex;
   align-items: center;
@@ -201,36 +182,27 @@
   gap: 0.4rem;
   font-weight: 500;
   font-size: 0.95rem;
-  color: #374151;
+  color: var(--text-color);
   padding: 0.5rem 1rem;
   border-radius: 10px;
   text-decoration: none;
   transition: all 0.25s ease;
 }
 
-.restaurant-link:hover {
-  background: #f3f4f6;
-  color: #111827;
-}
-
+.restaurant-link:hover,
 .restaurant-link.active {
-  background: #f3f4f6;
-  font-weight: 600;
-  color: #111827;
+  background: var(--card-bg);
+  color: var(--text-color);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.restaurant-icon {
-  font-size: 1rem;
-}
-
-/* === Right: Logout === */
 .restaurant-logout {
   display: flex;
   align-items: center;
   gap: 0.4rem;
   background: none;
   border: none;
-  color: #111827;
+  color: var(--text-color);
   font-weight: 500;
   font-size: 0.95rem;
   cursor: pointer;
@@ -245,7 +217,6 @@
   font-size: 1rem;
 }
 
-/* === Responsive === */
 @media (max-width: 768px) {
   .restaurant-nav-container {
     flex-direction: column;
@@ -256,42 +227,50 @@
     justify-content: center;
   }
 }
+
+
 /* ============================================
-   ADMIN DASHBOARD NAVBAR (Image 2 Style)
+   ADMIN DASHBOARD NAVBAR (Modern Clean Layout)
    ============================================ */
 .admin-navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
   width: 100%;
-  background: #ffffff;
+  background: var(--navbar-bg);
   border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 6px var(--navbar-shadow);
   z-index: 1200;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   font-family: "Poppins", sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .admin-nav-container {
   max-width: 1300px;
   margin: 0 auto;
-  padding: 0.8rem 2rem;
+  padding: 0.2rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* Left: Logo */
-.admin-logo {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #111827;
-  cursor: pointer;
-}
-
-/* Center: Links */
-.admin-nav-links {
+/* LEFT SIDE */
+.admin-left {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
+}
+
+.admin-logo {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+/* LINKS */
+.admin-links {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
 .admin-link {
@@ -300,60 +279,74 @@
   gap: 0.4rem;
   background: transparent;
   border: none;
-  font-size: 0.95rem;
+  color: var(--text-color);
   font-weight: 500;
-  color: #1f2937;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
+  font-size: 0.95rem;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.25s ease;
 }
 
 .admin-link:hover {
-  background: #f3f4f6;
-  color: #111827;
+  background: var(--card-bg);
 }
 
 .admin-link.active {
-  background: #f3f4f6;
+  background: #7334fa;
   font-weight: 600;
-  color: #111827;
 }
 
-.admin-icon {
-  font-size: 1rem;
+/* RIGHT SIDE */
+.admin-right {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
 }
 
-/* Right: Logout */
+.admin-theme-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 8px;
+  padding: 0.45rem 0.65rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.admin-theme-btn:hover {
+  background: var(--accent-color);
+  color: #fff;
+}
+
 .admin-logout {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  background: none;
+  background: var(--accent-color);
+  color: #fff;
   border: none;
-  color: #111827;
-  font-weight: 500;
-  font-size: 0.95rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: color 0.25s ease;
+  transition: background 0.25s ease;
 }
 
 .admin-logout:hover {
-  color: #dc2626;
+  background: #7c3aed;
 }
 
-.logout-icon {
-  font-size: 1rem;
-}
-
-/* Responsive */
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .admin-nav-container {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
   }
-  .admin-nav-links {
-    flex-wrap: wrap;
+
+  .admin-links {
     justify-content: center;
+    flex-wrap: wrap;
   }
 }

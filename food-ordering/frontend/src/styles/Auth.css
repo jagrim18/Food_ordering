@@ -214,3 +214,20 @@
   box-shadow: 0 0 0 3px rgba(75, 110, 245, 0.15);
   outline: none;
 }
+/* ===== Back Button ===== */
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.back-btn:hover {
+  color: #4f46e5;
+  transform: translateX(-2px);
+}

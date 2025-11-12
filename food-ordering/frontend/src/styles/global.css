@@ -1,27 +1,100 @@
-body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; background: #f5f6fa; }
-.app { max-width: 1100px; margin: 0 auto; padding: 16px; }
-.header { display:flex; align-items:center; justify-content:space-between; padding:12px 0; }
-.nav { display:flex; gap:12px; }
-.btn { background:#2b7a78; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; }
-.input { padding:8px; border-radius:6px; border:1px solid #ccc; }
-.menu-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; }
-.card { background:white; padding:12px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.06); }
-.footer { text-align:center; padding:12px; color:#666; }
-.cart-list { list-style:none; padding:0; }
-.order-status { display:flex; gap:8px; align-items:center; }
-.form { max-width:420px; margin:24px auto; background:white; padding:16px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
-.form input, .form button { width:100%; margin-bottom:8px; }
-/* === FIX: Force Orders Page Light Mode Always === */
+/* ✅ src/styles/global.css */
+
+/* === THEME VARIABLES === */
+:root {
+   --bg-color: #f9fafb;
+  --card-bg: #ffffff;
+  --navbar-bg: #ffffff;
+  --text-color: #111827;
+  --accent-color: #7c3aed;
+  --border-color: #e5e7eb;
+  --muted-text: #6b7280;
+  --shadow-soft: rgba(0, 0, 0, 0.06);
+  --overlay-bg: rgba(0, 0, 0, 0.45);
+}
+
+[data-theme='dark'] {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --navbar-bg: #1e293b;
+  --text-color: #f1f5f9;
+  --accent-color: #a855f7;
+  --border-color: #334155;
+  --muted-text: #94a3b8;
+  --shadow-soft: rgba(0, 0, 0, 0.35);
+  --overlay-bg: rgba(0, 0, 0, 0.65);
+}
+
+/* === BASE STYLES === */
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: "Inter", "Poppins", sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+}
+
+.nav {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--card-bg);
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.footer {
+  text-align: center;
+  padding: 12px;
+  color: #666;
+  background: var(--card-bg);
+}
+
+/* === FIX: Orders Page Force Light === */
 body.orders-light,
 body.orders-light .navbar-light,
 body.orders-light .orders-container {
-  background: #f9fafb !important;
-  color: #1e293b !important;
-}
-
-body.orders-light.dark-mode,
-body.orders-light.dark-mode .navbar-light,
-body.orders-light.dark-mode .orders-container {
   background: #f9fafb !important;
   color: #1e293b !important;
 }

@@ -286,3 +286,63 @@
   padding: 0.6rem 0.8rem;
   margin-bottom: 1rem;
 }
+/* === CAMPUS FOOD - PROFILE PAGE (Dark Mode Enhanced) === */
+:root {
+  --bg-color: #f9fafb;
+  --card-bg: #ffffff;
+  --text-color: #111827;
+  --accent-color: #2563eb;
+  --border-color: #e2e8f0;
+  --muted-text: #64748b;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-color: #f1f5f9;
+  --accent-color: #3b82f6;
+  --border-color: #334155;
+  --muted-text: #94a3b8;
+}
+
+.profile-container {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+.profile-card,
+.profile-form {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+.form-field label,
+.profile-details p {
+  color: var(--muted-text);
+}
+
+.pref-card {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+}
+.pref-card h5 {
+  color: var(--text-color);
+}
+.pref-card p {
+  color: var(--muted-text);
+}
+
+.action-btn {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+.action-btn:hover {
+  background: var(--card-bg);
+}
+
+.popup-box {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}

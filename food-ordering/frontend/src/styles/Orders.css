@@ -400,3 +400,498 @@
 .reorder-btn {
   display: none !important;
 }
+/* === CAMPUS FOOD - ORDERS PAGE (Dark Mode Enhanced) === */
+:root {
+  --bg-color: #f9fafb;
+  --card-bg: #ffffff;
+  --text-color: #111827;
+  --accent-color: #2563eb;
+  --border-color: #e2e8f0;
+  --muted-text: #64748b;
+  --shadow-soft: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-color: #f1f5f9;
+  --accent-color: #3b82f6;
+  --border-color: #334155;
+  --muted-text: #94a3b8;
+  --shadow-soft: rgba(0, 0, 0, 0.3);
+}
+
+.orders-container {
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  color: var(--text-color);
+}
+
+.orders-header h2 {
+  color: var(--text-color);
+}
+.orders-header p {
+  color: var(--muted-text);
+}
+
+.order-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  box-shadow: 0 2px 8px var(--shadow-soft);
+}
+.order-info,
+.order-items {
+  color: var(--muted-text);
+}
+
+.tab-btn.active {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--accent-color);
+}
+
+.order-footer {
+  border-top: 1px solid var(--border-color);
+}
+
+.confirm-modal,
+.invoice-popup {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+.popup-sub {
+  color: var(--muted-text);
+}
+/* ==========================================================
+   🍱 CAMPUS FOOD - USER ORDERS PAGE (LIGHT + DARK MODE)
+   Fully unified with global ThemeContext & design system
+   ========================================================== */
+
+/* === THEME VARIABLES === */
+:root {
+  --bg-color: #f9fafb;
+  --card-bg: #ffffff;
+  --text-color: #111827;
+  --accent-color: #2563eb;
+  --border-color: #e2e8f0;
+  --muted-text: #64748b;
+  --shadow-soft: rgba(0, 0, 0, 0.06);
+  --subtle-bg: #f1f5f9;
+  --danger-color: #b91c1c;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-color: #f1f5f9;
+  --accent-color: #3b82f6;
+  --border-color: #334155;
+  --muted-text: #94a3b8;
+  --shadow-soft: rgba(0, 0, 0, 0.3);
+  --subtle-bg: #1e293b;
+  --danger-color: #f87171;
+}
+
+/* === BASE CONTAINER === */
+.orders-container {
+  padding: 2rem;
+  padding-top: 90px;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* === HEADER === */
+.orders-header {
+  margin-bottom: 1.5rem;
+}
+.orders-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+.orders-header p {
+  color: var(--muted-text);
+  font-size: 0.95rem;
+}
+
+/* === TABS === */
+.orders-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.tab-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  color: var(--muted-text);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  border-radius: 6px 6px 0 0;
+}
+.tab-btn:hover {
+  color: var(--accent-color);
+}
+.tab-btn.active {
+  color: var(--text-color);
+  border-color: var(--accent-color);
+  background-color: var(--subtle-bg);
+}
+
+/* === ORDERS LIST === */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* === ORDER CARD === */
+.order-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px var(--shadow-soft);
+  transition: all 0.3s ease;
+  color: var(--text-color);
+}
+.order-card:hover {
+  box-shadow: 0 4px 12px var(--shadow-soft);
+}
+.order-header h3,
+.order-info,
+.order-items {
+  color: var(--text-color);
+}
+
+/* === ORDER HEADER === */
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+.order-id {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.order-header h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/* === STATUS PILL === */
+.status-pill {
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 0.25rem 0.7rem;
+  text-transform: capitalize;
+}
+.status-pill.pending {
+  background: #facc15;
+  color: #1e293b;
+}
+.status-pill.preparing {
+  background: #bfdbfe;
+  color: #1e3a8a;
+}
+.status-pill.ontheway {
+  background: #fde68a;
+  color: #92400e;
+}
+.status-pill.delivered {
+  background: #dcfce7;
+  color: #166534;
+}
+.status-pill.cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* === ORDER INFO === */
+.order-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: var(--muted-text);
+  margin-bottom: 0.6rem;
+}
+
+/* === ITEMS === */
+.order-items {
+  font-size: 0.95rem;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  margin-left: 0.2rem;
+}
+
+/* === FOOTER === */
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border-color);
+  padding-top: 0.8rem;
+  gap: 0.5rem;
+}
+.left-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* === BUTTONS === */
+.view-btn {
+  border: none;
+  background: transparent;
+  color: var(--accent-color);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.view-btn:hover {
+  text-decoration: underline;
+}
+
+.cancel-btn {
+  border: 1px solid #fca5a5;
+  background: #fee2e2;
+  color: var(--danger-color);
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.cancel-btn:hover {
+  background: #f87171;
+  color: #fff;
+}
+
+/* === TOTAL === */
+.order-total {
+  color: var(--accent-color);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+/* === EMPTY STATE === */
+.no-orders {
+  text-align: center;
+  color: var(--muted-text);
+  font-size: 1rem;
+  margin-top: 3rem;
+}
+
+/* === CONFIRM MODAL === */
+.confirm-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.confirm-modal {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 8px 20px var(--shadow-soft);
+}
+.confirm-modal h3 {
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+.confirm-modal p {
+  color: var(--muted-text);
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+}
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.btn.confirm {
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.btn.confirm:hover {
+  background: #1e40af;
+}
+.btn.cancel {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  color: var(--muted-text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn.cancel:hover {
+  background: var(--subtle-bg);
+}
+
+/* === INVOICE POPUP === */
+.invoice-popup-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.invoice-popup {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px var(--shadow-soft);
+  padding: 2rem;
+  width: 500px;
+  max-width: 90%;
+  animation: fadeIn 0.25s ease-in-out;
+}
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.popup-header h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+.status-tag {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.7rem;
+  border-radius: 8px;
+  text-transform: capitalize;
+}
+.status-tag.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+.status-tag.delivered {
+  background: #dcfce7;
+  color: #166534;
+}
+.status-tag.cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.popup-sub {
+  color: var(--muted-text);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+.popup-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+.popup-table th {
+  background: var(--subtle-bg);
+  text-align: left;
+  padding: 0.6rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  border-bottom: 2px solid var(--border-color);
+}
+.popup-table td {
+  padding: 0.6rem;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  color: var(--muted-text);
+}
+.popup-total {
+  text-align: right;
+  margin-top: 1rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  font-size: 1.05rem;
+}
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+.popup-close-btn {
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.popup-close-btn:hover {
+  background: #1e40af;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .order-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+  .left-actions {
+    flex-wrap: wrap;
+  }
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === REMOVE UNUSED === */
+.rate-btn,
+.reorder-btn {
+  display: none !important;
+}

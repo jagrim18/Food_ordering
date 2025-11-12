@@ -3,10 +3,15 @@
    ====================================================== */
 
 .admin-dashboard {
-  background: #f9fafb;
+  background: var(--bg-color);
   min-height: 100vh;
   font-family: "Poppins", "Inter", sans-serif;
-  color: #111827;
+  color: var(--text-color);
+  padding: 80px 0.4rem 0.4rem; /* 👈 adds top + side spacing */
+  max-width: 1400px;        /* 👈 optional: fixes width center */
+  margin: 0 auto;           /* 👈 centers content nicely */
+  box-sizing: border-box;
+  
 }
 
 
@@ -321,5 +326,148 @@
 
   .stat-value {
     font-size: 1.3rem;
+  }
+}
+/* ======================================================
+   📊 ADMIN DASHBOARD (Light + Dark Theme Unified)
+   ====================================================== */
+
+/* THEME VARIABLES */
+:root {
+  --bg-color: #f9fafb;
+  --card-bg: #ffffff;
+  --text-color: #111827;
+  --accent-color: #2563eb;
+  --border-color: #e5e7eb;
+  --muted-text: #6b7280;
+  --shadow-soft: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-color: #f1f5f9;
+  --accent-color: #3b82f6;
+  --border-color: #334155;
+  --muted-text: #94a3b8;
+  --shadow-soft: rgba(0, 0, 0, 0.3);
+}
+
+.admin-dashboard {
+  background: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  font-family: "Poppins", "Inter", sans-serif;
+}
+
+/* ========== STATS ========== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 22px 25px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px var(--shadow-soft);
+  transition: transform 0.2s;
+}
+.stat-card:hover {
+  transform: translateY(-3px);
+}
+.stat-card h4 {
+  font-weight: 600;
+  color: var(--muted-text);
+  margin-bottom: 8px;
+}
+.stat-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+.stat-change {
+  font-size: 0.9rem;
+  color: #22c55e;
+}
+
+/* Icon colors */
+.green .stat-icon { color: #22c55e; }
+.blue .stat-icon { color: #3b82f6; }
+.purple .stat-icon { color: #9333ea; }
+.orange .stat-icon { color: #f97316; }
+
+/* ========== OUTLET PERFORMANCE ========== */
+.grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-bottom: 40px;
+}
+
+.outlet-performance {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px var(--shadow-soft);
+}
+.outlet-performance h3 {
+  color: var(--text-color);
+}
+.outlet-list li {
+  border-bottom: 1px solid var(--border-color);
+}
+.outlet-info p {
+  color: var(--muted-text);
+}
+
+/* ========== REVENUE TREND ========== */
+.revenue-trend {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px var(--shadow-soft);
+}
+.chart-placeholder {
+  background: var(--bg-color);
+  color: var(--muted-text);
+}
+
+/* ========== RECENT ORDERS ========== */
+.recent-orders {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px var(--shadow-soft);
+}
+.recent-orders th {
+  color: var(--muted-text);
+  border-bottom: 1px solid var(--border-color);
+}
+.recent-orders td {
+  color: var(--text-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* ========== TOAST ========== */
+.toast {
+  background: var(--card-bg);
+  color: var(--text-color);
+  box-shadow: 0 8px 20px var(--shadow-soft);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .grid-two {
+    grid-template-columns: 1fr;
   }
 }

@@ -95,3 +95,64 @@ td select:focus {
     padding: 10px 12px;
   }
 }
+/* ============================================
+   📦 ADMIN ORDERS (Dark Mode Enhanced)
+   ============================================ */
+
+:root {
+  --bg-color: #f1f5f9;
+  --card-bg: #ffffff;
+  --text-color: #111827;
+  --accent-color: #2563eb;
+  --border-color: #e2e8f0;
+  --muted-text: #64748b;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-color: #f1f5f9;
+  --accent-color: #3b82f6;
+  --border-color: #334155;
+  --muted-text: #94a3b8;
+}
+
+.admin-orders-container {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  padding: 40px;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+}
+
+.admin-orders-container h2 {
+  color: var(--text-color);
+  margin-bottom: 24px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+thead {
+  background: var(--accent-color);
+  color: #ffffff;
+}
+th, td {
+  border-bottom: 1px solid var(--border-color);
+}
+tbody tr:hover {
+  background: var(--bg-color);
+}
+
+td select {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}

@@ -160,3 +160,53 @@
     text-align: left;
   }
 }
+/* === Modern Campus Foodify Footer (Dark Mode Enhanced) === */
+:root {
+  --bg-color: #f9fafb;
+  --card-bg: #ffffff;
+  --text-color: #111827;
+  --accent-color: #9333ea;
+  --border-color: #e5e7eb;
+  --muted-text: #4b5563;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-color: #f1f5f9;
+  --accent-color: #a855f7;
+  --border-color: #334155;
+  --muted-text: #94a3b8;
+}
+
+.footer {
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-family: "Poppins", sans-serif;
+  padding: 4rem 8% 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.footer-column h4 {
+  color: var(--text-color);
+}
+
+.footer-column a,
+.footer-contact li,
+.footer-description {
+  color: var(--muted-text);
+}
+
+.footer-socials a {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+.footer-socials a:hover {
+  background: var(--accent-color);
+  color: #fff;
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--border-color);
+  color: var(--muted-text);
+}

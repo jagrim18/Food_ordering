@@ -224,3 +224,274 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(255, 166, 0, 0.25);
 }
+/* ==========================================================
+   🍕 RESTAURANT ORDERS PAGE — LIGHT + DARK MODE VERSION
+   Preserves NEON DARK look and adds clean light mode
+   ========================================================== */
+
+/* === THEME VARIABLES === */
+:root {
+  --orders-bg: #ffffff;
+  --orders-text: #111827;
+  --orders-subtext: #4b5563;
+  --orders-card-bg: #f9fafb;
+  --orders-border: #e5e7eb;
+  --orders-accent: #2563eb;
+  --orders-highlight: #f59e0b;
+  --orders-secondary: #fbbf24;
+  --orders-shadow: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+  --orders-bg: #0b001a;
+  --orders-text: #f1f5f9;
+  --orders-subtext: #cbd5e1;
+  --orders-card-bg: #1a0033;
+  --orders-border: rgba(255, 255, 255, 0.08);
+  --orders-accent: #7c3aed;
+  --orders-highlight: #fbbf24;
+  --orders-secondary: #fbbf24;
+  --orders-shadow: rgba(128, 0, 255, 0.25);
+}
+
+/* === BASE CONTAINER === */
+.orders-container {
+  padding: 2rem;
+  padding-top: 90px;
+  background: var(--orders-bg);
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  color: var(--orders-text);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* === PAGE TITLE === */
+.page-title {
+  font-size: 1.9rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--orders-secondary);
+  text-align: center;
+}
+
+/* === SUMMARY CARDS === */
+.summary-cards {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.summary-card {
+  flex: 1;
+  background: var(--orders-card-bg);
+  border-radius: 14px;
+  box-shadow: 0 0 15px var(--orders-shadow);
+  padding: 1rem;
+  text-align: center;
+  min-width: 180px;
+  border: 1px solid var(--orders-border);
+  transition: all 0.25s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(255, 170, 0, 0.4);
+}
+
+.summary-card h4 {
+  font-size: 1rem;
+  color: var(--orders-subtext);
+}
+
+.summary-card p {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  color: var(--orders-highlight);
+}
+
+/* === FILTERS === */
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filters input,
+.filters select {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--orders-border);
+  font-size: 0.95rem;
+  flex: 1;
+  min-width: 200px;
+  background: var(--orders-card-bg);
+  color: var(--orders-text);
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.filters input:focus,
+.filters select:focus {
+  border-color: var(--orders-highlight);
+  box-shadow: 0 0 6px var(--orders-highlight);
+}
+
+/* === ORDER LIST === */
+.orders-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+/* === ORDER CARD === */
+.order-card {
+  background: var(--orders-card-bg);
+  border-radius: 14px;
+  box-shadow: 0 0 15px var(--orders-shadow);
+  padding: 1.2rem;
+  transition: 0.25s ease;
+  border: 1px solid var(--orders-border);
+}
+
+.order-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 25px rgba(255, 166, 0, 0.35);
+}
+
+/* === ORDER HEADER === */
+.order-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-id {
+  font-weight: 600;
+  color: var(--orders-highlight);
+}
+
+/* === STATUS BADGES === */
+.status-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.status-pending { background: #f59e0b; }
+.status-accepted { background: #2563eb; }
+.status-preparing { background: #7c3aed; }
+.status-out-for-delivery { background: #16a34a; }
+.status-delivered { background: #22c55e; }
+
+/* === ACTION BUTTONS === */
+.order-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.8rem;
+}
+
+.next-btn,
+.view-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-weight: 600;
+}
+
+/* NEXT BUTTON */
+.next-btn {
+  background: linear-gradient(90deg, var(--orders-highlight), var(--orders-secondary));
+  color: var(--orders-bg);
+}
+.next-btn:hover {
+  box-shadow: 0 0 10px var(--orders-secondary);
+}
+
+/* VIEW BUTTON */
+.view-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--orders-text);
+}
+[data-theme="light"] .view-btn {
+  background: var(--orders-card-bg);
+  color: var(--orders-text);
+  border: 1px solid var(--orders-border);
+}
+.view-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* === MODAL === */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: var(--orders-card-bg);
+  padding: 2rem;
+  border-radius: 14px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 0 25px var(--orders-shadow);
+  overflow-y: auto;
+  max-height: 80vh;
+  color: var(--orders-text);
+}
+
+.modal-content h3 {
+  margin-bottom: 1rem;
+  color: var(--orders-highlight);
+  text-align: center;
+}
+
+.modal-content ul {
+  margin: 0.5rem 0;
+  padding-left: 1.2rem;
+  color: var(--orders-subtext);
+}
+
+.close-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  cursor: pointer;
+  width: 100%;
+  transition: 0.3s;
+}
+.close-btn:hover {
+  background: #dc2626;
+  box-shadow: 0 0 8px #ef4444;
+}
+
+/* === NO ORDERS === */
+.no-orders {
+  text-align: center;
+  color: var(--orders-highlight);
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 166, 0, 0.25);
+}
+[data-theme="light"] .no-orders {
+  background: var(--orders-card-bg);
+  color: var(--orders-text);
+  box-shadow: 0 2px 8px var(--orders-shadow);
+}

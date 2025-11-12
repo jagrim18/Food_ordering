@@ -1,92 +1,3 @@
-// // // import React, { useEffect } from "react";
-// // // import { useNavigate } from "react-router-dom";
-// // // import "../styles/Welcome.css";
-
-// // // function Welcome() {
-// // //   const navigate = useNavigate();
-
-
-
-// // //   useEffect(() => {
-// // //     const user = localStorage.getItem("user");
-// // //     if (user) {
-// // //       navigate("/menu"); // ✅ redirect logged-in users
-// // //     }
-// // //   }, [navigate]);
-
-
-// // //   return (
-// // //     <div className="welcome-container">
-// // //       <div className="welcome-content">
-// // //         <h1>🍴 Welcome to Foodify</h1>
-// // //         <p>Order your favorite meals online and track them in real-time 🚀</p>
-// // //         <div className="welcome-buttons">
-// // //           <button onClick={() => navigate("/restaurants")}>Explore restaurant</button>
-// // //           <button onClick={() => navigate("/register")}>Register</button>
-// // //         </div>
-// // //       </div>
-// // //     </div>
-// // //   );
-// // // }
-
-// // // export default Welcome;
-
-
-
-
-
-
-
-// // import React, { useEffect } from "react";
-// // import { useNavigate } from "react-router-dom";
-// // import "../styles/Welcome.css";
-
-// // function Welcome() {
-// //   const navigate = useNavigate();
-
-// //   useEffect(() => {
-// //     const user = localStorage.getItem("user");
-// //     if (user) {
-// //       navigate("/menu");
-// //     }
-// //   }, [navigate]);
-
-// //   return (
-// //     <div className="welcome-page">
-// //       <div className="overlay"></div>
-// //       <div className="welcome-content">
-// //         <h1 className="welcome-title">
-// //           <span className="highlight">🍴 Foodify</span>
-// //         </h1>
-// //         <p className="welcome-tagline">
-// //           Order your favorite meals online and track them in real-time 🚀
-// //         </p>
-// //         <div className="button-group">
-// //           <button className="btn primary" onClick={() => navigate("/restaurants")}>
-// //             Explore Restaurants
-// //           </button>
-// //           <button className="btn secondary" onClick={() => navigate("/register")}>
-// //             Register Now
-// //           </button>
-// //         </div>
-// //       </div>
-// //       <footer className="welcome-footer">
-// //         <p>© {new Date().getFullYear()} Foodify. All rights reserved.</p>
-// //       </footer>
-// //     </div>
-// //   );
-// // }
-
-// // export default Welcome;
-
-
-
-
-
-
-
-
-
 // import React, { useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 // import "../styles/Welcome.css";
@@ -96,9 +7,7 @@
 
 //   useEffect(() => {
 //     const user = localStorage.getItem("user");
-//     if (user) {
-//       navigate("/menu");
-//     }
+//     if (user) navigate("/menu");
 //   }, [navigate]);
 
 //   return (
@@ -106,14 +15,26 @@
 //       {/* HERO SECTION */}
 //       <section className="hero-section">
 //         <div className="hero-left">
-//           <span className="badge">Campus Food Ordering</span>
+//           {/* === Logo and Text Separated === */}
+//           <div className="hero-top">
+//             <img
+//               src="https://image2url.com/images/1762957718911-cb36f4d6-f6f0-4544-9f69-44c686d3ad14.png"
+//               alt="Foodify Logo"
+//               className="hero-logo"
+//             />
+//             <p className="hero-subtitle">Campus Food Ordering</p>
+//           </div>
+
 //           <h1>
-//             Skip the Line, <br /> Savor Your Time
+//             Skip the Line, <br />
+//             <span className="highlight">Save Your Time</span>
 //           </h1>
+
 //           <p>
-//             Order food from your favorite campus outlets and pick it up when it’s ready. 
+//             Order food from your favorite campus outlets and pick it up when it’s ready.
 //             No more waiting in long queues!
 //           </p>
+
 //           <div className="button-group">
 //             <button className="btn primary" onClick={() => navigate("/register")}>
 //               Get Started
@@ -123,12 +44,9 @@
 //             </button>
 //           </div>
 //         </div>
-//         <div className="hero-right">
-//           <div className="user-count">
-//             <p>Active Users</p>
-//             <h2>5,000+</h2>
-//           </div>
-//         </div>
+
+//         {/* RIGHT HERO IMAGE */}
+//         <div className="hero-right"></div>
 //       </section>
 
 //       {/* FEATURES SECTION */}
@@ -165,7 +83,7 @@
 //       <section className="cta-section">
 //         <h2>Ready to Order?</h2>
 //         <p>
-//           Join thousands of students and faculty who are already enjoying hassle-free food ordering
+//           Join thousands of students and faculty already enjoying hassle-free food ordering.
 //         </p>
 //         <button className="btn light" onClick={() => navigate("/restaurants")}>
 //           Start Ordering Now
@@ -180,7 +98,6 @@
 // }
 
 // export default Welcome;
-
 
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -199,14 +116,25 @@ function Welcome() {
       {/* HERO SECTION */}
       <section className="hero-section">
         <div className="hero-left">
-          <span className="badge">Campus Food Ordering</span>
+          <div className="hero-top">
+            <img
+              src="https://image2url.com/images/1762957718911-cb36f4d6-f6f0-4544-9f69-44c686d3ad14.png"
+              alt="Foodify Logo"
+              className="hero-logo"
+            />
+            <p className="hero-subtitle">Campus Food Ordering</p>
+          </div>
+
           <h1>
-            Skip the Line, <br /> Save Your Time
+            Skip the Line, <br />
+            <span className="highlight">Save Your Time</span>
           </h1>
+
           <p>
             Order food from your favorite campus outlets and pick it up when it’s ready.
             No more waiting in long queues!
           </p>
+
           <div className="button-group">
             <button className="btn primary" onClick={() => navigate("/register")}>
               Get Started
@@ -217,11 +145,9 @@ function Welcome() {
           </div>
         </div>
 
-        {/* RIGHT HERO IMAGE */}
         <div className="hero-right"></div>
       </section>
 
-      {/* FEATURES SECTION */}
       <section className="features-section">
         <h2>Why Choose Campus Food?</h2>
         <p className="features-subtext">
@@ -251,7 +177,6 @@ function Welcome() {
         </div>
       </section>
 
-      {/* CTA SECTION */}
       <section className="cta-section">
         <h2>Ready to Order?</h2>
         <p>
