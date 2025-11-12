@@ -25,29 +25,39 @@
 //       enum: ["user", "restaurant", "admin"],
 //       default: "user",
 //     },
+
+//     mobile: { type: String, default: "" },
+//     dateOfBirth: { type: String, default: "" },
+//     profileImage: {
+//       type: String,
+//       default: "/uploads/default-avatar.png",
+//     },
 //   },
 //   { timestamps: true }
 // );
 
-// // ✅ Encrypt password before saving
+// /* ============================================================
+//    ✅ Encrypt password before saving (safe against double-hash)
+//    ============================================================ */
 // userSchema.pre("save", async function (next) {
+//   // Only hash when password field is modified
 //   if (!this.isModified("password")) return next();
 
-//   // Hash if not hashed already
-//   if (!this.password.startsWith("$2a$")) {
-//     const salt = await bcrypt.genSalt(10);
-//     this.password = await bcrypt.hash(this.password, salt);
-//   }
+//   // If the value already looks like a bcrypt hash ($2a$, $2b$, $2y$), skip hashing
+//   if (/^\$2[aby]\$/.test(this.password)) return next();
 
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
 //   next();
 // });
 
-// // ✅ Compare entered password with hashed password
+// /* ============================================================
+//    ✅ Compare entered password with hashed password
+//    ============================================================ */
 // userSchema.methods.matchPassword = async function (enteredPassword) {
 //   return await bcrypt.compare(enteredPassword, this.password);
 // };
 
-// // ✅ Force correct collection name
 // const User = mongoose.model("User", userSchema, "users");
 // module.exports = User;
 
@@ -57,6 +67,7 @@
 
 
 
+// backend/models/User.js
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
@@ -84,34 +95,44 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
 
-    // 🆕 Profile-related fields
     mobile: { type: String, default: "" },
     dateOfBirth: { type: String, default: "" },
     profileImage: {
       type: String,
-      default: "/uploads/default-avatar.png", // fallback image
+      default: "/uploads/default-avatar.png",
     },
+
+    /* ============================================================
+       🧩 OTP Verification fields
+       ============================================================ */
+    otp: { type: String, default: null },
+    otpExpires: { type: Date, default: null },
+    isVerified: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
 
-// ✅ Encrypt password before saving
+/* ============================================================
+   ✅ Encrypt password before saving (safe against double-hash)
+   ============================================================ */
 userSchema.pre("save", async function (next) {
+  // Only hash when password field is modified
   if (!this.isModified("password")) return next();
 
-  if (!this.password.startsWith("$2a$")) {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-  }
+  // If the value already looks like a bcrypt hash ($2a$, $2b$, $2y$), skip hashing
+  if (/^\$2[aby]\$/.test(this.password)) return next();
 
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
   next();
 });
 
-// ✅ Compare entered password with hashed password
+/* ============================================================
+   ✅ Compare entered password with hashed password
+   ============================================================ */
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// ✅ Force correct collection name
 const User = mongoose.model("User", userSchema, "users");
 module.exports = User;

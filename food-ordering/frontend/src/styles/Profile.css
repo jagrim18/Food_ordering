@@ -1,227 +1,288 @@
-/* ✅ frontend/src/styles/Profile.css */
-
-/* Background — dark Zomato style */
-.profile-glass-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* === CAMPUS FOOD - PROFILE PAGE (MATCHES SCREENSHOT) === */
+.profile-container {
+  background: #f9fafb;
   min-height: 100vh;
-  background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #2c0000 100%);
-  background-attachment: fixed;
-  padding: 40px 20px;
-  color: #fff;
+  padding: 90px 2rem 3rem;
   font-family: "Poppins", sans-serif;
+  color: #1e293b;
+  overflow-y: auto;
 }
 
-/* Glass Card */
-.profile-glass-card {
-  backdrop-filter: blur(20px);
-  background: rgba(30, 30, 30, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 25px;
-  box-shadow: 0 10px 40px rgba(255, 50, 50, 0.3);
-  max-width: 900px;
-  width: 100%;
-  padding: 40px 50px;
-  color: #fff;
-  animation: fadeIn 0.8s ease;
+/* Header */
+.profile-header {
+  margin-bottom: 1.5rem;
 }
-
-/* Title */
-.profile-glass-title {
-  text-align: center;
-  font-size: 2rem;
+.profile-header h2 {
+  font-size: 1.8rem;
   font-weight: 700;
-  margin-bottom: 30px;
-  color: #ffffff;
-  text-shadow: 0 0 8px rgba(255, 100, 100, 0.6);
-  letter-spacing: 1px;
+  color: #0f172a;
+}
+.profile-header p {
+  color: #64748b;
+  font-size: 0.95rem;
 }
 
-/* Two-Column Grid */
-.profile-glass-grid {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 40px;
-  align-items: start;
-}
-
-/* Left Side — profile picture */
-.profile-glass-left {
+/* Profile Card */
+.profile-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
-
-.profile-glass-pic {
-  width: 140px;
-  height: 140px;
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+.profile-avatar img {
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 0 20px rgba(255, 80, 80, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid #cbd5e1;
 }
-
-.profile-glass-pic:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(255, 90, 90, 0.5);
+.profile-details h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
 }
-
-/* Upload Button */
-.glass-upload-label {
-  margin-top: 15px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
-  padding: 8px 20px;
+.profile-details p {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: 2px 0;
+}
+.role-type {
+  font-size: 0.85rem;
+  color: #475569;
+}
+.edit-btn {
+  margin-left: auto;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
   cursor: pointer;
-  color: white;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  transition: 0.3s;
+}
+.edit-btn:hover {
+  background: #1e3a8a;
 }
 
-.glass-upload-label:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+/* Form Sections */
+.profile-form {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  margin-bottom: 2rem;
 }
-
-#profilePicUpload {
-  display: none;
+.form-section {
+  margin-bottom: 2rem;
 }
-
-/* Form Fields */
-.profile-glass-form {
+.form-section h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 1rem;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+.form-field {
   display: flex;
   flex-direction: column;
-  gap: 15px;
 }
-
-.profile-glass-form input {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
-  padding: 12px 15px;
-  border-radius: 12px;
+.form-field label {
+  font-size: 0.9rem;
+  color: #475569;
+  margin-bottom: 0.4rem;
+}
+.form-field input {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.95rem;
   outline: none;
+  transition: 0.2s;
+}
+.form-field input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Preferences Section */
+.pref-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+}
+.pref-card h5 {
   font-size: 1rem;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  font-weight: 600;
+  color: #0f172a;
+}
+.pref-card p {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+.pref-btn {
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pref-btn.enabled {
+  color: #1e3a8a;
+  background: #f1f5f9;
+}
+.pref-btn.disabled {
+  color: #9ca3af;
+  background: #f8fafc;
 }
 
-.profile-glass-form input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+/* Account Actions */
+.actions-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
-
-.profile-glass-form input:focus {
-  border-color: #ff4d4f;
-  box-shadow: 0 0 12px rgba(255, 77, 79, 0.6);
+.action-btn {
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.action-btn:hover {
+  background: #f1f5f9;
+}
+.action-btn.delete {
+  color: #dc2626;
+  border-color: #fecaca;
 }
 
 /* Save Button */
-.glass-save-btn {
-  margin-top: 10px;
-  background: linear-gradient(135deg, #ff4d4f, #c31432);
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.save-btn {
+  background: #2563eb;
+  color: #fff;
   border: none;
-  color: white;
+  border-radius: 8px;
+  padding: 0.7rem 1.4rem;
   font-weight: 600;
-  border-radius: 14px;
-  padding: 14px 0;
-  font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 20px rgba(255, 60, 60, 0.4);
+  transition: 0.3s;
+}
+.save-btn:hover {
+  background: #1e40af;
 }
 
-.glass-save-btn:hover {
-  background: linear-gradient(135deg, #ff2e2e, #a30f23);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 70, 70, 0.6);
-}
-
-/* Fade Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .profile-glass-grid {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-
-  .profile-glass-card {
-    padding: 30px 25px;
-  }
-
-  .profile-glass-title {
-    font-size: 1.7rem;
-  }
-}
-/* ✅ Popup Success Modal */
+/* Popup */
 .popup-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
 }
-
 .popup-box {
-  background: white;
-  padding: 30px 40px;
+  background: #fff;
+  padding: 2rem 2.5rem;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  animation: fadeIn 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
-
 .popup-box h3 {
-  margin-bottom: 10px;
-  color: #28a745;
+  margin-bottom: 0.5rem;
+  color: #16a34a;
 }
-
 .popup-box p {
-  margin-bottom: 20px;
-  font-size: 15px;
-  color: #333;
+  color: #334155;
+  margin-bottom: 1rem;
+}
+.popup-box button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+.popup-box button:hover {
+  background: #1e3a8a;
 }
 
-.popup-box button {
-  background-color: #28a745;
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .edit-btn {
+    align-self: flex-end;
+  }
+}
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.cancel-btn {
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+.cancel-btn:hover {
+  background: #e2e8f0;
+}
+
+.delete-btn {
+  background: #dc2626;
   color: white;
   border: none;
-  padding: 8px 18px;
   border-radius: 8px;
+  padding: 0.5rem 1rem;
   cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease-in-out;
+}
+.delete-btn:hover {
+  background: #b91c1c;
 }
 
-.popup-box button:hover {
-  background-color: #218838;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+.popup-box input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 1rem;
 }

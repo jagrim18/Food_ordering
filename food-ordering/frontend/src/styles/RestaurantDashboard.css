@@ -1,191 +1,331 @@
-/* =============================
-   RESTAURANT DASHBOARD CSS
-   ============================= */
+/* ===========================================================
+   🍴 RESTAURANT DASHBOARD — FINAL FIXED DESIGN
+   Imported Admin Dashboard visual style but kept fully isolated
+   =========================================================== */
+
 .restaurant-dashboard {
-  background-color: #0f0f0f;
-  color: #f5f5f5;
+  background-color: #f1f5f9; /* same soft gray-blue as admin */
   min-height: 100vh;
-  padding: 7rem 2rem 2rem;
-  font-family: "Poppins", sans-serif;
+  padding: 6rem 2rem 2rem;
+  font-family: "Poppins", "Inter", sans-serif;
+  color: #1f2937;
 }
 
-/* Header */
-.dashboard-header {
+/* =============================== HEADER =============================== */
+.restaurant-dashboard .dashboard-top {
+  margin-bottom: 1.5rem;
+}
+
+.restaurant-dashboard .dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+}
+
+.restaurant-dashboard .dashboard-subtext {
+  color: #64748b;
+  font-size: 1rem;
+}
+
+/* =============================== STATS CARDS =============================== */
+.restaurant-dashboard .stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.restaurant-dashboard .stat-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1.8rem 1.6rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;   /* stack text vertically */
+  align-items: center;      /* center horizontally */
+  justify-content: center;  /* center vertically */
+  text-align: center;       /* center text alignment */
+  transition: all 0.3s ease;
+}
+
+.restaurant-dashboard .stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.restaurant-dashboard .stat-card h3 {
+  font-size: 1rem;
+  color: #6b7280;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.restaurant-dashboard .stat-value {
+  font-size: 1.7rem;
+  font-weight: 700;
+  
+}
+
+.restaurant-dashboard .stat-sub {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+/* Color-coded values */
+.restaurant-dashboard .green .stat-value {
+  color: #10b981;
+}
+.restaurant-dashboard .blue .stat-value {
+  color: #2563eb;
+}
+.restaurant-dashboard .yellow .stat-value {
+  color: #f59e0b;
+}
+.restaurant-dashboard .purple .stat-value {
+  color: #9333ea;
+}
+
+/* =============================== TABS =============================== */
+.restaurant-dashboard .order-tabs {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.8rem;
+}
+
+.restaurant-dashboard .tab-btn {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 9999px;
+  font-weight: 600;
+  color: #64748b;
+  padding: 0.5rem 1.3rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.restaurant-dashboard .tab-btn.active {
+  color: #1e293b;
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.restaurant-dashboard .tab-btn:hover {
+  color: #2563eb;
+  border-color: #93c5fd;
+}
+
+/* =============================== ORDERS LIST =============================== */
+.restaurant-dashboard .orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* =============================== ORDER CARD =============================== */
+.restaurant-dashboard .order-card {
+  width: 100%;
+  max-width: 560px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1.6rem 1.8rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.restaurant-dashboard .order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* =============================== ORDER HEADER =============================== */
+.restaurant-dashboard .order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.restaurant-dashboard .order-header h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.restaurant-dashboard .status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: lowercase;
+  margin-left: 0.4rem;
+}
+
+.restaurant-dashboard .status-badge.pending {
+  background: #fef3c7;
+  color: #b45309;
+}
+.restaurant-dashboard .status-badge.accepted {
+  background: #dbeafe;
+  color: #1e40af;
+}
+.restaurant-dashboard .status-badge.preparing {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+.restaurant-dashboard .status-badge.delivered {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* =============================== PRICE + TIME =============================== */
+.restaurant-dashboard .order-price-time {
+  text-align: right;
+}
+
+.restaurant-dashboard .order-total {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #2563eb;
+}
+
+.restaurant-dashboard .order-time {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+/* =============================== CUSTOMER INFO =============================== */
+.restaurant-dashboard .customer-name {
+  font-weight: 600;
+  color: #1e293b;
+  margin-top: 0.3rem;
+}
+
+.restaurant-dashboard .customer-email {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+/* =============================== ITEM LIST =============================== */
+.restaurant-dashboard .order-items {
+  list-style: none;
+  padding: 0;
+  margin: 0.8rem 0 1rem;
+}
+
+.restaurant-dashboard .order-items li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #1b1b1b;
-  padding: 1.2rem 1.8rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
-}
-.dashboard-header h1 {
-  font-size: 1.8rem;
-  color: #ff5959;
-}
-.header-buttons button {
-  margin-left: 10px;
-  padding: 0.6rem 1.2rem;
-  background: #ff5959;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-.header-buttons button:hover {
-  background: #ff3030;
+  color: #334155;
+  margin-bottom: 0.3rem;
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.95rem;
 }
 
-/* Gallery Section */
-.gallery-section {
+/* =============================== PICKUP TIME =============================== */
+.restaurant-dashboard .pickup-time {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+/* =============================== BUTTONS =============================== */
+.restaurant-dashboard .order-actions {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: space-between;
+}
+
+.restaurant-dashboard .accept-btn,
+.restaurant-dashboard .decline-btn {
+  flex: 1;
+  padding: 0.85rem 0;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.restaurant-dashboard .accept-btn {
+  background: #2563eb;
+  color: #fff;
+}
+
+.restaurant-dashboard .accept-btn:hover {
+  background: #1e40af;
+}
+
+.restaurant-dashboard .decline-btn {
+  background: #fff;
+  color: #b91c1c;
+  border: 1.5px solid #fca5a5;
+}
+
+.restaurant-dashboard .decline-btn:hover {
+  background: #fee2e2;
+}
+
+/* =============================== EMPTY STATE =============================== */
+.restaurant-dashboard .no-orders {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 1rem;
   margin-top: 2rem;
 }
-.gallery-section h2 {
-  margin-bottom: 0.8rem;
-  color: #ff5959;
-}
-.dropzone {
-  border: 2px dashed #ff5959;
-  padding: 2rem;
-  border-radius: 10px;
-  text-align: center;
-  margin-bottom: 1rem;
-  cursor: pointer;
-  position: relative;
-}
-.dropzone input[type="file"] {
-  position: absolute;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
-.dropzone.active {
-  background-color: rgba(255, 89, 89, 0.1);
-}
-.uploading-text {
-  color: #ffaaaa;
-  margin-top: 0.5rem;
-  text-align: center;
-}
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 1rem;
-}
-.gallery-card {
-  position: relative;
-  background: #1b1b1b;
-  border-radius: 10px;
-  overflow: hidden;
-  transition: 0.3s ease;
-  box-shadow: 0 0 6px rgba(255, 89, 89, 0.2);
-}
-.gallery-card img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-.gallery-card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 10px rgba(255, 89, 89, 0.4);
-}
-.remove-btn {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  background: rgba(255, 89, 89, 0.9);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  font-size: 1rem;
-  cursor: pointer;
-  line-height: 25px;
-  text-align: center;
-  transition: background 0.2s;
-}
-.remove-btn:hover {
-  background: #ff3030;
+
+/* =============================== ICONS =============================== */
+.restaurant-dashboard .accept-btn svg,
+.restaurant-dashboard .decline-btn svg {
+  width: 16px;
+  height: 16px;
 }
 
-/* Menu Section */
-.menu-section {
-  margin-top: 2.5rem;
+.restaurant-dashboard .accept-btn svg {
+  stroke: #ffffff;
 }
-.menu-filters {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+
+.restaurant-dashboard .decline-btn svg {
+  stroke: #b91c1c;
 }
-.menu-filters input,
-.menu-filters select {
-  padding: 0.7rem;
-  border: none;
-  border-radius: 6px;
-  background: #2a2a2a;
-  color: white;
-}
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
-}
-.menu-card {
-  background: #1b1b1b;
-  border-radius: 10px;
-  padding: 1rem;
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  transition: 0.3s;
-}
-.menu-card:hover {
-  transform: translateY(-4px);
-}
-.menu-card img {
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
-  object-fit: cover;
-}
-.menu-info {
-  flex: 1;
-}
-.menu-info input {
-  width: 100%;
-  background: transparent;
-  border: none;
-  color: #f5f5f5;
-  font-size: 1rem;
-  border-bottom: 1px solid #333;
-  margin-bottom: 5px;
-}
-.menu-info input:focus {
-  outline: none;
-  border-color: #ff5959;
-}
-.menu-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.menu-actions label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.menu-actions button {
-  background: none;
-  border: none;
-  color: #ff5959;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.menu-actions button:hover {
-  color: #ff3030;
+
+/* =============================== RESPONSIVE =============================== */
+@media (max-width: 768px) {
+  .restaurant-dashboard {
+    padding: 5rem 1rem 2rem;
+  }
+
+  .restaurant-dashboard .order-card {
+    width: 100%;
+    padding: 1.4rem;
+  }
+
+  .restaurant-dashboard .stats-cards {
+    flex-direction: column;
+  }
+
+  .restaurant-dashboard .order-tabs {
+    flex-wrap: wrap;
+  }
 }

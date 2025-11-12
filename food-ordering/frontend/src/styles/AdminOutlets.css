@@ -1,0 +1,294 @@
+/* ============================================================
+   🏪 ADMIN OUTLETS PAGE — PIXEL PERFECT VERSION
+   Matches provided screenshot (Campus Food Admin)
+   ============================================================ */
+
+.admin-outlets {
+  background: #f9fafb;
+  min-height: 100vh;
+  padding: 40px;
+  font-family: "Poppins", "Inter", sans-serif;
+  color: #111827;
+}
+
+/* ===== HEADER ===== */
+.outlets-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 35px;
+}
+
+.outlets-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin: 0;
+  color: #111827;
+}
+
+.outlets-subtitle {
+  color: #6b7280;
+  margin-top: 4px;
+  font-size: 0.95rem;
+}
+
+.add-outlet-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+.add-outlet-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* ===== STATS SECTION ===== */
+.outlets-stats {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 38px;
+  flex-wrap: wrap;
+}
+
+.outlet-stat-card {
+  background: #fff;
+  flex: 1;
+  min-width: 220px;
+  text-align: center;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e5e7eb;
+}
+
+.outlet-stat-card h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.outlet-stat-card p {
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin-top: 6px;
+}
+
+.green {
+  color: #22c55e;
+}
+.red {
+  color: #ef4444;
+}
+
+/* ===== GRID ===== */
+.outlets-grid {
+  display: grid;
+  grid-template-columns: 400px;
+  gap: 28px;
+}
+
+/* ===== OUTLET CARD ===== */
+.outlet-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+.outlet-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== IMAGE ===== */
+.outlet-image-container {
+  position: relative;
+  width: 100%;
+  height: 210px;
+  overflow: hidden;
+  border-bottom: 1px solid #f3f4f6;
+}
+.outlet-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.outlet-card:hover .outlet-image {
+  transform: scale(1.02);
+}
+.badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 12px;
+  letter-spacing: 0.2px;
+}
+.badge.open {
+  background: #2563eb;
+  color: #fff;
+}
+.badge.closed {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* ===== DETAILS ===== */
+.outlet-details {
+  padding: 10px 5px 5px 5px;
+}
+
+.outlet-details h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #111827;
+}
+
+.outlet-desc {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.outlet-hours {
+  color: #374151;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ===== ACTIONS ===== */
+/* ===== ACTIONS CONTAINER ===== */
+.outlet-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 22px;
+  border-top: 1px solid #f3f4f6;
+  background: #fafafa;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  flex-wrap: nowrap; /* ✅ prevents wrapping */
+}
+
+/* ===== BUTTONS ===== */
+.outlet-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  padding: 10px 24px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  color: #111827;
+  white-space: nowrap; /* ✅ prevents text breaking into 2 lines */
+}
+
+/* ===== SPECIFIC BUTTONS ===== */
+.edit-btn {
+  flex: 0 0 120px; /* fixed width for Edit button */
+}
+
+.close-btn {
+  flex: 1; /* makes it expand in the center */
+  text-align: center;
+}
+
+.delete-btn {
+  flex: 0 0 60px; /* fixed smaller width for icon-only delete */
+}
+
+/* ===== HOVER STATES ===== */
+.edit-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  flex: 0 0 200px;
+}
+
+.close-btn:hover {
+  background: #fef9c3;
+  border-color: #facc15;
+}
+
+.delete-btn:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  flex: 0 0 50px;
+}
+
+/* ===== SOFT HOVER LIFT ===== */
+.outlet-actions button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+
+/* ===== STATES ===== */
+.loading-text,
+.no-outlets {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 30px;
+  font-size: 1rem;
+}
+
+/* ===== ANIMATION ===== */
+.outlet-card {
+  opacity: 0;
+  animation: fadeInUp 0.4s ease forwards;
+}
+@keyframes fadeInUp {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .admin-outlets {
+    padding: 24px;
+  }
+
+  .outlets-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .outlets-stats {
+    flex-direction: column;
+  }
+
+  .outlets-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+   gap: 30px;
+   justify-content: center;
+  }
+}

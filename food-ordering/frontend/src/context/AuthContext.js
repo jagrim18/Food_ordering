@@ -21,7 +21,12 @@
 //     return storedAdmin || storedRestaurant || storedUser || null;
 //   });
 
-//   // ✅ Sync user data to localStorage based on role
+//   const [pendingEmail, setPendingEmail] = useState(null); // 🧩 store email awaiting OTP verification
+//   const [pendingRole, setPendingRole] = useState("user"); // role for verification (user/restaurant)
+
+//   /* ============================================================
+//      🧠 Sync role-based storage
+//   ============================================================ */
 //   useEffect(() => {
 //     if (!user) {
 //       localStorage.removeItem("admin");
@@ -45,37 +50,114 @@
 //     }
 //   }, [user]);
 
-//   // ✅ Unified login for all roles
+//   /* ============================================================
+//      🔐 LOGIN (Role-based protection + OTP flow)
+//   ============================================================ */
 //   const login = async (email, password, role = "user") => {
 //     try {
 //       const res = await api.post("/auth/login", { email, password });
-//       const userData = { ...res.data };
-//       setUser(userData);
-//       return userData;
+//       const data = res.data;
+
+//       // 🧩 If backend says "OTP sent", handle verification step
+//       if (data.message?.includes("OTP sent")) {
+//         setPendingEmail(data.email);
+//         setPendingRole(role);
+//         return { otpRequired: true, email: data.email };
+//       }
+
+//       // 🚫 Prevent cross-login attempts
+//       if (role === "restaurant" && data.role !== "restaurant") {
+//         throw new Error("You must log in through the Restaurant Portal.");
+//       }
+//       if (role === "user" && data.role !== "user" && data.role !== "admin") {
+//         throw new Error("Please use the Restaurant Login page.");
+//       }
+//       if (role === "admin" && data.role !== "admin") {
+//         throw new Error("Unauthorized access — Admins only.");
+//       }
+
+//       setUser(data);
+//       return data;
 //     } catch (err) {
 //       console.error("Login error:", err);
-//       throw new Error(err.response?.data?.message || "Login failed");
+//       throw new Error(err.response?.data?.message || err.message || "Login failed");
 //     }
 //   };
 
-//   // ✅ Register a normal user
-//   const registerUser = async (name, email, password) => {
+//   /* ============================================================
+//      🧾 REGISTER (Normal user or restaurant with OTP flow)
+//   ============================================================ */
+//   const registerUser = async (name, email, password, role = "user") => {
 //     try {
-//       const res = await fetch("http://localhost:5000/api/auth/register", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ name, email, password }),
-//       });
-//       const data = await res.json();
-//       if (!res.ok) throw new Error(data.message || "Registration failed");
-//       setUser({ ...data, role: "user" });
+//       const endpoint =
+//         role === "restaurant" ? "/auth/register-restaurant" : "/auth/register";
+//       const res = await api.post(endpoint, { name, email, password });
+//       const data = res.data;
+
+//       // 🧩 Expecting OTP verification
+//       if (data.message?.includes("OTP")) {
+//         setPendingEmail(email);
+//         setPendingRole(role);
+//         return { otpRequired: true, email };
+//       }
+
+//       setUser({ ...data, role });
+//       return data;
 //     } catch (err) {
 //       console.error("Register error:", err.message);
 //       throw err;
 //     }
 //   };
 
-//   // ✅ Logout clears all storage
+//   /* ============================================================
+//      🧠 VERIFY OTP (for both user and restaurant)
+//   ============================================================ */
+//   const verifyOTP = async (otp) => {
+//     if (!pendingEmail) throw new Error("No pending email for verification.");
+
+//     try {
+//       const res = await api.post("/auth/verify-otp", {
+//         email: pendingEmail,
+//         otp,
+//         role: pendingRole,
+//       });
+
+//       const { user, token } = res.data;
+
+//       if (!user || !token) throw new Error("Invalid server response");
+
+//       const userData = { ...user, token };
+//       setUser(userData);
+
+//       // Clear pending state
+//       setPendingEmail(null);
+//       setPendingRole("user");
+
+//       return userData;
+//     } catch (err) {
+//       console.error("OTP verification error:", err);
+//       throw new Error(err.response?.data?.message || "Invalid or expired OTP");
+//     }
+//   };
+
+//   /* ============================================================
+//      🔁 RESEND OTP (2-minute cooldown handled by backend)
+//   ============================================================ */
+//   const resendOTP = async () => {
+//     if (!pendingEmail) throw new Error("No pending email for resend.");
+
+//     try {
+//       const res = await api.post("/auth/resend-otp", { email: pendingEmail });
+//       return res.data;
+//     } catch (err) {
+//       console.error("Resend OTP error:", err);
+//       throw new Error(err.response?.data?.message || "Failed to resend OTP");
+//     }
+//   };
+
+//   /* ============================================================
+//      🚪 LOGOUT (Clears everything)
+//   ============================================================ */
 //   const logout = () => {
 //     setUser(null);
 //     localStorage.removeItem("admin");
@@ -83,26 +165,34 @@
 //     localStorage.removeItem("user");
 //   };
 
+//   /* ============================================================
+//      🌍 PROVIDER VALUE (shared globally)
+//   ============================================================ */
 //   return (
-//     <AuthContext.Provider value={{ user, setUser, login, logout, registerUser }}>
+//     <AuthContext.Provider
+//       value={{
+//         user,
+//         setUser,
+//         login,
+//         logout,
+//         registerUser,
+//         verifyOTP,
+//         resendOTP, // ✅ newly added
+//         pendingEmail,
+//         pendingRole,
+//       }}
+//     >
 //       {children}
 //     </AuthContext.Provider>
 //   );
 // };
-
-
-
-
-
-
-
 
 import { createContext, useState, useEffect } from "react";
 import api from "../utils/api";
 
 export const AuthContext = createContext();
 
-// ✅ Safe JSON.parse
+// ✅ Safe JSON.parse helper
 const safeJSONParse = (value) => {
   try {
     if (!value || value === "undefined") return null;
@@ -120,8 +210,11 @@ export const AuthProvider = ({ children }) => {
     return storedAdmin || storedRestaurant || storedUser || null;
   });
 
+  const [pendingEmail, setPendingEmail] = useState(null); // 🧩 Email waiting for OTP
+  const [pendingRole, setPendingRole] = useState("user"); // Role type (user/restaurant)
+
   /* ============================================================
-     🧠 Sync role-based storage
+     🧠 Auto-sync user role with localStorage
   ============================================================ */
   useEffect(() => {
     if (!user) {
@@ -147,54 +240,60 @@ export const AuthProvider = ({ children }) => {
   }, [user]);
 
   /* ============================================================
-     🔐 LOGIN (Role-based protection)
+     🔐 LOGIN — Handles OTP flow automatically
   ============================================================ */
   const login = async (email, password, role = "user") => {
     try {
       const res = await api.post("/auth/login", { email, password });
-      const userData = res.data;
+      const data = res.data;
 
-      // 🚫 Prevent cross-login attempts
-      if (role === "restaurant" && userData.role !== "restaurant") {
+      // 🧩 If OTP required — show modal
+      if (data.message?.includes("OTP sent")) {
+        setPendingEmail(data.email);
+        setPendingRole(role);
+        return { otpRequired: true, email: data.email };
+      }
+
+      // 🚫 Prevent wrong role login
+      if (role === "restaurant" && data.role !== "restaurant") {
         throw new Error("You must log in through the Restaurant Portal.");
       }
-      if (role === "user" && userData.role !== "user" && userData.role !== "admin") {
+      if (role === "user" && data.role !== "user" && data.role !== "admin") {
         throw new Error("Please use the Restaurant Login page.");
       }
-      if (role === "admin" && userData.role !== "admin") {
+      if (role === "admin" && data.role !== "admin") {
         throw new Error("Unauthorized access — Admins only.");
       }
 
-      setUser(userData);
-      return userData;
+      setUser(data);
+      return data;
     } catch (err) {
       console.error("Login error:", err);
-      throw new Error(err.response?.data?.message || err.message || "Login failed");
+      throw new Error(
+        err.response?.data?.message || err.message || "Login failed"
+      );
     }
   };
 
   /* ============================================================
-     🧾 REGISTER (Normal user only)
+     🧾 REGISTER — Sends OTP (User or Restaurant)
   ============================================================ */
-  const registerUser = async (name, email, password) => {
+  const registerUser = async (name, email, password, role = "user") => {
     try {
-      // 🚫 Prevent misuse by checking for restricted words
-      if (
-        email.toLowerCase().includes("restaurant") ||
-        email.toLowerCase().includes("admin")
-      ) {
-        throw new Error("Please register from the Restaurant or Admin portal.");
+      const endpoint =
+        role === "restaurant" ? "/auth/register-restaurant" : "/auth/register";
+      const res = await api.post(endpoint, { name, email, password });
+      const data = res.data;
+
+      // 🧩 OTP step triggered
+      if (data.message?.includes("OTP")) {
+        setPendingEmail(email);
+        setPendingRole(role);
+        return { otpRequired: true, email };
       }
 
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Registration failed");
-      setUser({ ...data, role: "user" });
+      setUser({ ...data, role });
+      return data;
     } catch (err) {
       console.error("Register error:", err.message);
       throw err;
@@ -202,7 +301,52 @@ export const AuthProvider = ({ children }) => {
   };
 
   /* ============================================================
-     🚪 LOGOUT (Clears everything)
+     ✅ VERIFY OTP — Universal for User/Restaurant
+  ============================================================ */
+  const verifyOTP = async (otp) => {
+    if (!pendingEmail) throw new Error("No pending email for verification.");
+
+    try {
+      const res = await api.post("/auth/verify-otp", {
+        email: pendingEmail,
+        otp,
+      });
+
+      const { user, token } = res.data;
+
+      if (!user || !token) throw new Error("Invalid server response");
+
+      const userData = { ...user, token };
+      setUser(userData);
+
+      // 🧹 Clear pending states
+      setPendingEmail(null);
+      setPendingRole("user");
+
+      return userData;
+    } catch (err) {
+      console.error("OTP verification error:", err);
+      throw new Error(err.response?.data?.message || "Invalid or expired OTP");
+    }
+  };
+
+  /* ============================================================
+     🔁 RESEND OTP — 2 minute backend cooldown
+  ============================================================ */
+  const resendOTP = async () => {
+    if (!pendingEmail) throw new Error("No pending email for resend.");
+
+    try {
+      const res = await api.post("/auth/resend-otp", { email: pendingEmail });
+      return res.data;
+    } catch (err) {
+      console.error("Resend OTP error:", err);
+      throw new Error(err.response?.data?.message || "Failed to resend OTP");
+    }
+  };
+
+  /* ============================================================
+     🚪 LOGOUT — Clears all roles and localStorage
   ============================================================ */
   const logout = () => {
     setUser(null);
@@ -211,8 +355,23 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
+  /* ============================================================
+     🌍 EXPORT CONTEXT VALUE
+  ============================================================ */
   return (
-    <AuthContext.Provider value={{ user, setUser, login, logout, registerUser }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        setUser,
+        login,
+        logout,
+        registerUser,
+        verifyOTP,
+        resendOTP,
+        pendingEmail,
+        pendingRole,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

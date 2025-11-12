@@ -1,90 +1,131 @@
 // import React, { useState, useContext, useEffect } from "react";
 // import { useNavigate, Link } from "react-router-dom";
 // import { AuthContext } from "../context/AuthContext";
+// import { toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 // import "../styles/Auth.css";
+// import OtpModal from "../components/OtpModal"; // ✅ NEW
 
 // function Login() {
-//   const { login, user } = useContext(AuthContext);
+//   const { login, setUser, pendingEmail } = useContext(AuthContext);
 //   const [email, setEmail] = useState("");
 //   const [password, setPassword] = useState("");
+//   const [loginAs, setLoginAs] = useState("Student/Professor");
 //   const [error, setError] = useState("");
+//   const [showOtpModal, setShowOtpModal] = useState(false); // ✅ NEW
 //   const navigate = useNavigate();
 
-//   // 🚫 If restaurant or admin is already logged in, redirect them properly
 //   useEffect(() => {
-//     if (user) {
-//       if (user.role === "restaurant") navigate("/restaurant/dashboard", { replace: true });
-//       else if (user.role === "admin") navigate("/admin/dashboard", { replace: true });
+//     const storedUser = JSON.parse(localStorage.getItem("user"));
+//     if (storedUser) {
+//       if (storedUser.role === "restaurant") navigate("/restaurant/dashboard", { replace: true });
+//       else if (storedUser.role === "admin") navigate("/admin/dashboard", { replace: true });
+//       else navigate("/restaurants", { replace: true });
 //     }
-//   }, [user, navigate]);
+//   }, [navigate]);
 
 //   const handleLogin = async (e) => {
 //     e.preventDefault();
 //     setError("");
-
 //     try {
-//       await login(email, password);
-//       const storedUser = JSON.parse(localStorage.getItem("user"));
+//       let role =
+//         loginAs === "Restaurant Manager"
+//           ? "restaurant"
+//           : loginAs === "Administrator"
+//           ? "admin"
+//           : "user";
 
-//       // 🚫 Restrict restaurant/admin from logging in via user page
-//       if (storedUser?.role === "restaurant") {
-//         setError("Please use the Restaurant Login page to access your dashboard.");
-//         localStorage.removeItem("token");
-//         localStorage.removeItem("user");
-//         return;
-//       }
-//       if (storedUser?.role === "admin") {
-//         setError("Admins must log in through the Admin portal.");
-//         localStorage.removeItem("token");
-//         localStorage.removeItem("user");
+//       const result = await login(email, password, role);
+
+//       if (result?.otpRequired) {
+//         toast.info("📧 OTP sent to your email.", { position: "top-center" });
+//         setShowOtpModal(true); // ✅ OPEN OTP POPUP
 //         return;
 //       }
 
-//       // ✅ Normal user continues as usual
-//       navigate("/restaurants");
+//       const loggedInUser = {
+//         _id: result._id,
+//         name: result.name,
+//         email: result.email,
+//         role: result.role,
+//         token: result.token,
+//       };
+
+//       localStorage.setItem("user", JSON.stringify(loggedInUser));
+//       setUser(loggedInUser);
+
+//       toast.success("✅ Login successful!", { position: "top-center" });
+
+//       setTimeout(() => {
+//         if (loggedInUser.role === "restaurant") {
+//           navigate("/restaurant/dashboard", { replace: true });
+//         } else if (loggedInUser.role === "admin") {
+//           navigate("/admin/dashboard", { replace: true });
+//         } else {
+//           navigate("/restaurants", { replace: true });
+//         }
+//       }, 1500);
 //     } catch (err) {
-//       setError(err.response?.data?.message || "Login failed. Please try again.");
-//       setTimeout(() => setError(""), 3000);
+//       setError(err.message || "Invalid credentials");
 //     }
 //   };
 
 //   return (
-//     <div className="auth-page login-bg">
-//       <div className="overlay"></div>
+//     <div className="auth-page">
 //       <div className="auth-box">
-//         <h2 className="auth-heading">Welcome Back 👋</h2>
-//         <p className="auth-subtext">Sign in to continue ordering your favorites</p>
+//         <h2 className="auth-heading">Campus Food</h2>
+//         <p className="auth-subtext">Order food from campus outlets</p>
+
+//         <div className="toggle-container">
+//           <button className={`toggle-btn active`} type="button" onClick={() => navigate("/login")}>
+//             Login
+//           </button>
+//           <button className="toggle-btn" type="button" onClick={() => navigate("/register")}>
+//             Sign Up
+//           </button>
+//         </div>
 
 //         <form onSubmit={handleLogin} className="auth-form">
+//           <label className="auth-label">Email</label>
 //           <input
 //             type="email"
-//             placeholder="Email"
+//             placeholder="you@university.edu"
 //             className="auth-input"
 //             value={email}
 //             onChange={(e) => setEmail(e.target.value)}
 //             required
 //           />
+//           <label className="auth-label">Password</label>
 //           <input
 //             type="password"
-//             placeholder="Password"
+//             placeholder="••••••••"
 //             className="auth-input"
 //             value={password}
 //             onChange={(e) => setPassword(e.target.value)}
 //             required
 //           />
+//           <label className="auth-label">Login As</label>
+//           <select className="auth-select" value={loginAs} onChange={(e) => setLoginAs(e.target.value)}>
+//             <option>Student/Professor</option>
+//             <option>Restaurant Manager</option>
+//             <option>Administrator</option>
+//           </select>
 //           {error && <p className="auth-error">{error}</p>}
-//           <button type="submit" className="auth-btn">
-//             Sign In
-//           </button>
+//           <button type="submit" className="auth-btn">Login</button>
 //         </form>
-
-//         <p className="auth-footer">
-//           Don’t have an account?{" "}
-//           <Link to="/register" className="auth-link">
-//             Sign Up
-//           </Link>
-//         </p>
 //       </div>
+
+//       {/* ✅ OTP Popup Modal */}
+//       {showOtpModal && (
+//         <OtpModal
+//           email={pendingEmail || email}
+//           onClose={() => setShowOtpModal(false)}
+//           onSuccess={() => {
+//             toast.success("Email verified! Logging in...");
+//             navigate("/restaurants");
+//           }}
+//         />
+//       )}
 //     </div>
 //   );
 // }
@@ -96,51 +137,76 @@
 
 
 
-
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../styles/Auth.css";
+import OtpModal from "../components/OtpModal"; // ✅ OTP popup
 
 function Login() {
-  const { login, user } = useContext(AuthContext);
+  const { login, setUser, pendingEmail } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginAs, setLoginAs] = useState("Student/Professor");
   const [error, setError] = useState("");
+  const [showOtpModal, setShowOtpModal] = useState(false);
   const navigate = useNavigate();
 
+  // Redirect if already logged in
   useEffect(() => {
-    if (user) {
-      if (user.role === "restaurant") navigate("/restaurant/dashboard", { replace: true });
-      else if (user.role === "admin") navigate("/admin/dashboard", { replace: true });
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      if (storedUser.role === "restaurant") navigate("/restaurant/dashboard", { replace: true });
+      else if (storedUser.role === "admin") navigate("/admin/dashboard", { replace: true });
+      else navigate("/restaurants", { replace: true });
     }
-  }, [user, navigate]);
+  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
-
     try {
-      await login(email, password);
-      const storedUser = JSON.parse(localStorage.getItem("user"));
+      let role =
+        loginAs === "Restaurant Manager"
+          ? "restaurant"
+          : loginAs === "Administrator"
+          ? "admin"
+          : "user";
 
-      if (storedUser?.role === "restaurant") {
-        setError("Please use the Restaurant Login page to access your dashboard.");
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
+      const result = await login(email, password, role);
+
+      if (result?.otpRequired) {
+        toast.info("📧 OTP sent to your email.", { position: "top-center" });
+        setShowOtpModal(true);
         return;
       }
-      if (storedUser?.role === "admin") {
-        setError("Admins must log in through the Admin portal.");
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        return;
-      }
 
-      navigate("/restaurants");
+      const loggedInUser = {
+        _id: result._id,
+        name: result.name,
+        email: result.email,
+        role: result.role,
+        token: result.token,
+      };
+
+      localStorage.setItem("user", JSON.stringify(loggedInUser));
+      setUser(loggedInUser);
+
+      toast.success("✅ Login successful!", { position: "top-center" });
+
+      setTimeout(() => {
+        if (loggedInUser.role === "restaurant") {
+          navigate("/restaurant/dashboard", { replace: true });
+        } else if (loggedInUser.role === "admin") {
+          navigate("/admin/dashboard", { replace: true });
+        } else {
+          navigate("/restaurants", { replace: true });
+        }
+      }, 1500);
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed. Please try again.");
-      setTimeout(() => setError(""), 3000);
+      setError(err.message || "Invalid credentials");
     }
   };
 
@@ -150,30 +216,20 @@ function Login() {
         <h2 className="auth-heading">Campus Food</h2>
         <p className="auth-subtext">Order food from campus outlets</p>
 
-        {/* Toggle Tabs */}
         <div className="toggle-container">
-          <button
-            className={`toggle-btn active`}
-            type="button"
-            onClick={() => navigate("/login")}
-          >
+          <button className={`toggle-btn active`} type="button" onClick={() => navigate("/login")}>
             Login
           </button>
-          <button
-            className="toggle-btn"
-            type="button"
-            onClick={() => navigate("/register")}
-          >
+          <button className="toggle-btn" type="button" onClick={() => navigate("/register")}>
             Sign Up
           </button>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleLogin} className="auth-form">
           <label className="auth-label">Email</label>
           <input
             type="email"
-            placeholder="student@university.edu"
+            placeholder="you@university.edu"
             className="auth-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -191,34 +247,30 @@ function Login() {
           />
 
           <label className="auth-label">Login As</label>
-          <select className="auth-select" defaultValue="Student/Professor">
+          <select className="auth-select" value={loginAs} onChange={(e) => setLoginAs(e.target.value)}>
             <option>Student/Professor</option>
+            <option>Restaurant Manager</option>
+            <option>Administrator</option>
           </select>
 
           {error && <p className="auth-error">{error}</p>}
-
-          <button type="submit" className="auth-btn">
-            Login
-          </button>
+          <button type="submit" className="auth-btn">Login</button>
         </form>
-
-        <p className="forgot-link">
-          <a href="#" className="auth-link">Forgot password?</a>
-        </p>
-
-        <p className="auth-footer">
-          Don’t have an account?{" "}
-          <Link to="/register" className="auth-link">
-            Sign Up
-          </Link>
-        </p>
-
-        <p className="terms-footer">
-          By continuing, you agree to our{" "}
-          <a href="#" className="auth-link">Terms of Service</a> and{" "}
-          <a href="#" className="auth-link">Privacy Policy</a>.
-        </p>
       </div>
+
+      {/* ✅ OTP Popup Modal */}
+      {showOtpModal && (
+        <OtpModal
+          email={pendingEmail || email}
+          onClose={() => setShowOtpModal(false)}
+          onSuccess={() => {
+            toast.success("✅ Email verified successfully! Logging in...", {
+              position: "top-center",
+            });
+            setTimeout(() => navigate("/restaurants", { replace: true }), 1500);
+          }}
+        />
+      )}
     </div>
   );
 }

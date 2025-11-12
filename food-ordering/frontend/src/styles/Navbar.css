@@ -27,7 +27,7 @@
 /* === LOGO === */
 .nav-logo {
   font-size: 1.4rem;
-  font-weight: 600;
+  font-weight: bold;
   color: #111827;
   cursor: pointer;
 }
@@ -139,6 +139,8 @@
   color: #f9fafb;
   border-color: #374151;
 }
+
+/* === CART BADGE === */
 .cart-btn {
   position: relative;
 }
@@ -153,4 +155,205 @@
   font-weight: 600;
   padding: 2px 5px;
   border-radius: 50%;
+}
+
+/* ============================================
+   RESTAURANT DASHBOARD NAVBAR
+   ============================================ */
+.restaurant-navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  z-index: 1200;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  font-family: "Poppins", sans-serif;
+}
+
+.restaurant-nav-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0.8rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* === Left: Logo === */
+.restaurant-logo {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  cursor: pointer;
+}
+
+/* === Center: Links === */
+.restaurant-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.restaurant-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #374151;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.restaurant-link:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.restaurant-link.active {
+  background: #f3f4f6;
+  font-weight: 600;
+  color: #111827;
+}
+
+.restaurant-icon {
+  font-size: 1rem;
+}
+
+/* === Right: Logout === */
+.restaurant-logout {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  color: #111827;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.restaurant-logout:hover {
+  color: #dc2626;
+}
+
+.logout-icon {
+  font-size: 1rem;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .restaurant-nav-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .restaurant-nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+/* ============================================
+   ADMIN DASHBOARD NAVBAR (Image 2 Style)
+   ============================================ */
+.admin-navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  z-index: 1200;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  font-family: "Poppins", sans-serif;
+}
+
+.admin-nav-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0.8rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Left: Logo */
+.admin-logo {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  cursor: pointer;
+}
+
+/* Center: Links */
+.admin-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1f2937;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.admin-link:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.admin-link.active {
+  background: #f3f4f6;
+  font-weight: 600;
+  color: #111827;
+}
+
+.admin-icon {
+  font-size: 1rem;
+}
+
+/* Right: Logout */
+.admin-logout {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  color: #111827;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.admin-logout:hover {
+  color: #dc2626;
+}
+
+.logout-icon {
+  font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-nav-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .admin-nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }

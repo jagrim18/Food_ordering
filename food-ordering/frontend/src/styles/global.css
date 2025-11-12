@@ -11,3 +11,17 @@ body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; backgro
 .order-status { display:flex; gap:8px; align-items:center; }
 .form { max-width:420px; margin:24px auto; background:white; padding:16px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
 .form input, .form button { width:100%; margin-bottom:8px; }
+/* === FIX: Force Orders Page Light Mode Always === */
+body.orders-light,
+body.orders-light .navbar-light,
+body.orders-light .orders-container {
+  background: #f9fafb !important;
+  color: #1e293b !important;
+}
+
+body.orders-light.dark-mode,
+body.orders-light.dark-mode .navbar-light,
+body.orders-light.dark-mode .orders-container {
+  background: #f9fafb !important;
+  color: #1e293b !important;
+}

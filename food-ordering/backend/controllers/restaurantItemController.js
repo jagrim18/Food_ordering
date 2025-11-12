@@ -1,502 +1,3 @@
-// // // // const RestaurantItem = require("../models/RestaurantItem");
-
-// // // // // ✅ Get all menu items for a specific restaurant
-// // // // const getItemsByRestaurant = async (req, res) => {
-// // // //   try {
-// // // //     const restaurantId = req.params.id;
-// // // //     const items = await RestaurantItem.find({ restaurantId });
-
-// // // //     if (!items || items.length === 0) {
-// // // //       return res.status(404).json({ message: "No items found for this restaurant" });
-// // // //     }
-
-// // // //     res.status(200).json(items);
-// // // //   } catch (error) {
-// // // //     console.error("Error fetching restaurant items:", error);
-// // // //     res.status(500).json({ message: "Server error while fetching menu items" });
-// // // //   }
-// // // // };
-
-// // // // // ✅ Add a new item to a restaurant's menu
-// // // // const addRestaurantItem = async (req, res) => {
-// // // //   try {
-// // // //     const { restaurantId, name, price, category, image } = req.body;
-
-// // // //     if (!restaurantId || !name || !price) {
-// // // //       return res.status(400).json({ message: "Please provide restaurantId, name, and price" });
-// // // //     }
-
-// // // //     const newItem = new RestaurantItem({
-// // // //       restaurantId,
-// // // //       name,
-// // // //       price,
-// // // //       category,
-// // // //       image,
-// // // //     });
-
-// // // //     const savedItem = await newItem.save();
-// // // //     res.status(201).json(savedItem);
-// // // //   } catch (error) {
-// // // //     console.error("Error adding restaurant item:", error);
-// // // //     res.status(500).json({ message: "Server error while adding item" });
-// // // //   }
-// // // // };
-
-// // // // // ✅ Update an existing menu item
-// // // // const updateRestaurantItem = async (req, res) => {
-// // // //   try {
-// // // //     const updatedItem = await RestaurantItem.findByIdAndUpdate(
-// // // //       req.params.id,
-// // // //       req.body,
-// // // //       { new: true }
-// // // //     );
-
-// // // //     if (!updatedItem) {
-// // // //       return res.status(404).json({ message: "Item not found" });
-// // // //     }
-
-// // // //     res.status(200).json(updatedItem);
-// // // //   } catch (error) {
-// // // //     console.error("Error updating restaurant item:", error);
-// // // //     res.status(500).json({ message: "Server error while updating item" });
-// // // //   }
-// // // // };
-
-// // // // // ✅ Delete a menu item
-// // // // const deleteRestaurantItem = async (req, res) => {
-// // // //   try {
-// // // //     const deletedItem = await RestaurantItem.findByIdAndDelete(req.params.id);
-
-// // // //     if (!deletedItem) {
-// // // //       return res.status(404).json({ message: "Item not found" });
-// // // //     }
-
-// // // //     res.status(200).json({ message: "Item deleted successfully" });
-// // // //   } catch (error) {
-// // // //     console.error("Error deleting restaurant item:", error);
-// // // //     res.status(500).json({ message: "Server error while deleting item" });
-// // // //   }
-// // // // };
-
-// // // // module.exports = {
-// // // //   getItemsByRestaurant,
-// // // //   addRestaurantItem,
-// // // //   updateRestaurantItem,
-// // // //   deleteRestaurantItem,
-// // // // };
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // // // const RestaurantItem = require("../models/RestaurantItem");
-
-// // // // // ✅ Get all menu items for a specific restaurant
-// // // // const getItemsByRestaurant = async (req, res) => {
-// // // //   try {
-// // // //     const restaurantId = req.params.id;
-// // // //     const items = await RestaurantItem.find({ restaurantId });
-
-// // // //     if (!items || items.length === 0) {
-// // // //       return res.status(404).json({ message: "No items found for this restaurant" });
-// // // //     }
-
-// // // //     res.status(200).json(items);
-// // // //   } catch (error) {
-// // // //     console.error("❌ Error fetching restaurant items:", error);
-// // // //     res.status(500).json({ message: "Server error while fetching menu items" });
-// // // //   }
-// // // // };
-
-// // // // // ✅ Add a new item to a restaurant's menu
-// // // // const addRestaurantItem = async (req, res) => {
-// // // //   try {
-// // // //     const { restaurantId, name, price, category, image } = req.body;
-
-// // // //     if (!restaurantId || !name || !price) {
-// // // //       return res.status(400).json({ message: "Please provide restaurantId, name, and price" });
-// // // //     }
-
-// // // //     const newItem = new RestaurantItem({
-// // // //       restaurantId,
-// // // //       name,
-// // // //       price,
-// // // //       category,
-// // // //       image,
-// // // //     });
-
-// // // //     const savedItem = await newItem.save();
-// // // //     res.status(201).json(savedItem);
-// // // //   } catch (error) {
-// // // //     console.error("❌ Error adding restaurant item:", error);
-// // // //     res.status(500).json({ message: "Server error while adding item" });
-// // // //   }
-// // // // };
-
-// // // // // ✅ Update an existing menu item
-// // // // const updateRestaurantItem = async (req, res) => {
-// // // //   try {
-// // // //     const updatedItem = await RestaurantItem.findByIdAndUpdate(
-// // // //       req.params.id,
-// // // //       req.body,
-// // // //       { new: true }
-// // // //     );
-
-// // // //     if (!updatedItem) {
-// // // //       return res.status(404).json({ message: "Item not found" });
-// // // //     }
-
-// // // //     res.status(200).json(updatedItem);
-// // // //   } catch (error) {
-// // // //     console.error("❌ Error updating restaurant item:", error);
-// // // //     res.status(500).json({ message: "Server error while updating item" });
-// // // //   }
-// // // // };
-
-// // // // // ✅ Delete a menu item
-// // // // const deleteRestaurantItem = async (req, res) => {
-// // // //   try {
-// // // //     const deletedItem = await RestaurantItem.findByIdAndDelete(req.params.id);
-
-// // // //     if (!deletedItem) {
-// // // //       return res.status(404).json({ message: "Item not found" });
-// // // //     }
-
-// // // //     res.status(200).json({ message: "✅ Item deleted successfully" });
-// // // //   } catch (error) {
-// // // //     console.error("❌ Error deleting restaurant item:", error);
-// // // //     res.status(500).json({ message: "Server error while deleting item" });
-// // // //   }
-// // // // };
-
-// // // // module.exports = {
-// // // //   getItemsByRestaurant,
-// // // //   addRestaurantItem,
-// // // //   updateRestaurantItem,
-// // // //   deleteRestaurantItem,
-// // // // };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // // const RestaurantItem = require("../models/RestaurantItem");
-
-// // // // ✅ Get all menu items for a specific restaurant
-// // // const getItemsByRestaurant = async (req, res) => {
-// // //   try {
-// // //     const restaurantId = req.params.id;
-// // //     const items = await RestaurantItem.find({ restaurantId })
-// // //       .populate("restaurantId", "name address"); // include restaurant info if needed
-
-// // //     if (!items || items.length === 0) {
-// // //       return res
-// // //         .status(404)
-// // //         .json({ message: "No items found for this restaurant" });
-// // //     }
-
-// // //     res.status(200).json(items);
-// // //   } catch (error) {
-// // //     console.error("❌ Error fetching restaurant items:", error);
-// // //     res
-// // //       .status(500)
-// // //       .json({ message: "Server error while fetching menu items" });
-// // //   }
-// // // };
-
-// // // // ✅ Add a new item to a restaurant's menu
-// // // const addRestaurantItem = async (req, res) => {
-// // //   try {
-// // //     const { restaurantId, name, price, category, image, description } = req.body;
-
-// // //     if (!restaurantId || !name || !price) {
-// // //       return res
-// // //         .status(400)
-// // //         .json({ message: "Please provide restaurantId, name, and price" });
-// // //     }
-
-// // //     const newItem = new RestaurantItem({
-// // //       restaurantId,
-// // //       name,
-// // //       price,
-// // //       category,
-// // //       image,
-// // //       description,
-// // //     });
-
-// // //     const savedItem = await newItem.save();
-// // //     res.status(201).json(savedItem);
-// // //   } catch (error) {
-// // //     console.error("❌ Error adding restaurant item:", error);
-// // //     res.status(500).json({ message: "Server error while adding item" });
-// // //   }
-// // // };
-
-// // // // ✅ Update an existing menu item
-// // // const updateRestaurantItem = async (req, res) => {
-// // //   try {
-// // //     const updatedItem = await RestaurantItem.findByIdAndUpdate(
-// // //       req.params.id,
-// // //       req.body,
-// // //       { new: true }
-// // //     );
-
-// // //     if (!updatedItem) {
-// // //       return res.status(404).json({ message: "Item not found" });
-// // //     }
-
-// // //     res.status(200).json(updatedItem);
-// // //   } catch (error) {
-// // //     console.error("❌ Error updating restaurant item:", error);
-// // //     res.status(500).json({ message: "Server error while updating item" });
-// // //   }
-// // // };
-
-// // // // ✅ Delete a menu item
-// // // const deleteRestaurantItem = async (req, res) => {
-// // //   try {
-// // //     const deletedItem = await RestaurantItem.findByIdAndDelete(req.params.id);
-
-// // //     if (!deletedItem) {
-// // //       return res.status(404).json({ message: "Item not found" });
-// // //     }
-
-// // //     res.status(200).json({ message: "✅ Item deleted successfully" });
-// // //   } catch (error) {
-// // //     console.error("❌ Error deleting restaurant item:", error);
-// // //     res.status(500).json({ message: "Server error while deleting item" });
-// // //   }
-// // // };
-
-// // // module.exports = {
-// // //   getItemsByRestaurant,
-// // //   addRestaurantItem,
-// // //   updateRestaurantItem,
-// // //   deleteRestaurantItem,
-// // // };
-
-
-
-
-
-
-// // // const RestaurantItem = require("../models/RestaurantItem");
-
-// // // // ✅ Get all items for a specific restaurant
-// // // const getItemsByRestaurant = async (req, res) => {
-// // //   try {
-// // //     const { restaurantId } = req.params;
-// // //     const items = await RestaurantItem.find({ restaurantId });
-
-// // //     if (!items || items.length === 0) {
-// // //       return res.status(200).json([]); // No error, just empty list
-// // //     }
-
-// // //     res.status(200).json(items);
-// // //   } catch (error) {
-// // //     console.error("❌ Error fetching restaurant items:", error);
-// // //     res.status(500).json({ message: "Server error while fetching menu items" });
-// // //   }
-// // // };
-
-// // // // ✅ Add new restaurant item
-// // // const addRestaurantItem = async (req, res) => {
-// // //   try {
-// // //     const { restaurantId, name, price, description, category, image } = req.body;
-
-// // //     if (!restaurantId || !name || !price) {
-// // //       return res
-// // //         .status(400)
-// // //         .json({ message: "restaurantId, name, and price are required" });
-// // //     }
-
-// // //     const newItem = new RestaurantItem({
-// // //       restaurantId,
-// // //       name,
-// // //       price,
-// // //       description,
-// // //       category,
-// // //       image,
-// // //     });
-
-// // //     const savedItem = await newItem.save();
-// // //     res.status(201).json(savedItem);
-// // //   } catch (error) {
-// // //     console.error("❌ Error adding restaurant item:", error);
-// // //     res.status(500).json({ message: "Server error while adding item" });
-// // //   }
-// // // };
-
-// // // // ✅ Update existing item
-// // // const updateRestaurantItem = async (req, res) => {
-// // //   try {
-// // //     const updated = await RestaurantItem.findByIdAndUpdate(
-// // //       req.params.id,
-// // //       req.body,
-// // //       { new: true }
-// // //     );
-// // //     if (!updated) {
-// // //       return res.status(404).json({ message: "Item not found" });
-// // //     }
-// // //     res.status(200).json(updated);
-// // //   } catch (error) {
-// // //     console.error("❌ Error updating item:", error);
-// // //     res.status(500).json({ message: "Server error while updating item" });
-// // //   }
-// // // };
-
-// // // // ✅ Delete item
-// // // const deleteRestaurantItem = async (req, res) => {
-// // //   try {
-// // //     const deleted = await RestaurantItem.findByIdAndDelete(req.params.id);
-// // //     if (!deleted) {
-// // //       return res.status(404).json({ message: "Item not found" });
-// // //     }
-// // //     res.status(200).json({ message: "✅ Item deleted successfully" });
-// // //   } catch (error) {
-// // //     console.error("❌ Error deleting item:", error);
-// // //     res.status(500).json({ message: "Server error while deleting item" });
-// // //   }
-// // // };
-
-// // // module.exports = {
-// // //   getItemsByRestaurant,
-// // //   addRestaurantItem,
-// // //   updateRestaurantItem,
-// // //   deleteRestaurantItem,
-// // // };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // const RestaurantItem = require("../models/RestaurantItem");
-
-// // // ✅ Get all items for a specific restaurant
-// // const getItemsByRestaurant = async (req, res) => {
-// //   try {
-// //     const restaurantId = req.params.restaurantId;
-
-// //     if (!restaurantId) {
-// //       return res.status(400).json({ message: "Restaurant ID is required" });
-// //     }
-
-// //     // Fetch all items linked to this restaurantId
-// //     const items = await RestaurantItem.find({ restaurantId });
-
-// //     res.status(200).json(items || []);
-// //   } catch (error) {
-// //     console.error("❌ Error fetching restaurant items:", error);
-// //     res.status(500).json({ message: "Server error while fetching menu items" });
-// //   }
-// // };
-
-// // // ✅ Add new restaurant item
-// // const addRestaurantItem = async (req, res) => {
-// //   try {
-// //     const { restaurantId, name, price, description, category, image } = req.body;
-
-// //     if (!restaurantId || !name || !price) {
-// //       return res.status(400).json({
-// //         message: "restaurantId, name, and price are required",
-// //       });
-// //     }
-
-// //     const newItem = new RestaurantItem({
-// //       restaurantId,
-// //       name,
-// //       price,
-// //       description,
-// //       category,
-// //       image,
-// //     });
-
-// //     const savedItem = await newItem.save();
-// //     res.status(201).json(savedItem);
-// //   } catch (error) {
-// //     console.error("❌ Error adding restaurant item:", error);
-// //     res.status(500).json({ message: "Server error while adding item" });
-// //   }
-// // };
-
-// // // ✅ Update existing item
-// // const updateRestaurantItem = async (req, res) => {
-// //   try {
-// //     const updated = await RestaurantItem.findByIdAndUpdate(
-// //       req.params.id,
-// //       req.body,
-// //       { new: true }
-// //     );
-
-// //     if (!updated) {
-// //       return res.status(404).json({ message: "Item not found" });
-// //     }
-
-// //     res.status(200).json(updated);
-// //   } catch (error) {
-// //     console.error("❌ Error updating item:", error);
-// //     res.status(500).json({ message: "Server error while updating item" });
-// //   }
-// // };
-
-// // // ✅ Delete item
-// // const deleteRestaurantItem = async (req, res) => {
-// //   try {
-// //     const deleted = await RestaurantItem.findByIdAndDelete(req.params.id);
-
-// //     if (!deleted) {
-// //       return res.status(404).json({ message: "Item not found" });
-// //     }
-
-// //     res.status(200).json({ message: "✅ Item deleted successfully" });
-// //   } catch (error) {
-// //     console.error("❌ Error deleting item:", error);
-// //     res.status(500).json({ message: "Server error while deleting item" });
-// //   }
-// // };
-
-// // module.exports = {
-// //   getItemsByRestaurant,
-// //   addRestaurantItem,
-// //   updateRestaurantItem,
-// //   deleteRestaurantItem,
-// // };
-
-
-
-
-
-
-
-
-
 // const RestaurantItem = require("../models/RestaurantItem");
 
 // // ✅ Get all items for a specific restaurant
@@ -513,10 +14,10 @@
 //       createdAt: -1,
 //     });
 
-//     res.status(200).json(items || []);
+//     return res.status(200).json(items || []);
 //   } catch (error) {
 //     console.error("❌ Error fetching restaurant items:", error);
-//     res
+//     return res
 //       .status(500)
 //       .json({ message: "Server error while fetching menu items" });
 //   }
@@ -525,8 +26,7 @@
 // // ✅ Add new restaurant item
 // const addRestaurantItem = async (req, res) => {
 //   try {
-//     const { restaurantId, name, price, description, category, image } =
-//       req.body;
+//     const { restaurantId, name, price, description, category, image } = req.body;
 
 //     if (!restaurantId || !name || !price) {
 //       return res.status(400).json({
@@ -534,56 +34,68 @@
 //       });
 //     }
 
+//     // ✅ Create and save new item
 //     const newItem = new RestaurantItem({
 //       restaurantId,
-//       name,
+//       name: name.trim(),
 //       price,
-//       description,
+//       description: description || "",
 //       category: category || "Starters",
-//       image,
+//       image: image || "https://via.placeholder.com/200",
 //     });
 
 //     const savedItem = await newItem.save();
-//     res.status(201).json(savedItem);
+
+//     return res.status(201).json({
+//       message: "✅ Item added successfully",
+//       item: savedItem,
+//     });
 //   } catch (error) {
 //     console.error("❌ Error adding restaurant item:", error);
-//     res.status(500).json({ message: "Server error while adding item" });
+//     return res.status(500).json({ message: "Server error while adding item" });
 //   }
 // };
 
 // // ✅ Update existing item
 // const updateRestaurantItem = async (req, res) => {
 //   try {
-//     const updated = await RestaurantItem.findByIdAndUpdate(
-//       req.params.id,
+//     const itemId = req.params.id;
+
+//     const updatedItem = await RestaurantItem.findByIdAndUpdate(
+//       itemId,
 //       req.body,
 //       { new: true }
 //     );
 
-//     if (!updated) {
+//     if (!updatedItem) {
 //       return res.status(404).json({ message: "Item not found" });
 //     }
 
-//     res.status(200).json(updated);
+//     return res.status(200).json({
+//       message: "✅ Item updated successfully",
+//       item: updatedItem,
+//     });
 //   } catch (error) {
 //     console.error("❌ Error updating item:", error);
-//     res.status(500).json({ message: "Server error while updating item" });
+//     return res.status(500).json({ message: "Server error while updating item" });
 //   }
 // };
 
 // // ✅ Delete item
 // const deleteRestaurantItem = async (req, res) => {
 //   try {
-//     const deleted = await RestaurantItem.findByIdAndDelete(req.params.id);
+//     const itemId = req.params.id;
 
-//     if (!deleted) {
+//     const deletedItem = await RestaurantItem.findByIdAndDelete(itemId);
+
+//     if (!deletedItem) {
 //       return res.status(404).json({ message: "Item not found" });
 //     }
 
-//     res.status(200).json({ message: "✅ Item deleted successfully" });
+//     return res.status(200).json({ message: "✅ Item deleted successfully" });
 //   } catch (error) {
 //     console.error("❌ Error deleting item:", error);
-//     res.status(500).json({ message: "Server error while deleting item" });
+//     return res.status(500).json({ message: "Server error while deleting item" });
 //   }
 // };
 
@@ -595,45 +107,57 @@
 // };
 
 
-
-
 const RestaurantItem = require("../models/RestaurantItem");
+const Restaurant = require("../models/Restaurant");
 
-// ✅ Get all items for a specific restaurant
-const getItemsByRestaurant = async (req, res) => {
+// ✅ Optimized API: Fetch restaurant + its menu in one call
+const getFullMenuData = async (req, res) => {
   try {
-    const restaurantId = req.params.restaurantId;
+    const { restaurantId } = req.params;
+    if (!restaurantId)
+      return res.status(400).json({ success: false, message: "Restaurant ID is required" });
 
-    if (!restaurantId) {
-      return res.status(400).json({ message: "Restaurant ID is required" });
-    }
+    const restaurant = await Restaurant.findById(restaurantId).select("-password -otp -otpExpires");
+    if (!restaurant)
+      return res.status(404).json({ success: false, message: "Restaurant not found" });
 
-    // Fetch all items linked to this restaurantId (sorted by latest)
-    const items = await RestaurantItem.find({ restaurantId }).sort({
-      createdAt: -1,
+    const menuItems = await RestaurantItem.find({ restaurantId, available: { $ne: false } }).sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      restaurant,
+      menu: menuItems || [],
     });
-
-    return res.status(200).json(items || []);
   } catch (error) {
-    console.error("❌ Error fetching restaurant items:", error);
-    return res
-      .status(500)
-      .json({ message: "Server error while fetching menu items" });
+    console.error("❌ Error fetching restaurant & menu:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error while fetching restaurant data",
+    });
   }
 };
 
-// ✅ Add new restaurant item
+// ✅ Keep your old routes working too
+const getItemsByRestaurant = async (req, res) => {
+  try {
+    const restaurantId = req.params.restaurantId;
+    if (!restaurantId)
+      return res.status(400).json({ message: "Restaurant ID is required" });
+
+    const items = await RestaurantItem.find({ restaurantId }).sort({ createdAt: -1 });
+    return res.status(200).json(items || []);
+  } catch (error) {
+    console.error("❌ Error fetching restaurant items:", error);
+    return res.status(500).json({ message: "Server error while fetching menu items" });
+  }
+};
+
 const addRestaurantItem = async (req, res) => {
   try {
     const { restaurantId, name, price, description, category, image } = req.body;
+    if (!restaurantId || !name || !price)
+      return res.status(400).json({ message: "restaurantId, name, and price are required" });
 
-    if (!restaurantId || !name || !price) {
-      return res.status(400).json({
-        message: "restaurantId, name, and price are required",
-      });
-    }
-
-    // ✅ Create and save new item
     const newItem = new RestaurantItem({
       restaurantId,
       name: name.trim(),
@@ -644,53 +168,31 @@ const addRestaurantItem = async (req, res) => {
     });
 
     const savedItem = await newItem.save();
-
-    return res.status(201).json({
-      message: "✅ Item added successfully",
-      item: savedItem,
-    });
+    return res.status(201).json({ message: "✅ Item added successfully", item: savedItem });
   } catch (error) {
     console.error("❌ Error adding restaurant item:", error);
     return res.status(500).json({ message: "Server error while adding item" });
   }
 };
 
-// ✅ Update existing item
 const updateRestaurantItem = async (req, res) => {
   try {
     const itemId = req.params.id;
+    const updatedItem = await RestaurantItem.findByIdAndUpdate(itemId, req.body, { new: true });
 
-    const updatedItem = await RestaurantItem.findByIdAndUpdate(
-      itemId,
-      req.body,
-      { new: true }
-    );
-
-    if (!updatedItem) {
-      return res.status(404).json({ message: "Item not found" });
-    }
-
-    return res.status(200).json({
-      message: "✅ Item updated successfully",
-      item: updatedItem,
-    });
+    if (!updatedItem) return res.status(404).json({ message: "Item not found" });
+    return res.status(200).json({ message: "✅ Item updated successfully", item: updatedItem });
   } catch (error) {
     console.error("❌ Error updating item:", error);
     return res.status(500).json({ message: "Server error while updating item" });
   }
 };
 
-// ✅ Delete item
 const deleteRestaurantItem = async (req, res) => {
   try {
     const itemId = req.params.id;
-
     const deletedItem = await RestaurantItem.findByIdAndDelete(itemId);
-
-    if (!deletedItem) {
-      return res.status(404).json({ message: "Item not found" });
-    }
-
+    if (!deletedItem) return res.status(404).json({ message: "Item not found" });
     return res.status(200).json({ message: "✅ Item deleted successfully" });
   } catch (error) {
     console.error("❌ Error deleting item:", error);
@@ -699,6 +201,7 @@ const deleteRestaurantItem = async (req, res) => {
 };
 
 module.exports = {
+  getFullMenuData,
   getItemsByRestaurant,
   addRestaurantItem,
   updateRestaurantItem,
