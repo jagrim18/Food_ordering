@@ -104,6 +104,8 @@
   color: #ffffff;
   border: none;
   box-shadow: 0 6px 18px rgba(79, 70, 229, 0.25);
+  max-width: 400px;    /* controls width */
+  width: 200%; 
 }
 
 .welcome-container .btn.primary:hover {

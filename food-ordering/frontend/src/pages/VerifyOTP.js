@@ -91,8 +91,7 @@
 //             <p>Resend available in {cooldown}s</p>
 //           ) : (
 //             <button className="resend-btn" onClick={handleResend}>
-//               Resend OTP
-//             </button>
+//               Resend OTP//             </button>
 //           )}
 //         </div>
 //       </div>

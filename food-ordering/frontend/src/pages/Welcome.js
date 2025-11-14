@@ -108,7 +108,7 @@ function Welcome() {
 
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if (user) navigate("/menu");
+    if (user) navigate("/");
   }, [navigate]);
 
   return (
@@ -138,9 +138,6 @@ function Welcome() {
           <div className="button-group">
             <button className="btn primary" onClick={() => navigate("/register")}>
               Get Started
-            </button>
-            <button className="btn secondary" onClick={() => navigate("/login")}>
-              Sign In
             </button>
           </div>
         </div>

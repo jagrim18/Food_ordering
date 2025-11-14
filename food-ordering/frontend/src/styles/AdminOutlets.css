@@ -177,14 +177,14 @@
 .outlet-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 16px 22px;
+  justify-content: center;
+  gap: 100px;
+  padding: 15px 25px;
   border-top: 1px solid #f3f4f6;
   background: #fafafa;
   border-bottom-left-radius: 18px;
   border-bottom-right-radius: 18px;
-  flex-wrap: nowrap; /* ✅ prevents wrapping */
+  flex-wrap: nowrap !important; /* ✅ prevents wrapping */
 }
 
 /* ===== BUTTONS ===== */
@@ -211,8 +211,7 @@
 }
 
 .close-btn {
-  flex: 1; /* makes it expand in the center */
-  text-align: center;
+  flex: 0 0 120px; /* makes it expand in the center */
 }
 
 .delete-btn {
@@ -223,7 +222,6 @@
 .edit-btn:hover {
   background: #f1f5f9;
   border-color: #cbd5e1;
-  flex: 0 0 200px;
 }
 
 .close-btn:hover {
@@ -358,4 +356,254 @@
   background: var(--card-bg);
   color: var(--text-color);
   border: 1px solid var(--border-color);
+}
+/* ============================================================
+   OVERLAY (blur + dim)
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-start;     /* puts modal slightly lower like screenshot */
+  justify-content: center;
+  padding-top: 60px;           /* perfect vertical position */
+  z-index: 9999;
+}
+
+/* ============================================================
+   MODAL WRAPPER
+   ============================================================ */
+.modal {
+  width: 500px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e5e7eb;
+  animation: modalPop 0.22s ease-out;
+  position: relative;
+  font-family: "Inter", sans-serif;
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.modal-header {
+  margin-bottom: 18px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.modal-header p {
+  margin: 4px 0 0 0;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+/* close (X) button */
+.close-modal {
+  position: absolute;
+  right: 20px;
+  top: 18px;
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  transition: 0.2s;
+}
+.close-modal:hover {
+  color: #111827;
+}
+
+/* ============================================================
+   FORM INPUTS
+   ============================================================ */
+.modal-form label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  color: #374151;
+}
+
+.modal-form input,
+.modal-form textarea {
+  width: 100%;
+  padding: 10px 5px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #f3f4f6;
+  color: #111827;
+  font-size: 0.92rem;
+  margin-bottom: 20px;
+  transition: 0.2s ease;
+}
+
+.modal-form input:focus,
+.modal-form textarea:focus {
+  border-color: #2563eb;
+  background: white;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.modal-form textarea {
+  resize: none;
+  min-height: 80px;
+}
+
+/* ============================================================
+   TIME ROW
+   ============================================================ */
+.time-fields {
+  display: flex;
+  gap: 100px;
+  margin-bottom: 16px;
+}
+
+.time-fields div {
+  flex: 1;
+}
+
+/* ============================================================
+   iOS STYLE TOGGLE (exact screenshot)
+   ============================================================ */
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.switch-row input[type="checkbox"] {
+  appearance: none;
+  width: 50px;
+  height: 2px;
+  background: #e5e7eb;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.switch-row input[type="checkbox"]::after {
+  content: "";
+  width: 15px;
+  height: 15px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 8px;
+  transition: 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.switch-row input[type="checkbox"]:checked {
+  background: #2563eb;
+}
+
+.switch-row input[type="checkbox"]:checked::after {
+  transform: translateX(20px);
+}
+
+/* ============================================================
+   ACTION BUTTONS (Cancel + Update)
+   ============================================================ */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.cancel-btn {
+  background: white;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.92rem;
+  transition: 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: #f3f4f6;
+}
+
+.submit-btn {
+  background: #2563eb;
+  color: white;
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: #1e40af;
+}
+
+/* ============================================================
+   DARK MODE SUPPORT
+   ============================================================ */
+[data-theme="dark"] .modal {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .modal-header h2 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .modal-header p {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .modal-form input,
+[data-theme="dark"] .modal-form textarea {
+  background: #334155;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .modal-form input:focus,
+[data-theme="dark"] .modal-form textarea:focus {
+  background: #1e293b;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+[data-theme="dark"] .cancel-btn {
+  background: #334155;
+  border-color: #475569;
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .cancel-btn:hover {
+  background: #475569;
 }

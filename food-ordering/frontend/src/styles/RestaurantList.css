@@ -51,7 +51,7 @@
 /* === Restaurant Grid === */
 .restaurant-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
   gap: 1.8rem;
   animation: fadeIn 0.8s ease-in-out;
 }
@@ -65,8 +65,14 @@
   transition: all 0.25s ease;
   cursor: pointer;
   border: 1px solid #f0f0f0;
+
+  /* Prevent ANY spacing bugs */
+  display: flex;
+  flex-direction: column;
+  padding: 0;
 }
 
+/* Hover Effect */
 .restaurant-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
@@ -74,15 +80,22 @@
 
 /* === Image === */
 .image-wrapper {
-  position: relative;
-  height: 180px;
+  width: 100%;
+  height: 320px;        /* 🔥 FINAL height — visible full image */
+  padding: 0 !important;
+  margin: 0 !important;
   overflow: hidden;
+  position: relative;
+  display: block;
 }
 
 .image-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  margin: 0;
+  padding: 0;
   transition: transform 0.4s ease;
 }
 
@@ -101,29 +114,33 @@
   font-weight: 600;
   padding: 4px 8px;
   border-radius: 6px;
+  z-index: 5;
 }
 
 /* === Info Section === */
 .info {
-  padding: 1rem 1.2rem 1.2rem 1.2rem;
+  padding: 1.1rem 1.2rem;
+  margin: 0 !important;        /* 🔥 REMOVE ALL GAP */
+  background: inherit;
 }
 
 .restaurant-name {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: #111827;
-  margin-bottom: 0.3rem;
+  margin: 0 0 0.3rem 0 !important;
 }
 
 .description {
   font-size: 0.9rem;
   color: #6b7280;
-  margin-bottom: 0.6rem;
+  margin: 0 0 0.6rem 0 !important;
 }
 
 .timing {
   font-size: 0.85rem;
   color: #374151;
+  margin: 0 !important;
 }
 
 /* === Empty State === */
@@ -165,16 +182,13 @@
   .restaurant-page {
     padding: 1.5rem;
   }
-  .page-title {
-    text-align: center;
-  }
+  .page-title,
   .page-subtitle {
     text-align: center;
   }
 }
-/* ============================================================
-   🎞️ Auto Image Carousel Styles
-   ============================================================ */
+
+/* === Carousel (unchanged) === */
 .carousel-container {
   width: 100%;
   height: 180px;
