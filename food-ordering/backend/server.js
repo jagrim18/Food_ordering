@@ -1,252 +1,3 @@
-// // // backend/server.js
-// // const express = require("express");
-// // const dotenv = require("dotenv");
-// // const cors = require("cors");
-// // const http = require("http");
-// // const path = require("path");
-// // const { Server } = require("socket.io");
-// // const connectMainDB = require("./config/db");
-
-// // // ============================================================
-// // // 🌍 Load environment variables
-// // // ============================================================
-// // dotenv.config();
-
-// // // ============================================================
-// // // 🧠 Connect MongoDB
-// // // ============================================================
-// // connectMainDB();
-
-// // const app = express();
-
-// // // ============================================================
-// // // ⚙️ Middleware
-// // // ============================================================
-
-// // // ✅ Parse JSON and Form Data (support large uploads)
-// // app.use(express.json({ limit: "15mb" }));
-// // app.use(express.urlencoded({ extended: true, limit: "15mb" }));
-
-// // // ✅ Allow frontend connection (CORS)
-// // app.use(
-// //   cors({
-// //     origin: process.env.CLIENT_URL || "http://localhost:3000",
-// //     methods: ["GET", "POST", "PUT", "DELETE"],
-// //     credentials: true,
-// //   })
-// // );
-
-// // // ============================================================
-// // // 🖼️ Serve Uploaded Files (Profile + Gallery)
-// // // ============================================================
-// // const uploadsPath = path.join(__dirname, "uploads");
-// // app.use("/uploads", express.static(uploadsPath));
-// // console.log(`📸 Static files served from: ${uploadsPath}`);
-// // console.log(`🌐 Accessible at: http://localhost:${process.env.PORT || 5000}/uploads/<file-name>`);
-
-// // // ============================================================
-// // // 📦 Import Routes
-// // // ============================================================
-// // const authRoutes = require("./routes/authRoutes");
-// // const userRoutes = require("./routes/userRoutes");
-// // const orderRoutes = require("./routes/orderRoutes");
-// // const restaurantRoutes = require("./routes/restaurantRoutes");
-// // const menuRoutes = require("./routes/menuRoutes");
-// // const restaurantItemRoutes = require("./routes/restaurantItemRoutes");
-
-// // // ============================================================
-// // // 🚏 Mount Routes
-// // // ============================================================
-// // app.use("/api/auth", authRoutes);
-// // app.use("/api/users", userRoutes);
-// // app.use("/api/orders", orderRoutes);
-// // app.use("/api/restaurants", restaurantRoutes);
-// // app.use("/api/menu", menuRoutes);
-// // app.use("/api/restaurantitems", restaurantItemRoutes);
-
-// // // ============================================================
-// // // 🏠 Base Route
-// // // ============================================================
-// // app.get("/", (req, res) => {
-// //   res.send("🍔 Foodify Backend API is running successfully!");
-// // });
-
-// // // ============================================================
-// // // ⚡ Socket.IO Setup
-// // // ============================================================
-// // const server = http.createServer(app);
-// // const io = new Server(server, {
-// //   cors: {
-// //     origin: [
-// //       "http://localhost:5173", // Vite dev server
-// //       "http://localhost:3000", // Fallback (if using CRA)
-// //     ],
-// //     methods: ["GET", "POST", "PUT", "DELETE"],
-// //   },
-// // });
-
-// // app.set("io", io);
-
-// // io.on("connection", (socket) => {
-// //   console.log("✅ Client connected:", socket.id);
-
-// //   socket.on("joinRoom", (roomId) => {
-// //     if (!roomId) return;
-// //     socket.join(roomId);
-// //     console.log(`📌 ${socket.id} joined room: ${roomId}`);
-// //   });
-
-// //   socket.on("leaveRoom", (roomId) => {
-// //     if (!roomId) return;
-// //     socket.leave(roomId);
-// //     console.log(`📤 ${socket.id} left room: ${roomId}`);
-// //   });
-
-// //   socket.on("disconnect", (reason) => {
-// //     console.log(`❌ Client disconnected (${socket.id}) - reason: ${reason}`);
-// //   });
-// // });
-
-// // // ============================================================
-// // // 🚀 Start Server
-// // // ============================================================
-// // const PORT = process.env.PORT || 5000;
-// // server.listen(PORT, () => {
-// //   console.log(`🚀 Server running on port ${PORT}`);
-// //   console.log(`🌐 Static uploads: http://localhost:${PORT}/uploads/`);
-// // });
-
-
-// // backend/server.js
-// const express = require("express");
-// const dotenv = require("dotenv");
-// const cors = require("cors");
-// const http = require("http");
-// const path = require("path");
-// const { Server } = require("socket.io");
-// const connectMainDB = require("./config/db");
-
-// // ============================================================
-// // 🌍 Load environment variables
-// // ============================================================
-// dotenv.config();
-
-// // ============================================================
-// // 🧠 Connect MongoDB
-// // ============================================================
-// connectMainDB();
-
-// const app = express();
-
-// // ============================================================
-// // ⚙️ Middleware
-// // ============================================================
-
-// // ✅ Parse JSON and Form Data (support large uploads)
-// app.use(express.json({ limit: "15mb" }));
-// app.use(express.urlencoded({ extended: true, limit: "15mb" }));
-
-// // ✅ Allow frontend connection (CORS)
-// app.use(
-//   cors({
-//     origin: process.env.CLIENT_URL || "http://localhost:3000",
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     credentials: true,
-//   })
-// );
-
-// // ============================================================
-// // 🖼️ Serve Uploaded Files (Profile + Gallery)
-// // ============================================================
-// const uploadsPath = path.join(__dirname, "uploads");
-// app.use("/uploads", express.static(uploadsPath));
-// console.log(`📸 Static files served from: ${uploadsPath}`);
-// console.log(
-//   `🌐 Accessible at: http://localhost:${process.env.PORT || 5000}/uploads/<file-name>`
-// );
-
-// // ============================================================
-// // 📦 Import Routes
-// // ============================================================
-// const authRoutes = require("./routes/authRoutes");
-// const userRoutes = require("./routes/userRoutes");
-// const orderRoutes = require("./routes/orderRoutes");
-// const restaurantRoutes = require("./routes/restaurantRoutes");
-// const menuRoutes = require("./routes/menuRoutes");
-// const restaurantItemRoutes = require("./routes/restaurantItemRoutes");
-
-// // 🆕 Admin routes for dashboard analytics
-// const adminRoutes = require("./routes/adminRoutes");
-
-// // ============================================================
-// // 🚏 Mount Routes
-// // ============================================================
-// app.use("/api/auth", authRoutes);
-// app.use("/api/users", userRoutes);
-// app.use("/api/orders", orderRoutes);
-// app.use("/api/restaurants", restaurantRoutes);
-// app.use("/api/menu", menuRoutes);
-// app.use("/api/restaurantitems", restaurantItemRoutes);
-
-// // 🆕 Mount Admin API routes
-// app.use("/api/admin", adminRoutes);
-
-// // ============================================================
-// // 🏠 Base Route
-// // ============================================================
-// app.get("/", (req, res) => {
-//   res.send("🍔 Foodify Backend API is running successfully!");
-// });
-
-// // ============================================================
-// // ⚡ Socket.IO Setup
-// // ============================================================
-// const server = http.createServer(app);
-// const io = new Server(server, {
-//   cors: {
-//     origin: [
-//       "http://localhost:5173", // Vite dev server
-//       "http://localhost:3000", // Fallback (if using CRA)
-//     ],
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//   },
-// });
-
-// // ✅ Attach io instance for emitting events from controllers
-// app.set("io", io);
-
-// io.on("connection", (socket) => {
-//   console.log("✅ Client connected:", socket.id);
-
-//   socket.on("joinRoom", (roomId) => {
-//     if (!roomId) return;
-//     socket.join(roomId);
-//     console.log(`📌 ${socket.id} joined room: ${roomId}`);
-//   });
-
-//   socket.on("leaveRoom", (roomId) => {
-//     if (!roomId) return;
-//     socket.leave(roomId);
-//     console.log(`📤 ${socket.id} left room: ${roomId}`);
-//   });
-
-//   socket.on("disconnect", (reason) => {
-//     console.log(`❌ Client disconnected (${socket.id}) - reason: ${reason}`);
-//   });
-// });
-
-// // ============================================================
-// // 🚀 Start Server
-// // ============================================================
-// const PORT = process.env.PORT || 5000;
-// server.listen(PORT, () => {
-//   console.log(`🚀 Server running on port ${PORT}`);
-//   console.log(`🌐 Static uploads: http://localhost:${PORT}/uploads/`);
-// });
-
-
-
-
 // backend/server.js
 const express = require("express");
 const dotenv = require("dotenv");
@@ -256,30 +7,23 @@ const path = require("path");
 const { Server } = require("socket.io");
 const connectMainDB = require("./config/db");
 
-// ============================================================
-// 🌍 Load environment variables
-// ============================================================
+// Load environment variables
 dotenv.config();
 
-// ============================================================
-// 🧠 Connect MongoDB
-// ============================================================
+// Connect to MongoDB
 connectMainDB();
 
-// 🆕 Start Monthly Revenue Cron Job
+// Monthly revenue cron
 require("./cron/resetMonthlyRevenue");
 
 const app = express();
 
-// ============================================================
-// ⚙️ Middleware
-// ============================================================
-
-// ✅ Parse JSON and Form Data (support large uploads)
+// -------------------------------------------------------------
+// Middleware
+// -------------------------------------------------------------
 app.use(express.json({ limit: "15mb" }));
 app.use(express.urlencoded({ extended: true, limit: "15mb" }));
 
-// ✅ Allow frontend connection (CORS)
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "http://localhost:3000",
@@ -288,68 +32,61 @@ app.use(
   })
 );
 
-// ============================================================
-// 🖼️ Serve Uploaded Files (Profile + Gallery)
-// ============================================================
+// -------------------------------------------------------------
+// Serve Uploaded Files
+// -------------------------------------------------------------
 const uploadsPath = path.join(__dirname, "uploads");
 app.use("/uploads", express.static(uploadsPath));
-console.log(`📸 Static files served from: ${uploadsPath}`);
+
+console.log(`📸 Serving static uploads from: ${uploadsPath}`);
 console.log(
-  `🌐 Accessible at: http://localhost:${process.env.PORT || 5000}/uploads/<file-name>`
+  `🌐 Access files at: http://localhost:${process.env.PORT || 5000}/uploads/<file>`
 );
 
-// ============================================================
-// 📦 Import Routes
-// ============================================================
+// -------------------------------------------------------------
+// Routes
+// -------------------------------------------------------------
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const restaurantRoutes = require("./routes/restaurantRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const restaurantItemRoutes = require("./routes/restaurantItemRoutes");
-
-// 🆕 Admin routes for dashboard analytics
 const adminRoutes = require("./routes/adminRoutes");
 
-// ============================================================
-// 🚏 Mount Routes
-// ============================================================
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/menu", menuRoutes);
 app.use("/api/restaurantitems", restaurantItemRoutes);
-
-// 🆕 Mount Admin API routes
 app.use("/api/admin", adminRoutes);
 
-// ============================================================
-// 🏠 Base Route
-// ============================================================
+// Base route
 app.get("/", (req, res) => {
   res.send("🍔 Foodify Backend API is running successfully!");
 });
 
-// ============================================================
-// ⚡ Socket.IO Setup
-// ============================================================
+// -------------------------------------------------------------
+// Socket.IO Setup
+// -------------------------------------------------------------
 const server = http.createServer(app);
+
 const io = new Server(server, {
   cors: {
     origin: [
-      "http://localhost:5173", // Vite dev server
-      "http://localhost:3000", // Fallback (CRA)
+      "http://localhost:5173",
+      "http://localhost:3000",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
 
-// Attach io for controllers
+// Make io available inside controllers (req.app.get("io"))
 app.set("io", io);
 
 io.on("connection", (socket) => {
-  console.log("✅ Client connected:", socket.id);
+  console.log(`✅ Client connected: ${socket.id}`);
 
   socket.on("joinRoom", (roomId) => {
     if (!roomId) return;
@@ -363,15 +100,16 @@ io.on("connection", (socket) => {
     console.log(`📤 ${socket.id} left room: ${roomId}`);
   });
 
-  socket.on("disconnect", (reason) => {
-    console.log(`❌ Client disconnected (${socket.id}) - reason: ${reason}`);
+  socket.on("disconnect", () => {
+    console.log(`❌ Client disconnected: ${socket.id}`);
   });
 });
 
-// ============================================================
-// 🚀 Start Server
-// ============================================================
+// -------------------------------------------------------------
+// Start Server
+// -------------------------------------------------------------
 const PORT = process.env.PORT || 5000;
+
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`🌐 Static uploads: http://localhost:${PORT}/uploads/`);

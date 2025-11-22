@@ -562,3 +562,17 @@
 [data-theme="dark"] .monthly-table tr:hover {
   background: rgba(255, 255, 255, 0.05);
 }
+/* src/styles/AdminDashboard.css (add these styles or merge into your existing CSS) */
+.revenue-chart-box {
+  width: 95%;
+  height: 240px;
+  padding: 12px;
+  background: #0f172a;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.revenue-chart-box canvas {
+  width: 100% !important;
+  height: 100% !important;
+}

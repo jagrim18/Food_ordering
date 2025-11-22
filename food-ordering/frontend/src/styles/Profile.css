@@ -286,6 +286,7 @@
   padding: 0.6rem 0.8rem;
   margin-bottom: 1rem;
 }
+
 /* === CAMPUS FOOD - PROFILE PAGE (Dark Mode Enhanced) === */
 :root {
   --bg-color: #f9fafb;
@@ -316,6 +317,7 @@
   border: 1px solid var(--border-color);
   color: var(--text-color);
 }
+
 .form-field label,
 .profile-details p {
   color: var(--muted-text);
@@ -345,4 +347,16 @@
   background: var(--card-bg);
   color: var(--text-color);
   border: 1px solid var(--border-color);
+}
+
+/* === FIX: Hide file upload box completely === */
+#profilePicUpload {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
 }

@@ -1,365 +1,261 @@
-/* ============================================================
-   🏪 ADMIN OUTLETS PAGE — PIXEL PERFECT VERSION
-   Matches provided screenshot (Campus Food Admin)
-   ============================================================ */
+/* src/styles/AdminOutlets.css
+   Full replacement/upgrade for card visuals to match Image 2 (white card)
+   — paste over your existing AdminOutlets.css or merge styles below.
+*/
 
-.admin-outlets {
-  background: #f9fafb;
-  min-height: 100vh;
-  padding: 40px;
-  font-family: "Poppins", "Inter", sans-serif;
-  color: #111827;
-}
-
-/* ===== HEADER ===== */
-.outlets-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 35px;
-}
-
-.outlets-title {
-  font-size: 1.9rem;
-  font-weight: 700;
-  margin: 0;
-  color: #111827;
-}
-
-.outlets-subtitle {
-  color: #6b7280;
-  margin-top: 4px;
-  font-size: 0.95rem;
-}
-
-.add-outlet-btn {
-  background: #2563eb;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 22px;
-  font-weight: 500;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: background 0.25s ease, transform 0.2s ease;
-}
-.add-outlet-btn:hover {
-  background: #1d4ed8;
-  transform: translateY(-1px);
-}
-
-/* ===== STATS SECTION ===== */
-.outlets-stats {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 38px;
-  flex-wrap: wrap;
-}
-
-.outlet-stat-card {
-  background: #fff;
-  flex: 1;
-  min-width: 220px;
-  text-align: center;
-  border-radius: 14px;
-  padding: 22px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-  border: 1px solid #e5e7eb;
-}
-
-.outlet-stat-card h2 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin: 0;
-}
-
-.outlet-stat-card p {
-  color: #6b7280;
-  font-size: 0.95rem;
-  margin-top: 6px;
-}
-
-.green {
-  color: #22c55e;
-}
-.red {
-  color: #ef4444;
-}
-
-/* ===== GRID ===== */
-.outlets-grid {
-  display: grid;
-  grid-template-columns: 400px;
-  gap: 28px;
-}
-
-/* ===== OUTLET CARD ===== */
-.outlet-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: all 0.25s ease;
-  display: flex;
-  flex-direction: column;
-}
-.outlet-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
-}
-
-/* ===== IMAGE ===== */
-.outlet-image-container {
-  position: relative;
-  width: 100%;
-  height: 210px;
-  overflow: hidden;
-  border-bottom: 1px solid #f3f4f6;
-}
-.outlet-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-.outlet-card:hover .outlet-image {
-  transform: scale(1.02);
-}
-.badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  padding: 5px 12px;
-  border-radius: 12px;
-  letter-spacing: 0.2px;
-}
-.badge.open {
-  background: #2563eb;
-  color: #fff;
-}
-.badge.closed {
-  background: #ef4444;
-  color: #fff;
-}
-
-/* ===== DETAILS ===== */
-.outlet-details {
-  padding: 10px 5px 5px 5px;
-}
-
-.outlet-details h3 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: #111827;
-}
-
-.outlet-desc {
-  color: #6b7280;
-  font-size: 0.9rem;
-  margin-bottom: 10px;
-  line-height: 1.4;
-}
-
-.outlet-hours {
-  color: #374151;
-  font-size: 0.88rem;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* ===== ACTIONS ===== */
-/* ===== ACTIONS CONTAINER ===== */
-.outlet-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 100px;
-  padding: 15px 25px;
-  border-top: 1px solid #f3f4f6;
-  background: #fafafa;
-  border-bottom-left-radius: 18px;
-  border-bottom-right-radius: 18px;
-  flex-wrap: nowrap !important; /* ✅ prevents wrapping */
-}
-
-/* ===== BUTTONS ===== */
-.outlet-actions button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  padding: 10px 24px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.25s ease;
-  color: #111827;
-  white-space: nowrap; /* ✅ prevents text breaking into 2 lines */
-}
-
-/* ===== SPECIFIC BUTTONS ===== */
-.edit-btn {
-  flex: 0 0 120px; /* fixed width for Edit button */
-}
-
-.close-btn {
-  flex: 0 0 120px; /* makes it expand in the center */
-}
-
-.delete-btn {
-  flex: 0 0 60px; /* fixed smaller width for icon-only delete */
-}
-
-/* ===== HOVER STATES ===== */
-.edit-btn:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
-}
-
-.close-btn:hover {
-  background: #fef9c3;
-  border-color: #facc15;
-}
-
-.delete-btn:hover {
-  background: #fee2e2;
-  border-color: #fca5a5;
-  flex: 0 0 50px;
-}
-
-/* ===== SOFT HOVER LIFT ===== */
-.outlet-actions button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-
-/* ===== STATES ===== */
-.loading-text,
-.no-outlets {
-  text-align: center;
-  color: #6b7280;
-  margin-top: 30px;
-  font-size: 1rem;
-}
-
-/* ===== ANIMATION ===== */
-.outlet-card {
-  opacity: 0;
-  animation: fadeInUp 0.4s ease forwards;
-}
-@keyframes fadeInUp {
-  from {
-    transform: translateY(12px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .admin-outlets {
-    padding: 24px;
-  }
-
-  .outlets-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .outlets-stats {
-    flex-direction: column;
-  }
-
-  .outlets-grid {
-   display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-   gap: 30px;
-   justify-content: center;
-  }
-}
-/* ============================================================
-   🏪 ADMIN OUTLETS PAGE (Light + Dark Mode Unified)
-   ============================================================ */
-
-:root {
-  --bg-color: #f9fafb;
+/* ---------- Variables & global resets ---------- */
+:root{
+  --bg: #f8fafc;
   --card-bg: #ffffff;
-  --text-color: #111827;
-  --accent-color: #2563eb;
-  --border-color: #e5e7eb;
-  --muted-text: #6b7280;
-  --shadow-soft: rgba(0, 0, 0, 0.05);
+  --muted: #6b7280;
+  --text: #0f172a;
+  --accent: #2563eb;
+  --border: #e6e9ef;
+  --card-radius: 16px;
+  --shadow: 0 8px 20px rgba(2,6,23,0.06);
 }
 
 [data-theme="dark"] {
-  --bg-color: #0f172a;
-  --card-bg: #1e293b;
-  --text-color: #f1f5f9;
-  --accent-color: #3b82f6;
-  --border-color: #334155;
-  --muted-text: #94a3b8;
-  --shadow-soft: rgba(0, 0, 0, 0.25);
+  --bg: #0f172a;
+  --card-bg: #0b1220; /* slightly darker than page */
+  --muted: #94a3b8;
+  --text: #f8fafc;
+  --accent: #3b82f6;
+  --border: #172033;
+  --shadow: 0 10px 26px rgba(2,6,23,0.35);
 }
 
-.admin-outlets {
-  background: var(--bg-color);
-  color: var(--text-color);
+.admin-outlets{
+  background: var(--bg);
+  color: var(--text);
   min-height: 100vh;
   padding: 40px;
   font-family: "Poppins", "Inter", sans-serif;
   padding-top: 100px;
 }
 
-.outlets-header h1, .outlets-title {
-  color: var(--text-color);
+/* ---------- Header ---------- */
+.outlets-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  margin-bottom:28px;
 }
-.outlets-subtitle {
-  color: var(--muted-text);
+.outlets-title {
+  font-size:1.9rem;
+  font-weight:700;
+  margin:0;
+}
+.outlets-subtitle{
+  margin:4px 0 0;
+  color:var(--muted);
+}
+.header-actions {}
+
+/* ---------- Stats ---------- */
+.outlets-stats{
+  display:flex;
+  gap:20px;
+  margin-bottom:32px;
+  flex-wrap:wrap;
+}
+.outlet-stat-card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  border-radius:12px;
+  padding:20px 26px;
+  min-width:160px;
+  text-align:center;
+}
+.outlet-stat-card h2{
+  margin:0;
+  font-size:1.5rem;
+  font-weight:700;
+}
+.outlet-stat-card p{
+  margin-top:8px;
+  color:var(--muted);
 }
 
-.outlet-stat-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  box-shadow: 0 2px 6px var(--shadow-soft);
-}
-.outlet-stat-card p {
-  color: var(--muted-text);
+/* ---------- Grid layout: 3 columns like Image 2 ---------- */
+.outlets-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:28px;
+  align-items:start;
 }
 
-.outlet-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  color: var(--text-color);
-  box-shadow: 0 2px 8px var(--shadow-soft);
+/* When narrow, drop to single column */
+@media (max-width: 1100px){
+  .outlets-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-.outlet-desc, .outlet-hours {
-  color: var(--muted-text);
+@media (max-width: 720px){
+  .outlets-grid{
+    grid-template-columns: 1fr;
+  }
 }
-.outlet-actions {
-  background: var(--bg-color);
-  border-top: 1px solid var(--border-color);
+
+/* ---------- Restaurant Card (Image 2 style) ---------- */
+.restaurant-card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius: var(--card-radius);
+  overflow:hidden;
+  box-shadow: var(--shadow);
+  display:flex;
+  flex-direction:column;
+  transition: transform 200ms ease, box-shadow 200ms ease;
 }
-.outlet-actions button {
-  background: var(--card-bg);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
+
+/* top image that spans full width with rounded top corners */
+.restaurant-image-wrap{
+  position:relative;
+  width:100%;
+  height:180px;
+  overflow:hidden;
+  border-top-left-radius:var(--card-radius);
+  border-top-right-radius:var(--card-radius);
 }
-/* ============================================================
-   OVERLAY (blur + dim)
-   ============================================================ */
+.restaurant-image{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition: transform 300ms ease;
+}
+.restaurant-card:hover .restaurant-image{
+  transform: scale(1.03);
+}
+
+/* status pill in top-right over image */
+.status-pill{
+  position:absolute;
+  top:12px;
+  right:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:0.82rem;
+  font-weight:600;
+  box-shadow:0 6px 18px rgba(2,6,23,0.06);
+}
+.status-pill.open{
+  background: var(--accent);
+  color: white;
+}
+.status-pill.closed{
+  background: #ef4444;
+  color: white;
+}
+
+/* body content underneath image */
+.restaurant-body{
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+/* title + description */
+.restaurant-title{
+  margin:0;
+  font-size:1.05rem;
+  font-weight:600;
+  color:var(--text);
+}
+.restaurant-desc{
+  margin:8px 0 0;
+  color:var(--muted);
+  font-size:0.95rem;
+  line-height:1.45;
+}
+
+/* meta row contains hours and actions aligned */
+.restaurant-meta{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:8px;
+}
+
+/* hours group */
+.hours{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--muted);
+  font-size:0.95rem;
+}
+
+/* actions row (buttons) — horizontal, evenly spaced */
+.actions-row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+/* button base */
+.btn{
+  border:1px solid var(--border);
+  background:var(--card-bg);
+  color:var(--text);
+  padding:10px 14px;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  transition: all 150ms ease;
+  white-space:nowrap;
+}
+
+/* specific button styles */
+.btn-edit{
+  border-color:transparent;
+  background: transparent;
+  padding:8px 12px;
+  color: var(--text);
+}
+.btn-edit:hover{
+  background:#f3f4f6;
+}
+.btn-toggle{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  color:var(--text);
+}
+.btn-toggle:hover{
+  box-shadow: 0 6px 14px rgba(2,6,23,0.06);
+  transform: translateY(-2px);
+}
+.btn-delete{
+  padding:8px 10px;
+  min-width:44px;
+  display:flex;
+  justify-content:center;
+  border-radius:10px;
+  border:1px solid #fee2e2;
+  background:#fff;
+}
+.btn-delete:hover{
+  background:#fff0f0;
+  transform: translateY(-2px);
+}
+
+/* small responsive tweak: shrink actions gap on smaller screens */
+@media (max-width: 480px){
+  .actions-row{
+    gap:8px;
+  }
+  .restaurant-image-wrap{ height:160px; }
+}
+
+/* ---------- Modal + other existing styles preserved ---------- */
 .modal-overlay {
   position: fixed;
   inset: 0;

@@ -14,7 +14,6 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
 
-    // 🧾 Each item in the order
     items: [
       {
         name: { type: String, required: true },
@@ -32,15 +31,20 @@ const orderSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["Pending", "Preparing", "Ready", "Delivered", "Cancelled"],
+      enum: ["Pending", "Accepted", "Preparing", "Delivered", "Cancelled"],
       default: "Pending",
     },
 
     rating: { type: Number, min: 1, max: 5, default: null },
     review: { type: String, default: "" },
 
-    // 🆕 Sequential order number (daily reset)
-    orderNumber: { type: String, unique: true },
+    // Sequential order number per restaurant
+    orderNumber: { type: Number, required: true },
+
+    // NEW FIELDS FOR PREP TIME
+    preparingAt: { type: Date, default: null },
+    deliveredAt: { type: Date, default: null },
+    prepTime: { type: Number, default: null }, // minutes
   },
   { timestamps: true }
 );
