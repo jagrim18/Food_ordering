@@ -1,3 +1,4 @@
+// backend/routes/orderRoutes.js
 const express = require("express");
 const {
   placeOrder,
@@ -7,11 +8,7 @@ const {
   updateOrderStatus,
   cancelOrder,
 } = require("../controllers/orderController");
-const {
-  protect,
-  adminOnly,
-  restaurantOnly,
-} = require("../middlewares/authMiddleware");
+const { protect, adminOnly, restaurantOnly } = require("../middlewares/authMiddleware");
 const Order = require("../models/Order");
 
 const router = express.Router();
@@ -117,6 +114,7 @@ router.put(
   },
   updateOrderStatus
 );
+
 // ⭐ NEW— Get AVG Prep Time of last 100 delivered orders
 router.get("/avg-prep-time/:restaurantId", async (req, res) => {
   try {

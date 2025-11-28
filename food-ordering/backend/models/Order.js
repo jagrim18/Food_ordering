@@ -31,20 +31,25 @@ const orderSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["Pending", "Accepted", "Preparing", "Delivered", "Cancelled"],
+      enum: ["Pending", "Accepted", "Preparing", "Delivered", "Cancelled", "Paid"],
       default: "Pending",
     },
 
-    rating: { type: Number, min: 1, max: 5, default: null },
-    review: { type: String, default: "" },
-
-    // Sequential order number per restaurant
     orderNumber: { type: Number, required: true },
 
-    // NEW FIELDS FOR PREP TIME
     preparingAt: { type: Date, default: null },
     deliveredAt: { type: Date, default: null },
-    prepTime: { type: Number, default: null }, // minutes
+    prepTime: { type: Number, default: null },
+
+    // ⭐ NEW — required for Razorpay
+    paymentInfo: {
+      orderId: { type: String },
+      paymentId: { type: String },
+      method: { type: String },
+      status: { type: String },
+    },
+
+    pickupTime: { type: String, default: "15 minutes" },
   },
   { timestamps: true }
 );

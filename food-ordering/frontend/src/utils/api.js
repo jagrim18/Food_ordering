@@ -1,119 +1,72 @@
-// import axios from "axios";
-
-// const API_URL =
-//   process.env.REACT_APP_API_URL ||
-//   "http://localhost:5000/api"; // always include /api
-
-// const api = axios.create({
-//   baseURL: API_URL,
-// });
-
-// api.interceptors.request.use(
-//   (config) => {
-//     try {
-//       const userData =
-//         JSON.parse(localStorage.getItem("user")) ||
-//         JSON.parse(localStorage.getItem("admin")) ||
-//         JSON.parse(localStorage.getItem("restaurant"));
-
-//       if (userData?.token) {
-//         config.headers.Authorization = `Bearer ${userData.token}`;
-//       }
-
-//       if (config.data instanceof FormData) {
-//         config.headers["Content-Type"] = "multipart/form-data";
-//       } else if (!config.headers["Content-Type"]) {
-//         config.headers["Content-Type"] = "application/json";
-//       }
-//     } catch (err) {
-//       console.error("❌ Error reading token:", err);
-//     }
-//     return config;
-//   },
-//   (error) => Promise.reject(error)
-// );
-
-// api.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     const status = error.response?.status;
-
-//     if (status === 401 || status === 403) {
-//       localStorage.removeItem("user");
-//       localStorage.removeItem("admin");
-//       localStorage.removeItem("restaurant");
-
-//       setTimeout(() => {
-//         window.location.href = "/login";
-//       }, 800);
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
-
-// export default api;
-
-
-
-
+// src/utils/api.js
 import axios from "axios";
-import { toast } from "react-hot-toast";
 
-const API_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:5000/api";
-
+/* ============================================================
+   🌐 BASE URL — FINAL, FIXED, ALWAYS CORRECT
+   Your backend uses:  /api/auth/login
+   So baseURL must be:  http://localhost:5000/api
+============================================================ */
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: "http://localhost:5000/api",
+  withCredentials: false,
 });
 
 /* ============================================================
-   🔐 Attach token from global "authUser"
+   🔐 REQUEST INTERCEPTOR — Attach Token
 ============================================================ */
 api.interceptors.request.use(
   (config) => {
-    try {
-      const userData = JSON.parse(localStorage.getItem("authUser"));
+    const rawUser = localStorage.getItem("authUser");
 
-      if (userData?.token) {
-        config.headers.Authorization = `Bearer ${userData.token}`;
+    if (rawUser) {
+      try {
+        const userData = JSON.parse(rawUser);
+        if (userData.token) {
+          config.headers.Authorization = `Bearer ${userData.token}`;
+        }
+      } catch (err) {
+        console.error("Token parse error:", err);
       }
-
-      if (config.data instanceof FormData) {
-        config.headers["Content-Type"] = "multipart/form-data";
-      } else if (!config.headers["Content-Type"]) {
-        config.headers["Content-Type"] = "application/json";
-      }
-    } catch (err) {
-      console.error("Token read error:", err);
     }
+
+    // Handle form-data
+    if (config.data instanceof FormData) {
+      config.headers["Content-Type"] = "multipart/form-data";
+    } else if (!config.headers["Content-Type"]) {
+      config.headers["Content-Type"] = "application/json";
+    }
+
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-
 /* ============================================================
-   🚫 DO NOT AUTO-LOGOUT ON ANY ERROR  
-   Show toast and let protected routes handle it
+   🚫 RESPONSE INTERCEPTOR — No auto logout
 ============================================================ */
 api.interceptors.response.use(
-  (res) => res,
-  (err) => {
-    const status = err.response?.status;
+  (response) => response,
+  (error) => {
+    const status = error.response?.status;
 
+    // Just print the error; do NOT logout
     if (status === 401) {
-      console.warn("Unauthorized → letting routes handle it.");
-      // NO automatic logout
+      console.warn("401 Unauthorized → letting routes handle it");
     }
-
     if (status === 403) {
-      console.warn("Forbidden → letting routes handle it.");
-      // NO automatic logout
+      console.warn("403 Forbidden → letting routes handle it");
     }
 
-    return Promise.reject(err);
+    return Promise.reject(error);
   }
 );
+// 🆕 Fetch categories
+export const fetchCategories = (restaurantId) =>
+  api.get(`/categories/${restaurantId}`);
+
+// 🆕 Add new category
+export const createCategory = (restaurantId, name) =>
+  api.post(`/categories`, { restaurantId, name });
+
 
 export default api;

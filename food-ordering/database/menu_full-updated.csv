@@ -1,0 +1,21 @@
+name,price,category,description,available,restaurantId
+Hot Chocolate,69,Hot Beverages,,true,6919955c1864df5dc42fcd24
+Cappuccino,49,Hot Beverages,,true,6919955c1864df5dc42fcd24
+Cold Coffee,79,Hot Beverages,,true,6919955c1864df5dc42fcd24
+Chai Kulhad,29,Chai Nagri,,true,6919955c1864df5dc42fcd24
+Veg Sandwich,79,Sandwiches,,true,6919955c1864df5dc42fcd24
+Veg Cheese Sandwich,99,Sandwiches,,true,6919955c1864df5dc42fcd24
+Paneer Sandwich,129,Sandwiches,,true,6919955c1864df5dc42fcd24
+Veg Burger,89,Burgers,,true,6919955c1864df5dc42fcd24
+Crispy Corn,129,Crispy Snacks,,true,6919955c1864df5dc42fcd24
+Peri Peri Fries,99,Crispy Snacks,,true,6919955c1864df5dc42fcd24
+Masala Maggie,69,Crispy Snacks,,true,6919955c1864df5dc42fcd24
+Cold Coffee,85,Cold Beverages,,true,6919955c1864df5dc42fcd24
+Oreo Shake,109,Cold Beverages,,true,6919955c1864df5dc42fcd24
+Kitkat Shake,119,Cold Beverages,,true,6919955c1864df5dc42fcd24
+Veg Kathi Roll,99,Veg Kathi Rolls,,true,6919955c1864df5dc42fcd24
+Paneer Kathi Roll,129,Veg Kathi Rolls,,true,6919955c1864df5dc42fcd24
+Egg Roll,89,Non Veg Kathi Rolls,,true,6919955c1864df5dc42fcd24
+Chicken Tikka Roll,149,Non Veg Kathi Rolls,,true,6919955c1864df5dc42fcd24
+Aloo Pyaz Parantha,90,Classic Indian Combos,,true,6919955c1864df5dc42fcd24
+Paneer Parantha,119,Classic Indian Combos,,true,6919955c1864df5dc42fcd24

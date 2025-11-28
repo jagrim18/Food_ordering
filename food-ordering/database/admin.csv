@@ -1,0 +1,3 @@
+name,email,password,role,isVerified
+Super Admin,superadmin@example.com,$2a$10$T9D4pEKR6Bf7zK.YYv7vUOL2gEJxWi0kb1f6NfB1KOafuuZQzQdae,admin,true
+Admin User,adminuser@example.com,$2a$10$6dSu5U0rTlM0bJtUOjMSkO7vqtNGNrA0YxTpNKxacbnrRbFR3gBmm,admin,true

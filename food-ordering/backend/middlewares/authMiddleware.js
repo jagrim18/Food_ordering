@@ -1,140 +1,80 @@
-// // backend/middlewares/authMiddleware.js
-// const jwt = require("jsonwebtoken");
-// const User = require("../models/User");
-// const Restaurant = require("../models/Restaurant");
-
-// /**
-//  * ✅ Unified Authentication Middleware
-//  * Supports: users, restaurants, admins
-//  */
-// const protect = async (req, res, next) => {
-//   let token;
-
-//   if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
-//     try {
-//       token = req.headers.authorization.split(" ")[1];
-
-//       // ✅ Verify the token
-//       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-//       // ✅ Try finding in User collection first
-//       let authUser = await User.findById(decoded.id).select("-password");
-//       let userType = "user";
-
-//       // ✅ If not found, try in Restaurant collection
-//       if (!authUser) {
-//         authUser = await Restaurant.findById(decoded.id).select("-password");
-//         userType = "restaurant";
-//       }
-
-//       // ✅ If no match in either collection
-//       if (!authUser) {
-//         return res.status(401).json({ message: "User or Restaurant not found" });
-//       }
-
-//       // ✅ Assign a proper role fallback (important for restaurants)
-//       authUser.role = authUser.role || userType;
-
-//       // ✅ Attach data to request
-//       req.user = authUser;
-//       req.token = token;
-
-//       next();
-//     } catch (err) {
-//       console.error("❌ Auth Error:", err.message);
-//       return res.status(401).json({ message: "Not authorized, token invalid" });
-//     }
-//   } else {
-//     return res.status(401).json({ message: "Not authorized, no token provided" });
-//   }
-// };
-
-// /**
-//  * ✅ Admin Only Middleware
-//  */
-// const adminOnly = (req, res, next) => {
-//   if (req.user && req.user.role === "admin") {
-//     return next();
-//   }
-//   return res.status(403).json({ message: "Admin access only" });
-// };
-
-// /**
-//  * ✅ Restaurant Only Middleware
-//  */
-// const restaurantOnly = (req, res, next) => {
-//   if (req.user && req.user.role === "restaurant") {
-//     return next();
-//   }
-//   return res.status(403).json({ message: "Restaurant access only" });
-// };
-
-// module.exports = { protect, adminOnly, restaurantOnly };
-
-
 // backend/middlewares/authMiddleware.js
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Restaurant = require("../models/Restaurant");
+const Admin = require("../models/Admin");
 
-/**
- * ✅ Unified Authentication Middleware
- * Supports: users, restaurants, admins
- */
+/*
+  protect()
+  - Reads Bearer token
+  - Verifies JWT
+  - Looks up Admin -> Restaurant -> User (in that order)
+  - Sets req.user (always) and when restaurant found also sets req.restaurant
+*/
 const protect = async (req, res, next) => {
   let token;
 
-  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
-    try {
-      token = req.headers.authorization.split(" ")[1];
-
-      // 🔐 Verify the token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-      // ❗ IMPORTANT: Do NOT remove password — needed for change-password
-      let authUser = await User.findById(decoded.id);
-      let userType = "user";
-
-      if (!authUser) {
-        authUser = await Restaurant.findById(decoded.id);
-        userType = "restaurant";
-      }
-
-      if (!authUser) {
-        return res.status(401).json({ message: "User or Restaurant not found" });
-      }
-
-      // Assign fallback role (important for restaurants)
-      authUser.role = authUser.role || userType;
-
-      // Attach to request
-      req.user = authUser;
-      req.token = token;
-
-      next();
-    } catch (err) {
-      console.error("❌ Auth Error:", err.message);
-      return res.status(401).json({ message: "Not authorized, token invalid" });
+  try {
+    const authHeader = req.headers.authorization || "";
+    if (!authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "No token provided" });
     }
-  } else {
-    return res.status(401).json({ message: "Not authorized, no token provided" });
+
+    token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    let authUser = await Admin.findById(decoded.id).select("-password");
+    let role = "admin";
+
+    if (!authUser) {
+      authUser = await Restaurant.findById(decoded.id).select("-password");
+      role = "restaurant";
+    }
+    if (!authUser) {
+      authUser = await User.findById(decoded.id).select("-password");
+      role = "user";
+    }
+
+    if (!authUser) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    // set role fallback if model didn't have it
+    authUser.role = authUser.role || role;
+
+    // Always provide req.user for consistency
+    req.user = authUser;
+    req.token = token;
+
+    // If it's a restaurant, also attach req.restaurant for controllers that expect it
+    if (authUser.role === "restaurant") {
+      req.restaurant = authUser;
+    }
+
+    next();
+  } catch (err) {
+    console.error("Auth protect error:", err);
+    return res.status(401).json({ message: "Token invalid or expired" });
   }
 };
 
-/**
- * ✅ Admin Only Middleware
- */
 const adminOnly = (req, res, next) => {
-  if (req.user && req.user.role === "admin") return next();
+  if (req.user?.role === "admin") return next();
   return res.status(403).json({ message: "Admin access only" });
 };
 
-/**
- * ✅ Restaurant Only Middleware
- */
 const restaurantOnly = (req, res, next) => {
-  if (req.user && req.user.role === "restaurant") return next();
-  return res.status(403).json({ message: "Restaurant access only" });
+  // if protect() ran, req.user should exist; ensure it is a restaurant
+  if (req.user?.role !== "restaurant") {
+    return res.status(403).json({ message: "Restaurant access only" });
+  }
+
+  // Ensure req.restaurant exists for controllers that read it
+  if (!req.restaurant) {
+    req.restaurant = req.user;
+  }
+
+  return next();
 };
 
 module.exports = { protect, adminOnly, restaurantOnly };

@@ -576,3 +576,22 @@
   width: 100% !important;
   height: 100% !important;
 }
+/* Default badge style */
+.badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+}
+
+/* Open badge */
+.badge.open {
+  background-color: #3b82f6; /* nice blue */
+}
+
+/* Closed badge */
+.badge.closed {
+  background-color: #ef4444; /* red */
+}

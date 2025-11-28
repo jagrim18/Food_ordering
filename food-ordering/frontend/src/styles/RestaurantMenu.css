@@ -791,3 +791,48 @@
     gap: 0.9rem;
   }
 }
+/* ===========================
+   NEW CATEGORY FULL-WIDTH ROW
+=========================== */
+
+.add-category-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;       /* ✔ adds clean gap below category dropdown */
+}
+
+.add-category-inline input {
+  flex: 1;                /* ✔ stretch full width */
+  background: #0f172a;
+  border: 1px solid #334155;
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-size: 14px;
+  transition: border 0.2s ease;
+}
+
+.add-category-inline input:focus {
+  border-color: #6366f1;
+  outline: none;
+}
+
+.add-category-inline button {
+  padding: 10px 18px;
+  background: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.add-category-inline button:hover {
+  background: #4f46e5;
+}
+
+.add-category-inline button:active {
+  transform: scale(0.96);
+}

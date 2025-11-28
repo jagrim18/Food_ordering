@@ -33,6 +33,7 @@
   font-size: 1.6rem;
   font-weight: 700;
   color: var(--accent-color);
+  text-align: center;
 }
 
 .restaurant-sub {
@@ -82,7 +83,7 @@
 /* === GRID === */
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.8rem;
   align-items: stretch;
   transition: all 0.35s ease;
@@ -294,4 +295,62 @@
   .menu-img-wrapper {
     height: 180px;
   }
+}
+.veg-toggle {
+  display: flex;
+  gap: 10px;
+}
+
+.veg-btn {
+  background: #1d2331;
+  color: #cfd3dc;
+  border: 1px solid #2e3446;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.veg-btn.active {
+  background: #a855f7;
+  color: white;
+  border-color: #a855f7;
+}
+
+.veg-dot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.veg-dot.veg {
+  background: #22c55e;
+}
+
+.veg-dot.nonveg {
+  background: #ef4444;
+}
+/* === NAME ABOVE PRICE === */
+.menu-name-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.menu-name-price .item-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  text-transform: capitalize;
+}
+
+.menu-name-price .item-price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-color);
 }
