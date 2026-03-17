@@ -1,14 +1,403 @@
+// // backend/controllers/orderController.js
+// const Order = require("../models/Order");
+// const Restaurant = require("../models/Restaurant");
+// const MonthlyRevenue = require("../models/MonthlyRevenue");
+// const DailyRevenue = require("../models/DailyRevenue");
+
+// const { printReceipt } = require("../utils/printReceipt");
+
+// /**
+//  * Helper: returns YYYY-MM-DD for IST
+//  */
+// const getISTDateKey = (date = new Date()) => {
+//   const istOffsetMs = 5.5 * 60 * 60 * 1000;
+//   const istDate = new Date(date.getTime() + istOffsetMs);
+//   return istDate.toISOString().slice(0, 10);
+// };
+
+// /**
+//  * Ensure today's DailyRevenue exists
+//  */
+// const ensureTodayDailyRevenue = async () => {
+//   const today = getISTDateKey();
+//   const exist = await DailyRevenue.findOne({ day: today });
+
+//   if (!exist) {
+//     await DailyRevenue.create({
+//       day: today,
+//       totalRevenue: 0,
+//       totalOrders: 0,
+//     });
+//   }
+// };
+
+// // =============================
+// // PLACE ORDER
+// // =============================
+// const placeOrder = async (req, res) => {
+//   try {
+//     await ensureTodayDailyRevenue();
+
+//     const { items, totalPrice, restaurantId } = req.body;
+
+//     if (!items?.length)
+//       return res.status(400).json({ message: "No items in the order" });
+
+//     if (!restaurantId)
+//       return res.status(400).json({ message: "Restaurant ID is required" });
+
+//     if (!totalPrice || totalPrice <= 0)
+//       return res.status(400).json({ message: "Total price must be valid" });
+
+//     const mixedRestaurant = items.some(
+//       (i) => i.restaurantId && i.restaurantId.toString() !== restaurantId.toString()
+//     );
+
+//     if (mixedRestaurant) {
+//       return res.status(400).json({
+//         message: "❌ All items must belong to the same restaurant.",
+//       });
+//     }
+
+//     // Auto-increment restaurant order number
+//     const restaurant = await Restaurant.findByIdAndUpdate(
+//       restaurantId,
+//       { $inc: { orderCounter: 1 } },
+//       { new: true }
+//     );
+
+//     if (!restaurant)
+//       return res.status(404).json({ message: "Restaurant not found" });
+
+//     const nextOrderNumber = restaurant.orderCounter;
+
+//     const order = new Order({
+//       user: req.user._id,
+//       restaurant: restaurantId,
+//       items,
+//       totalPrice,
+//       status: "Pending",
+//       orderNumber: nextOrderNumber,
+//     });
+
+//     await order.save();
+
+//     const populated = await Order.findById(order._id)
+//       .populate("user", "name email")
+//       .populate("restaurant", "name email restaurantName address phone");
+
+//     // SOCKET
+//     const io = req.app.get("io");
+//     if (io) {
+//       io.to(restaurantId.toString()).emit("orderPlaced", populated);
+//       io.to("admin-room").emit("adminOrderUpdate", {
+//         type: "newOrder",
+//         order: populated,
+//       });
+//     }
+
+//     // AUTO PRINT
+//     (async () => {
+//       try {
+//         await printReceipt(populated, populated.restaurant);
+//       } catch (err) {
+//         console.error("❌ Auto-print failed:", err);
+//       }
+//     })();
+
+//     res.status(201).json({
+//       message: "Order placed successfully",
+//       orderNumber: nextOrderNumber,
+//       order: populated,
+//     });
+//   } catch (err) {
+//     console.error("❌ Place Order Error:", err);
+//     res.status(500).json({ message: "Server Error", error: err.message });
+//   }
+// };
+
+// // =============================
+// // GET USER ORDERS
+// // =============================
+// const getOrders = async (req, res) => {
+//   try {
+//     const orders = await Order.find({ user: req.user._id })
+//       .populate("restaurant", "restaurantName")
+//       .sort({ createdAt: -1 });
+
+//     res.json(orders);
+//   } catch (err) {
+//     console.error("❌ Get orders error:", err);
+//     res.status(500).json({ message: "Server Error" });
+//   }
+// };
+
+// // =============================
+// // GET RESTAURANT ORDERS
+// // =============================
+// const getRestaurantOrders = async (req, res) => {
+//   try {
+//     const restaurantId =
+//       req.restaurant?._id ||
+//       (req.user?.role === "restaurant" && req.user._id);
+
+//     if (!restaurantId)
+//       return res.status(400).json({ message: "Restaurant ID missing" });
+
+//     const orders = await Order.find({ restaurant: restaurantId })
+//       .populate("user", "name email")
+//       .sort({ createdAt: -1 });
+
+//     res.json(orders);
+//   } catch (err) {
+//     console.error("❌ Get restaurant orders error:", err);
+//     res.status(500).json({ message: "Server Error" });
+//   }
+// };
+
+// // =============================
+// // RESTAURANT STATS
+// // =============================
+// const getRestaurantStats = async (req, res) => {
+//   try {
+//     await ensureTodayDailyRevenue();
+
+//     const today = getISTDateKey();
+
+//     const todayEntry = await DailyRevenue.findOne({ day: today });
+
+//     const restaurantId =
+//       req.restaurant?._id ||
+//       (req.user?.role === "restaurant" && req.user._id);
+
+//     const totalOrders = await Order.countDocuments({ restaurant: restaurantId });
+
+//     const pendingOrders = await Order.countDocuments({
+//       restaurant: restaurantId,
+//       status: "Pending",
+//     });
+
+//     const deliveredOrders = await Order.find({
+//       restaurant: restaurantId,
+//       status: "Delivered",
+//     });
+
+//     const avgPrep =
+//       deliveredOrders.length === 0
+//         ? 0
+//         : Math.round(
+//             deliveredOrders.reduce((s, o) => s + (o.prepTime || 0), 0) /
+//               deliveredOrders.length
+//           );
+
+//     res.json({
+//       todayRevenue: todayEntry?.totalRevenue || 0,
+//       totalOrders,
+//       pendingOrders,
+//       avgPrepTime: avgPrep,
+//     });
+//   } catch (err) {
+//     console.error("❌ Stats error:", err);
+//     res.status(500).json({ message: "Server Error" });
+//   }
+// };
+
+// // =============================
+// // UPDATE ORDER STATUS
+// // =============================
+// const updateOrderStatus = async (req, res) => {
+//   try {
+//     await ensureTodayDailyRevenue();
+
+//     const { id } = req.params;
+//     const { status } = req.body;
+
+//     if (!status) return res.status(400).json({ message: "Status required" });
+
+//     const prev = await Order.findById(id);
+//     if (!prev) return res.status(404).json({ message: "Order not found" });
+
+//     const prevLower = prev.status.toLowerCase();
+//     const newLower = status.toLowerCase();
+
+//     let updateData = { status };
+
+//     if (newLower === "preparing" && !prev.preparingAt) {
+//       updateData.preparingAt = new Date();
+//     }
+
+//     if (newLower === "delivered" && prevLower !== "delivered") {
+//       const now = new Date();
+//       updateData.deliveredAt = now;
+
+//       if (prev.preparingAt) {
+//         updateData.prepTime = Math.round(
+//           (now - prev.preparingAt) / 60000
+//         );
+//       }
+//     }
+
+//     const order = await Order.findByIdAndUpdate(id, updateData, {
+//       new: true,
+//     })
+//       .populate("user", "name email")
+//       .populate("restaurant", "name email");
+
+//     // REVENUE UPDATES
+//     if (newLower === "delivered" && prevLower !== "delivered") {
+//       const now = new Date();
+//       const dayKey = getISTDateKey(now);
+
+//       // Daily revenue
+//       let dayEntry = await DailyRevenue.findOne({ day: dayKey });
+//       if (!dayEntry) {
+//         dayEntry = await DailyRevenue.create({
+//           day: dayKey,
+//           totalRevenue: 0,
+//           totalOrders: 0,
+//         });
+//       }
+
+//       dayEntry.totalRevenue += order.totalPrice;
+//       dayEntry.totalOrders += 1;
+//       await dayEntry.save();
+
+//       // Monthly revenue
+//       const monthKey = `${now.getFullYear()}-${String(
+//         now.getMonth() + 1
+//       ).padStart(2, "0")}`;
+
+//       let monthEntry = await MonthlyRevenue.findOne({ month: monthKey });
+//       if (!monthEntry) {
+//         monthEntry = await MonthlyRevenue.create({
+//           month: monthKey,
+//           totalRevenue: 0,
+//           totalOrders: 0,
+//         });
+//       }
+
+//       monthEntry.totalRevenue += order.totalPrice;
+//       monthEntry.totalOrders += 1;
+//       await monthEntry.save();
+//     }
+
+//     const io = req.app.get("io");
+//     if (io) {
+//       io.to(order.restaurant._id.toString()).emit("orderUpdated", order);
+//     }
+
+//     res.json({ message: "Order updated", order });
+//   } catch (err) {
+//     console.error("❌ Update order error:", err);
+//     res.status(500).json({ message: "Server Error" });
+//   }
+// };
+
+// // =============================
+// const getAllOrders = async (req, res) => {
+//   try {
+//     const orders = await Order.find()
+//       .populate("user", "name email")
+//       .populate("restaurant", "restaurantName")
+//       .sort({ createdAt: -1 });
+
+//     res.json(orders);
+//   } catch (err) {
+//     res.status(500).json({ message: "Server Error" });
+//   }
+// };
+
+// // =============================
+// const cancelOrder = async (req, res) => {
+//   try {
+//     const order = await Order.findById(req.params.id)
+//       .populate("restaurant")
+//       .populate("user");
+
+//     if (!order) return res.status(404).json({ message: "Order not found" });
+
+//     if (order.user._id.toString() !== req.user._id.toString())
+//       return res.status(403).json({
+//         message: "Not authorized",
+//       });
+
+//     if (["cancelled", "delivered"].includes(order.status.toLowerCase()))
+//       return res.status(400).json({
+//         message: `Order cannot be cancelled`,
+//       });
+
+//     order.status = "Cancelled";
+//     await order.save();
+
+//     const io = req.app.get("io");
+//     if (io) {
+//       io.to(order.restaurant._id.toString()).emit("orderCancelled", order);
+//     }
+
+//     res.json({ message: "Order cancelled", order });
+//   } catch (err) {
+//     res.status(500).json({ message: "Server Error" });
+//   }
+// };
+
+// module.exports = {
+//   placeOrder,
+//   getOrders,
+//   getRestaurantOrders,
+//   getAllOrders,
+//   updateOrderStatus,
+//   cancelOrder,
+//   getRestaurantStats,
+// };
+
+
+
+
+
+
+
+
 // backend/controllers/orderController.js
 const Order = require("../models/Order");
 const Restaurant = require("../models/Restaurant");
 const MonthlyRevenue = require("../models/MonthlyRevenue");
 const DailyRevenue = require("../models/DailyRevenue");
+const DailyOrderCounter = require("../models/DailyOrderCounter");
+
+const { printReceipt } = require("../utils/printReceipt");
+
+/**
+ * Helper: returns YYYY-MM-DD for IST
+ */
+const getISTDateKey = (date = new Date()) => {
+  const istOffsetMs = 5.5 * 60 * 60 * 1000;
+  const istDate = new Date(date.getTime() + istOffsetMs);
+  return istDate.toISOString().slice(0, 10);
+};
+
+/**
+ * Ensure today's DailyRevenue exists
+ */
+const ensureTodayDailyRevenue = async () => {
+  const today = getISTDateKey();
+  const exist = await DailyRevenue.findOne({ day: today });
+
+  if (!exist) {
+    await DailyRevenue.create({
+      day: today,
+      totalRevenue: 0,
+      totalOrders: 0,
+    });
+  }
+};
 
 // =============================
-// PLACE ORDER (UPDATED)
+// PLACE ORDER
 // =============================
 const placeOrder = async (req, res) => {
   try {
+    await ensureTodayDailyRevenue();
+
     const { items, totalPrice, restaurantId } = req.body;
 
     if (!items?.length)
@@ -21,62 +410,79 @@ const placeOrder = async (req, res) => {
       return res.status(400).json({ message: "Total price must be valid" });
 
     const mixedRestaurant = items.some(
-      (i) => i.restaurantId && i.restaurantId.toString() !== restaurantId.toString()
+      (i) =>
+        i.restaurantId &&
+        i.restaurantId.toString() !== restaurantId.toString()
     );
 
     if (mixedRestaurant) {
       return res.status(400).json({
-        message: "❌ All items in the order must belong to the same restaurant.",
+        message: "❌ All items must belong to the same restaurant.",
       });
     }
 
-    // NEW — Increment restaurant orderCounter
-    const restaurant = await Restaurant.findByIdAndUpdate(
-      restaurantId,
-      { $inc: { orderCounter: 1 } },
-      { new: true }
-    );
+    // ================================
+    // DAILY ORDER NUMBER SYSTEM (NEW)
+    // ================================
+    const todayKey = getISTDateKey();
+    let counter = await DailyOrderCounter.findOne({ date: todayKey });
 
-    if (!restaurant)
-      return res.status(404).json({ message: "Restaurant not found" });
+    if (!counter) {
+      counter = await DailyOrderCounter.create({
+        date: todayKey,
+        count: 1,
+      });
+    } else {
+      counter.count += 1;
+      await counter.save();
+    }
 
-    // orderCounter is numeric; store numeric orderNumber
-    const nextOrderNumber = restaurant.orderCounter;
+    const nextOrderNumber = counter.count;
 
+    // ============================
+    // CREATE ORDER
+    // ============================
     const order = new Order({
       user: req.user._id,
       restaurant: restaurantId,
       items,
       totalPrice,
       status: "Pending",
-      orderNumber: nextOrderNumber,
+      orderNumber: nextOrderNumber, // 🔥 Daily number
     });
 
     await order.save();
 
-    const populatedOrder = await Order.findById(order._id)
+    const populated = await Order.findById(order._id)
       .populate("user", "name email")
-      .populate("restaurant", "name email");
+      .populate("restaurant", "name email restaurantName address phone");
 
+    // SOCKET
     const io = req.app.get("io");
-    if (io && populatedOrder?.restaurant?._id) {
-      io.to(populatedOrder.restaurant._id.toString()).emit(
-        "orderPlaced",
-        populatedOrder
-      );
+    if (io) {
+      io.to(restaurantId.toString()).emit("orderPlaced", populated);
       io.to("admin-room").emit("adminOrderUpdate", {
         type: "newOrder",
-        order: populatedOrder,
+        order: populated,
       });
     }
+
+    // AUTO PRINT
+    (async () => {
+      try {
+        await printReceipt(populated, populated.restaurant);
+      } catch (err) {
+        console.error("❌ Auto-print failed:", err);
+      }
+    })();
 
     res.status(201).json({
       message: "Order placed successfully",
       orderNumber: nextOrderNumber,
-      order: populatedOrder,
+      order: populated,
     });
   } catch (err) {
-    console.error("❌ Place order error:", err);
+    console.error("❌ Place Order Error:", err);
     res.status(500).json({ message: "Server Error", error: err.message });
   }
 };
@@ -87,13 +493,13 @@ const placeOrder = async (req, res) => {
 const getOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id })
-      .populate("restaurant", "name email restaurantName")
+      .populate("restaurant", "restaurantName")
       .sort({ createdAt: -1 });
 
     res.json(orders);
   } catch (err) {
-    console.error("❌ Get user orders error:", err);
-    res.status(500).json({ message: "Server Error", error: err.message });
+    console.error("❌ Get orders error:", err);
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -102,16 +508,12 @@ const getOrders = async (req, res) => {
 // =============================
 const getRestaurantOrders = async (req, res) => {
   try {
-    // Prefer req.restaurant (set by middleware). Fallback to req.user if present.
     const restaurantId =
-      (req.restaurant && req.restaurant._id) ||
-      (req.user && req.user.role === "restaurant" && req.user._id);
+      req.restaurant?._id ||
+      (req.user?.role === "restaurant" && req.user._id);
 
-    if (!restaurantId) {
-      return res
-        .status(400)
-        .json({ message: "Restaurant identity not found in request" });
-    }
+    if (!restaurantId)
+      return res.status(400).json({ message: "Restaurant ID missing" });
 
     const orders = await Order.find({ restaurant: restaurantId })
       .populate("user", "name email")
@@ -120,90 +522,100 @@ const getRestaurantOrders = async (req, res) => {
     res.json(orders);
   } catch (err) {
     console.error("❌ Get restaurant orders error:", err);
-    res.status(500).json({ message: "Server Error", error: err.message });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
 // =============================
-// GET ALL ORDERS (ADMIN)
+// RESTAURANT STATS
 // =============================
-const getAllOrders = async (req, res) => {
+const getRestaurantStats = async (req, res) => {
   try {
-    const orders = await Order.find()
-      .populate("user", "name email")
-      .populate("restaurant", "name email restaurantName")
-      .sort({ createdAt: -1 });
+    await ensureTodayDailyRevenue();
 
-    res.json(orders);
+    const today = getISTDateKey();
+
+    const todayEntry = await DailyRevenue.findOne({ day: today });
+
+    const restaurantId =
+      req.restaurant?._id ||
+      (req.user?.role === "restaurant" && req.user._id);
+
+    const totalOrders = await Order.countDocuments({ restaurant: restaurantId });
+
+    const pendingOrders = await Order.countDocuments({
+      restaurant: restaurantId,
+      status: "Pending",
+    });
+
+    const deliveredOrders = await Order.find({
+      restaurant: restaurantId,
+      status: "Delivered",
+    });
+
+    const avgPrep =
+      deliveredOrders.length === 0
+        ? 0
+        : Math.round(
+            deliveredOrders.reduce((s, o) => s + (o.prepTime || 0), 0) /
+              deliveredOrders.length
+          );
+
+    res.json({
+      todayRevenue: todayEntry?.totalRevenue || 0,
+      totalOrders,
+      pendingOrders,
+      avgPrepTime: avgPrep,
+    });
   } catch (err) {
-    console.error("❌ Get all orders error:", err);
-    res.status(500).json({ message: "Server Error", error: err.message });
+    console.error("❌ Stats error:", err);
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
 // =============================
-// UPDATE ORDER STATUS (UPDATED)
+// UPDATE ORDER STATUS
 // =============================
 const updateOrderStatus = async (req, res) => {
   try {
+    await ensureTodayDailyRevenue();
+
     const { id } = req.params;
     const { status } = req.body;
 
-    if (!status)
-      return res.status(400).json({ message: "Status field is required" });
+    if (!status) return res.status(400).json({ message: "Status required" });
 
-    const newStatus = String(status).trim();
-    const newStatusLower = newStatus.toLowerCase();
+    const prev = await Order.findById(id);
+    if (!prev) return res.status(404).json({ message: "Order not found" });
 
-    const prevOrder = await Order.findById(id);
-    if (!prevOrder) return res.status(404).json({ message: "Order not found" });
+    const prevLower = prev.status.toLowerCase();
+    const newLower = status.toLowerCase();
 
-    const prevStatusLower = String(prevOrder.status || "").toLowerCase();
+    let updateData = { status };
 
-    let updateData = { status: newStatus };
-
-    // ⭐ When order moves to Preparing — mark timestamp
-    if (newStatusLower === "preparing" && !prevOrder.preparingAt) {
+    if (newLower === "preparing" && !prev.preparingAt) {
       updateData.preparingAt = new Date();
     }
 
-    // ⭐ When order moves to Delivered — calculate prep time
-    if (newStatusLower === "delivered" && prevStatusLower !== "delivered") {
+    if (newLower === "delivered" && prevLower !== "delivered") {
       const now = new Date();
       updateData.deliveredAt = now;
 
-      if (prevOrder.preparingAt) {
-        const ms = now - prevOrder.preparingAt;
-        updateData.prepTime = Math.round(ms / 60000); // minutes
+      if (prev.preparingAt) {
+        updateData.prepTime = Math.round((now - prev.preparingAt) / 60000);
       }
     }
 
-    const order = await Order.findByIdAndUpdate(id, updateData, { new: true })
+    const order = await Order.findByIdAndUpdate(id, updateData, {
+      new: true,
+    })
       .populate("user", "name email")
       .populate("restaurant", "name email");
 
-    // ⭐ Revenue update when marking Delivered
-    if (newStatusLower === "delivered" && prevStatusLower !== "delivered") {
+    // REVENUE UPDATES
+    if (newLower === "delivered" && prevLower !== "delivered") {
       const now = new Date();
-
-      // ---- Monthly update ----
-      const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-
-      let monthEntry = await MonthlyRevenue.findOne({ month: monthKey });
-      if (!monthEntry) {
-        monthEntry = await MonthlyRevenue.create({
-          month: monthKey,
-          totalRevenue: 0,
-          totalOrders: 0,
-        });
-      }
-
-      monthEntry.totalRevenue += order.totalPrice;
-      monthEntry.totalOrders += 1;
-      await monthEntry.save();
-
-      // ---- Daily update (new) ----
-      const dayKey = now.toISOString().slice(0, 10); // YYYY-MM-DD
+      const dayKey = getISTDateKey(now);
 
       let dayEntry = await DailyRevenue.findOne({ day: dayKey });
       if (!dayEntry) {
@@ -218,78 +630,80 @@ const updateOrderStatus = async (req, res) => {
       dayEntry.totalOrders += 1;
       await dayEntry.save();
 
-      // ---- Update restaurant totals (existing) ----
-      if (order.restaurant) {
-        const restId = typeof order.restaurant === "object" ? order.restaurant._id : order.restaurant;
+      const monthKey = `${now.getFullYear()}-${String(
+        now.getMonth() + 1
+      ).padStart(2, "0")}`;
 
-        const restaurantDoc = await Restaurant.findById(restId);
-        if (restaurantDoc) {
-          restaurantDoc.totalRevenue += order.totalPrice;
-          restaurantDoc.monthlyRevenue += order.totalPrice;
-          await restaurantDoc.save();
-        }
+      let monthEntry = await MonthlyRevenue.findOne({ month: monthKey });
+      if (!monthEntry) {
+        monthEntry = await MonthlyRevenue.create({
+          month: monthKey,
+          totalRevenue: 0,
+          totalOrders: 0,
+        });
       }
+
+      monthEntry.totalRevenue += order.totalPrice;
+      monthEntry.totalOrders += 1;
+      await monthEntry.save();
     }
 
     const io = req.app.get("io");
     if (io) {
-      if (order?.user?._id)
-        io.to(order.user._id.toString()).emit("orderUpdated", order);
-      if (order?.restaurant?._id)
-        io.to(order.restaurant._id.toString()).emit("orderUpdated", order);
-
-      io.to("admin-room").emit("adminOrderUpdate", {
-        type: "statusChange",
-        order,
-      });
+      io.to(order.restaurant._id.toString()).emit("orderUpdated", order);
     }
 
-    res.json({ message: "Order status updated successfully", order });
+    res.json({ message: "Order updated", order });
   } catch (err) {
-    console.error("❌ Update order status error:", err);
-    res.status(500).json({ message: "Server Error", error: err.message });
+    console.error("❌ Update order error:", err);
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
 // =============================
-// CANCEL ORDER (same)
+const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find()
+      .populate("user", "name email")
+      .populate("restaurant", "restaurantName")
+      .sort({ createdAt: -1 });
+
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
 // =============================
 const cancelOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
-      .populate("restaurant", "name email")
-      .populate("user", "name email");
+      .populate("restaurant")
+      .populate("user");
 
     if (!order) return res.status(404).json({ message: "Order not found" });
 
-    if (order.user._id.toString() !== req.user._id.toString()) {
-      return res
-        .status(403)
-        .json({ message: "You are not authorized to cancel this order" });
-    }
-
-    if (["cancelled", "delivered"].includes(order.status.toLowerCase())) {
-      return res.status(400).json({
-        message: `Order cannot be cancelled (current: ${order.status})`,
+    if (order.user._id.toString() !== req.user._id.toString())
+      return res.status(403).json({
+        message: "Not authorized",
       });
-    }
+
+    if (["cancelled", "delivered"].includes(order.status.toLowerCase()))
+      return res.status(400).json({
+        message: `Order cannot be cancelled`,
+      });
 
     order.status = "Cancelled";
     await order.save();
 
     const io = req.app.get("io");
-    if (io && order?.restaurant?._id) {
+    if (io) {
       io.to(order.restaurant._id.toString()).emit("orderCancelled", order);
-      io.to("admin-room").emit("adminOrderUpdate", {
-        type: "cancelled",
-        order,
-      });
     }
 
-    res.json({ message: "Order cancelled successfully", order });
+    res.json({ message: "Order cancelled", order });
   } catch (err) {
-    console.error("❌ Cancel order error:", err);
-    res.status(500).json({ message: "Server Error", error: err.message });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -300,4 +714,5 @@ module.exports = {
   getAllOrders,
   updateOrderStatus,
   cancelOrder,
+  getRestaurantStats,
 };

@@ -16,6 +16,14 @@
 // // Monthly revenue cron
 // require("./cron/resetMonthlyRevenue");
 
+// // Load printer util (safe - it will fallback if PRINTER_IP not set)
+// try {
+//   // this just ensures the module is loaded and available; printing is per-call
+//   require("./utils/printReceipt");
+// } catch (err) {
+//   console.warn("⚠️ printReceipt module failed to load on boot:", err.message || err);
+// }
+
 // const app = express();
 
 // // -------------------------------------------------------------
@@ -54,6 +62,7 @@
 // const restaurantItemRoutes = require("./routes/restaurantItemRoutes");
 // const adminRoutes = require("./routes/adminRoutes");
 // const categoryRoutes = require("./routes/categoryRoutes");
+// const paymentRoutes = require("./routes/paymentRoutes"); // <-- NEW
 
 // app.use("/api/auth", authRoutes);
 // app.use("/api/users", userRoutes);
@@ -63,8 +72,7 @@
 // app.use("/api/restaurantitems", restaurantItemRoutes);
 // app.use("/api/admin", adminRoutes);
 // app.use("/api/categories", require("./routes/categoryRoutes"));
-
-
+// app.use("/api/payment", paymentRoutes); // <-- NEW: payment endpoints
 
 // // Base route
 // app.get("/", (req, res) => {
@@ -119,14 +127,6 @@
 //   console.log(`🌐 Static uploads: http://localhost:${PORT}/uploads/`);
 // });
 
-
-
-
-
-
-
-
-
 // backend/server.js
 const express = require("express");
 const dotenv = require("dotenv");
@@ -145,11 +145,18 @@ connectMainDB();
 // Monthly revenue cron
 require("./cron/resetMonthlyRevenue");
 
+// Daily revenue cron (NEW)
+require("./cron/resetDailyRevenue");
+
+// Load printer util
+try {
+  require("./utils/printReceipt");
+} catch (err) {
+  console.warn("⚠️ printReceipt module failed:", err.message);
+}
+
 const app = express();
 
-// -------------------------------------------------------------
-// Middleware
-// -------------------------------------------------------------
 app.use(express.json({ limit: "15mb" }));
 app.use(express.urlencoded({ extended: true, limit: "15mb" }));
 
@@ -161,89 +168,57 @@ app.use(
   })
 );
 
-// -------------------------------------------------------------
-// Serve Uploaded Files
-// -------------------------------------------------------------
+// Serve uploads
 const uploadsPath = path.join(__dirname, "uploads");
 app.use("/uploads", express.static(uploadsPath));
 
 console.log(`📸 Serving static uploads from: ${uploadsPath}`);
-console.log(
-  `🌐 Access files at: http://localhost:${process.env.PORT || 5000}/uploads/<file>`
-);
 
-// -------------------------------------------------------------
 // Routes
-// -------------------------------------------------------------
-const authRoutes = require("./routes/authRoutes");
-const userRoutes = require("./routes/userRoutes");
-const orderRoutes = require("./routes/orderRoutes");
-const restaurantRoutes = require("./routes/restaurantRoutes");
-const menuRoutes = require("./routes/menuRoutes");
-const restaurantItemRoutes = require("./routes/restaurantItemRoutes");
-const adminRoutes = require("./routes/adminRoutes");
-const categoryRoutes = require("./routes/categoryRoutes");
-const paymentRoutes = require("./routes/paymentRoutes"); // <-- NEW
-
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/restaurants", restaurantRoutes);
-app.use("/api/menu", menuRoutes);
-app.use("/api/restaurantitems", restaurantItemRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/orders", require("./routes/orderRoutes"));
+app.use("/api/restaurants", require("./routes/restaurantRoutes"));
+app.use("/api/menu", require("./routes/menuRoutes"));
+app.use("/api/restaurantitems", require("./routes/restaurantItemRoutes"));
+app.use("/api/admin", require("./routes/adminRoutes"));
 app.use("/api/categories", require("./routes/categoryRoutes"));
-app.use("/api/payment", paymentRoutes); // <-- NEW: payment endpoints
+app.use("/api/payment", require("./routes/paymentRoutes"));
 
-// Base route
 app.get("/", (req, res) => {
-  res.send("🍔 Foodify Backend API is running successfully!");
+  res.send("🍔 Foodify Backend API running!");
 });
 
-// -------------------------------------------------------------
-// Socket.IO Setup
-// -------------------------------------------------------------
+// Socket.IO
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:3000",
-    ],
+    origin: ["http://localhost:5173", "http://localhost:3000"],
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
 
-// Make io available inside controllers (req.app.get("io"))
 app.set("io", io);
 
 io.on("connection", (socket) => {
-  console.log(`✅ Client connected: ${socket.id}`);
+  console.log(`✅ Connected: ${socket.id}`);
 
   socket.on("joinRoom", (roomId) => {
-    if (!roomId) return;
     socket.join(roomId);
-    console.log(`📌 ${socket.id} joined room: ${roomId}`);
   });
 
   socket.on("leaveRoom", (roomId) => {
-    if (!roomId) return;
     socket.leave(roomId);
-    console.log(`📤 ${socket.id} left room: ${roomId}`);
   });
 
   socket.on("disconnect", () => {
-    console.log(`❌ Client disconnected: ${socket.id}`);
+    console.log(`❌ Disconnected: ${socket.id}`);
   });
 });
 
-// -------------------------------------------------------------
-// Start Server
-// -------------------------------------------------------------
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`🌐 Static uploads: http://localhost:${PORT}/uploads/`);
 });

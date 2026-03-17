@@ -1126,7 +1126,6 @@ function Cart({ isOpen, onClose }) {
   const [tip, setTip] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
-  const [pickupTime, setPickupTime] = useState("15 minutes");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [orderNumber, setOrderNumber] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("online"); // "online" or "cash"
@@ -1194,7 +1193,6 @@ function Cart({ isOpen, onClose }) {
         items: orderItems,
         totalPrice,
         restaurantId,
-        pickupTime,
       });
 
       if (res.status === 201) {
@@ -1269,7 +1267,6 @@ function Cart({ isOpen, onClose }) {
               userId: user._id,
               totalPrice,
               restaurantId: cartItems[0]?.restaurantId,
-              pickupTime,
             });
 
             if (verifyRes.data && verifyRes.data.success) {
@@ -1419,22 +1416,6 @@ function Cart({ isOpen, onClose }) {
               <input type="text" defaultValue={user?.name || ""} placeholder="John Doe" />
               <label>Email</label>
               <input type="email" value={user?.email || ""} disabled placeholder="john@university.edu" />
-
-              <label>Pickup Time</label>
-              <div className="pickup-options">
-                {["15 minutes", "30 minutes", "45 minutes", "1 hour"].map((t) => (
-                  <label key={t}>
-                    <input
-                      type="radio"
-                      name="pickup"
-                      checked={pickupTime === t}
-                      onChange={() => setPickupTime(t)}
-                    />
-                    {t}
-                  </label>
-                ))}
-              </div>
-
               <div className="total-row">
                 <span>Total Amount</span>
                 <span className="price">₹{totalPrice.toFixed(2)}</span>
@@ -1511,24 +1492,6 @@ function Cart({ isOpen, onClose }) {
                     }}
                   >
                     {/* Logos: external sources are used for convenience */}
-                    <img
-                      alt="GPay"
-                      src="https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Pay_Logo.svg"
-                      width="52"
-                      style={{ filter: "brightness(0) invert(1)", background: "transparent" }}
-                    />
-                    <img
-                      alt="PhonePe"
-                      src="https://upload.wikimedia.org/wikipedia/commons/f/f7/PhonePe_Logo.svg"
-                      width="52"
-                      style={{ filter: "brightness(0) invert(1)", background: "transparent" }}
-                    />
-                    <img
-                      alt="Paytm"
-                      src="https://upload.wikimedia.org/wikipedia/commons/5/59/Paytm_Logo.jpg"
-                      width="52"
-                      style={{ borderRadius: 6 }}
-                    />
                     <img
                       alt="UPI"
                       src="https://upload.wikimedia.org/wikipedia/commons/8/82/UPI_logo.svg"
@@ -1619,14 +1582,6 @@ function Cart({ isOpen, onClose }) {
               <small>Order Number</small>
               <h3>{orderNumber}</h3>
             </div>
-
-            <div className="pickup-info">
-              <Clock size={16} color="#6b7280" />
-              <span>
-                Estimated pickup time <b>{pickupTime}</b>
-              </span>
-            </div>
-
             <div className="confirmation-note">
               <span>
                 📩 You’ll receive a confirmation email shortly. Please show your order number when picking up your food.

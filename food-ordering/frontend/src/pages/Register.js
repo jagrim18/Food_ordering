@@ -400,17 +400,6 @@ function Register() {
                 onChange={(e) => setPhone(e.target.value)}
                 required
               />
-
-              <label className="auth-label">Location</label>
-              <input
-                type="text"
-                placeholder="Food Court Block A"
-                className="auth-input"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                required
-              />
-
               <label className="auth-label">Description</label>
               <textarea
                 placeholder="Describe your restaurant"

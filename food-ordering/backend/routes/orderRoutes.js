@@ -10,6 +10,7 @@ const {
 } = require("../controllers/orderController");
 const { protect, adminOnly, restaurantOnly } = require("../middlewares/authMiddleware");
 const Order = require("../models/Order");
+const { printReceipt } = require("../utils/printReceipt");
 
 const router = express.Router();
 
@@ -128,8 +129,7 @@ router.get("/avg-prep-time/:restaurantId", async (req, res) => {
       .sort({ deliveredAt: -1 })
       .limit(100);
 
-    if (orders.length === 0)
-      return res.json({ avgPrepTime: 0 });
+    if (orders.length === 0) return res.json({ avgPrepTime: 0 });
 
     const total = orders.reduce((sum, o) => sum + o.prepTime, 0);
     const avg = Math.round(total / orders.length);
@@ -138,6 +138,42 @@ router.get("/avg-prep-time/:restaurantId", async (req, res) => {
   } catch (err) {
     console.error("❌ Avg Prep Time Error:", err);
     res.status(500).json({ message: "Server Error", error: err.message });
+  }
+});
+
+/* ============================
+   🖨️ MANUAL PRINT (ADMIN / RESTAURANT)
+============================ */
+/**
+ * Manual print endpoint:
+ * GET /api/orders/:id/print
+ * Protected: only restaurant or admin
+ */
+router.get("/:id/print", protect, async (req, res) => {
+  try {
+    const userRole = req.user && req.user.role;
+    if (!(userRole === "restaurant" || userRole === "admin")) {
+      return res.status(403).json({ message: "Only restaurant or admin can print orders" });
+    }
+
+    const order = await Order.findById(req.params.id)
+      .populate("restaurant", "name restaurantName address phone")
+      .populate("user", "name email");
+
+    if (!order) return res.status(404).json({ message: "Order not found" });
+
+    const result = await printReceipt(order, order.restaurant);
+    if (result && result.ok) {
+      return res.json({ message: "Print job sent" });
+    } else {
+      return res.status(200).json({
+        message: "Print attempted. Check server logs; printer may not be configured.",
+        debug: result,
+      });
+    }
+  } catch (err) {
+    console.error("❌ Manual print error:", err);
+    res.status(500).json({ message: "Server error while printing", error: err.message });
   }
 });
 

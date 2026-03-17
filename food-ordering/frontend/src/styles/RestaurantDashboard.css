@@ -1,3 +1,66 @@
+
+/* ===========================================================
+   🍴 RESTAURANT DASHBOARD — UNIFIED LIGHT + DARK THEME
+   Clean, modern, admin-consistent styles with full theming
+   =========================================================== */
+
+/* ------------------------------------------------------------------
+   🎨 THEME VARIABLES
+   ------------------------------------------------------------------ */
+:root {
+  --bg-color: #f1f5f9;
+  --card-bg: #ffffff;
+  --text-color: #1f2937;
+  --accent-color: #2563eb;
+  --border-color: #e2e8f0;
+  --muted-text: #64748b;
+  --shadow-soft: rgba(0, 0, 0, 0.05);
+  --highlight-bg: #eff6ff;
+
+  /* Status tag colors */
+  --status-pending-bg: #fef3c7;
+  --status-pending-text: #b45309;
+
+  --status-accepted-bg: #dbeafe;
+  --status-accepted-text: #1e40af;
+
+  --status-preparing-bg: #ede9fe;
+  --status-preparing-text: #5b21b6;
+
+  --status-delivered-bg: #dcfce7;
+  --status-delivered-text: #166534;
+
+  /* Export panel colors (light mode override) */
+  --export-bg: #111827;
+  --export-border: #1f2937;
+  --export-input-bg: #1f2937;
+  --export-input-border: #374151;
+  --export-label: #e5e7eb;
+  --export-button: #6366f1;
+  --export-button-hover: #4f46e5;
+  --export-disabled: #4b5563;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-color: #f1f5f9;
+  --accent-color: #3b82f6;
+  --border-color: #334155;
+  --muted-text: #94a3b8;
+  --shadow-soft: rgba(0, 0, 0, 0.25);
+  --highlight-bg: #1e3a8a;
+
+  /* status colors work in dark mode as is */
+  --export-bg: #1e293b;
+  --export-border: #334155;
+  --export-input-bg: #0f172a;
+  --export-input-border: #475569;
+  --export-label: #e2e8f0;
+  --export-button: #4759f1;
+  --export-button-hover: #3948d8;
+  --export-disabled: #4b5563;
+}
 /* ===========================================================
    🍴 RESTAURANT DASHBOARD — FINAL FIXED DESIGN
    Imported Admin Dashboard visual style but kept fully isolated
