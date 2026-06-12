@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Docker Login
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: Build & Push Backend
+        run: |
+          docker build -t yourdockerhub/food-ordering-backend ./backend
+          docker push yourdockerhub/food-ordering-backend
+      - name: Build & Push Mobile Web
+        run: |
+          docker build -t yourdockerhub/food-ordering-mobile ./mobile
+          docker push yourdockerhub/food-ordering-mobile

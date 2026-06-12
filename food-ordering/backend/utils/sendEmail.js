@@ -209,35 +209,91 @@
 
 
 const { Resend } = require("resend");
-const resend = new Resend(process.env.RESEND_API_KEY);
+const nodemailer = require("nodemailer");
+
+// Initialize Resend
+const resend = new Resend(process.env.RESEND_API_KEY || "temp");
+
+// Configure Nodemailer Transporter if credentials are in .env
+let transporter = null;
+if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+  transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT || "587"),
+    secure: process.env.SMTP_PORT === "465",
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+  console.log("✉️ [Nodemailer] SMTP Transporter configured.");
+} else if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+  transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+  console.log("✉️ [Nodemailer] Gmail Transporter configured.");
+}
 
 const sendEmail = async (to, subject, otp, name = "User") => {
-  try {
-    const fromEmail = process.env.RESEND_FROM || "Foodify 🍴 <onboarding@resend.dev>";
-
-    const html = `
-      <html>
-        <body style="font-family: Poppins, Arial, sans-serif; background: #fafafa; padding: 30px; color: #333;">
-          <div style="max-width: 520px; margin: 0 auto; background: white; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); padding: 25px;">
-            <h2 style="color: #ff4b2b; text-align:center;">🍴 Foodify Email Verification</h2>
-            <p style="font-size: 16px;">Hi <strong>${name}</strong>,</p>
-            <p style="font-size: 15px;">Use the following code to verify your Foodify account:</p>
-            <div style="text-align:center; margin: 25px 0;">
-              <div style="background: linear-gradient(135deg, #ff4b2b, #9333ea); color: white; padding: 15px 35px; border-radius: 10px; display:inline-block; font-size: 28px; letter-spacing: 6px; font-weight:bold;">
-                ${otp}
-              </div>
+  const html = `
+    <html>
+      <body style="font-family: Poppins, Arial, sans-serif; background: #fafafa; padding: 30px; color: #333;">
+        <div style="max-width: 520px; margin: 0 auto; background: white; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); padding: 25px;">
+          <h2 style="color: #ff4b2b; text-align:center;">🍴 Foodify Verification</h2>
+          <p style="font-size: 16px;">Hi <strong>${name}</strong>,</p>
+          <p style="font-size: 15px;">Use the following code for your Foodify request:</p>
+          <div style="text-align:center; margin: 25px 0;">
+            <div style="background: linear-gradient(135deg, #ff4b2b, #9333ea); color: white; padding: 15px 35px; border-radius: 10px; display:inline-block; font-size: 28px; letter-spacing: 6px; font-weight:bold;">
+              ${otp}
             </div>
-            <p style="font-size: 14px; color: #555;">This OTP will expire in <strong>10 minutes</strong>.</p>
-            <p style="font-size: 13px; color: #999; text-align:center;">— The Foodify Team 🍕</p>
           </div>
-        </body>
-      </html>
-    `;
+          <p style="font-size: 14px; color: #555;">This OTP will expire in <strong>10 minutes</strong>.</p>
+          <p style="font-size: 13px; color: #999; text-align:center;">— The Foodify Team 🍕</p>
+        </div>
+      </body>
+    </html>
+  `;
 
-    await resend.emails.send({ from: fromEmail, to, subject, html });
-    console.log(`✅ Sent OTP to ${to}`);
+  // Try Nodemailer if configured
+  if (transporter) {
+    try {
+      const fromEmail = process.env.EMAIL_USER || process.env.SMTP_USER || "Foodify <noreply@foodify.com>";
+      await transporter.sendMail({
+        from: `"Foodify" <${fromEmail}>`,
+        to,
+        subject,
+        html,
+      });
+      console.log(`✅ [Nodemailer] Sent email to ${to}`);
+      return;
+    } catch (err) {
+      console.error("❌ Nodemailer failed, falling back to Resend:", err.message);
+    }
+  }
+
+  // Try Resend fallback
+  try {
+    const fromEmail = process.env.RESEND_FROM || "onboarding@resend.dev";
+    await resend.emails.send({
+      from: fromEmail.startsWith("Foodify") ? fromEmail : `Foodify 🍴 <${fromEmail}>`,
+      to,
+      subject,
+      html,
+    });
+    console.log(`✅ [Resend] Sent OTP to ${to}`);
   } catch (err) {
     console.error("❌ Failed to send email via Resend:", err.message);
+    
+    // In development mode, do not fail the login/reset request if emails fail to send
+    if (process.env.NODE_ENV === "development") {
+      console.log(`⚠️ [Dev Mode] Email failed but request allowed. OTP generated is: ${otp}`);
+      return;
+    }
+    
     throw new Error("Email delivery failed");
   }
 };
